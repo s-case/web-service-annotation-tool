@@ -1,0 +1,19 @@
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12">
+			<h2>My Web Services</h2>
+			<a class="btn btn-default btn-xs" ui-sref="home.add" role="button">Add</a>
+			<ul>
+				<li ng-repeat="service in services">
+					<span>{{service.name}} | </span>
+					<a class="btn btn-default btn-xs" ng-href="#/services/{{service.id}}" role="button">
+						<span class="glyphicon glyphicon-edit"></span>
+					</a>
+					<button type="button" class="btn btn-default btn-xs" ng-click="delete(service.id)">
+						<span class="glyphicon glyphicon-trash"></span>
+					</button>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
