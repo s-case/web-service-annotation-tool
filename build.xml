@@ -30,13 +30,14 @@
     <target name="dist" depends="compile"
         description="generate the distribution" >
         <!-- Create the distribution directory -->
-        <mkdir dir="${dist}/WebContent/WEB-INF"/>
-        
-		<war destfile="${dist}/${project.name}.war" webxml="WebContent/WEB-INF/web.xml">
-			<fileset dir="WebContent" excludes="WEB-INF/"/>
-		  	<lib dir="${lib}"></lib>
-		  	<classes dir="${bin}"/>
-		</war>
+        <mkdir dir="${dist}/${ant.project.name}/WEB-INF/classes"/>
+        <mkdir dir="${dist}/${ant.project.name}/WEB-INF/lib"/>
+        <copy todir="${dist}/${ant.project.name}/WEB-INF/classes">
+                <fileset dir="${bin}"/>
+        </copy>
+        <copy todir="${dist}/${ant.project.name}/WEB-INF/lib">
+            <fileset dir="${lib}"/>
+        </copy>
     </target>
     
     <target name="clean"
