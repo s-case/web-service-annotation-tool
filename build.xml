@@ -1,0 +1,48 @@
+<project name="wsAnnotationTool" default="dist" basedir=".">
+    <description>
+        S-CASE task 2.1 back end build file
+    </description>
+    <!-- set global properties for this build -->
+    <property name="src" location="src"/>
+    <property name="bin" location="bin"/>
+    <property name="dist"  location="dist"/>
+    <property name="lib" location="lib"/>
+    
+	<path id="classpath">
+		<fileset dir="${lib}">
+            <include name="**/*.jar"/>
+ 	 	</fileset>
+	</path>
+    
+    <target name="init" depends="clean">
+        <!-- Create the time stamp -->
+        <tstamp/>
+        <!-- Create the bin directory structure used by compile -->
+        <mkdir dir="${bin}"/>
+    </target>
+    
+    <target name="compile" depends="init"
+        description="compile the source " >
+        <!-- Compile the java code from ${src} into ${bin} -->
+        <javac srcdir="${src}" destdir="${bin}" classpathref="classpath" />
+    </target>
+    
+    <target name="dist" depends="compile"
+        description="generate the distribution" >
+        <!-- Create the distribution directory -->
+        <mkdir dir="${dist}/WebContent/WEB-INF"/>
+        
+		<war destfile="${dist}/${project.name}.war" webxml="WebContent/WEB-INF/web.xml">
+			<fileset dir="WebContent" excludes="WEB-INF/"/>
+		  	<lib dir="${lib}"></lib>
+		  	<classes dir="${bin}"/>
+		</war>
+    </target>
+    
+    <target name="clean"
+        description="clean up" >
+        <!-- Delete the ${bin} and ${dist} directory trees -->
+        <delete dir="${bin}"/>
+        <delete dir="${dist}"/>
+    </target>
+</project>
