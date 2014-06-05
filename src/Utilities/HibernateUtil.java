@@ -1,7 +1,10 @@
 package Utilities;
 
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
+import org.hibernate.cfg.AnnotationConfiguration;
+
+import WADL.AccountModel;
+import WADL.RESTServiceModel;
 
 public class HibernateUtil {
 
@@ -10,7 +13,7 @@ public class HibernateUtil {
     private static SessionFactory buildSessionFactory() {
         try {
             // Create the SessionFactory from hibernate.cfg.xml
-            return new Configuration().configure().buildSessionFactory();
+            return new AnnotationConfiguration().configure().addAnnotatedClass(AccountModel.class).addAnnotatedClass(RESTServiceModel.class).buildSessionFactory();//TODO add the rest models here
         }
         catch (Throwable ex) {
             // Make sure you log the exception, as it might be swallowed

@@ -34,14 +34,8 @@ public class RESTServiceController
 	public RESTServiceModel getRESTService(@PathParam("RESTServiceId") Integer RESTServiceId)
 	{
 		//create a new get<resourceName>Handler
-//		oGETRESTServiceHandler = new GETRESTServiceHandler(RESTServiceId);
-//		return oGETRESTServiceHandler.getRESTService();
-		
-		//SCAFFOLDING
-		RESTServiceModel oRESTServiceModel = new RESTServiceModel();
-		oRESTServiceModel.setRESTServiceId(RESTServiceId);
-		return oRESTServiceModel;
-		//END OF SCAFFOLDING
+		oGETRESTServiceHandler = new GETRESTServiceHandler(RESTServiceId);
+		return oGETRESTServiceHandler.getRESTService();
 	}
 	 
 	 //POST
@@ -54,12 +48,8 @@ public class RESTServiceController
 	 public RESTServiceModel postRESTService (@PathParam("accountId") Integer accountId, RESTServiceModel oRESTService )
 	 {
 		//create a new post<resourceName>Handler
-//		oPOSTRESTServiceHandler = new POSTRESTServiceHandler(accountId, oRESTService);
-//		return oPOSTRESTServiceHandler.postRESTService();
-		 
-		 //SCAFFOLDING
-		 return oRESTService;
-		 //END OF SCAFFOLDING
+		oPOSTRESTServiceHandler = new POSTRESTServiceHandler(accountId, oRESTService);
+		return oPOSTRESTServiceHandler.postRESTService();
 	 }
 	 
 	//PUT
@@ -72,12 +62,8 @@ public class RESTServiceController
 	 public RESTServiceModel putRESTService (@PathParam("accountId") Integer accountId, @PathParam("RESTServiceId") Integer RESTServiceId, RESTServiceModel oRESTService)
 	 {
 		//create a new put<resourceName>Handler
-//		oPUTRESTServiceHandler = new PUTRESTServiceHandler(accountId, RESTServiceId, oRESTService);
-//		return oPUTRESTServiceHandler.putRESTService();
-		 
-		 //SCAFFOLDING
-		 return oRESTService;
-		 //END OF SCAFFOLDING
+		oPUTRESTServiceHandler = new PUTRESTServiceHandler(accountId, RESTServiceId, oRESTService);
+		return oPUTRESTServiceHandler.putRESTService();
 	 }
 	 
 	 //DELETE
@@ -88,12 +74,8 @@ public class RESTServiceController
 	public void deleteRESTService (@PathParam("RESTServiceId") Integer RESTServiceId)
 	{
 		//create a new delete<resourceName>Handler
-//		oDELETERESTServiceHandler = new DELETERESTServiceHandler(RESTServiceId);
-	//	oDELETERESTServiceHandler.deleteRESTService();
-		
-		//SCAFFOLDING
-		System.out.println("Successfully deleted RESTService " + RESTServiceId);
-		//END OF SCAFFOLDING
+		oDELETERESTServiceHandler = new DELETERESTServiceHandler(RESTServiceId);
+		oDELETERESTServiceHandler.deleteRESTService();
 	}
 
 	//GET (aggregate resource)

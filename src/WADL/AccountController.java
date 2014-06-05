@@ -32,12 +32,8 @@ public class AccountController
 	 public AccountModel postAccount (AccountModel oAccount )
 	 {
 		//create a new post<resourceName>Handler
-//		oPOSTAccountHandler = new POSTAccountHandler(oAccount);
-//		return oPOSTAccountHandler.postAccount();
-		 
-		 //SCAFFOLDING 
-		 return oAccount;
-		 //END OF SCAFFOLDING
+		oPOSTAccountHandler = new POSTAccountHandler(oAccount);
+		return oPOSTAccountHandler.postAccount();
 	 }
 	 
 	//GET for individual resource
@@ -49,15 +45,8 @@ public class AccountController
 	public AccountModel getAccount(@PathParam("accountId") int accountId)
 	{
 		//create a new get<resourceName>Handler
-//		oGETAccountHandler = new GETAccountHandler(accountId);
-//		return oGETAccountHandler.getAccount();
-		
-		//SCAFFOLDING
-		AccountModel oAccount = new AccountModel();
-		oAccount.setUsername("cz");
-		oAccount.setAccountId(accountId);
-		return oAccount;
-		//END OF SCAFFOLDING
+		oGETAccountHandler = new GETAccountHandler(accountId);
+		return oGETAccountHandler.getAccount();
 	}
 	
 
@@ -71,12 +60,8 @@ public class AccountController
 	 public AccountModel putAccount (@PathParam("accountId") int accountId, AccountModel oAccount)
 	 {
 		//create a new put<resourceName>Handler
-//		oPUTAccountHandler = new PUTAccountHandler(accountId, oAccount);
-//		return oPUTAccountHandler.putAccount();
-		 
-		 //SCAFFOLDING
-		 return oAccount;
-		 //END OF SCAFFOLDING
+		oPUTAccountHandler = new PUTAccountHandler(accountId, oAccount);
+		return oPUTAccountHandler.putAccount();
 	 }
 	 
 	 //DELETE
@@ -87,11 +72,7 @@ public class AccountController
 	public void deleteAccount (@PathParam("accountId") int accountId)
 	{
 		//create a new delete<resourceName>Handler
-//		oDELETEAccountHandler = new DELETEAccountHandler(accountId);
-//		oDELETEAccountHandler.deleteAccount();
-		
-		//SCAFFOLDING
-		System.out.println("Successfully deleted account " + accountId);
-		//END OF SCAFFOLDING
+		oDELETEAccountHandler = new DELETEAccountHandler(accountId);
+		oDELETEAccountHandler.deleteAccount();
 	}
 }

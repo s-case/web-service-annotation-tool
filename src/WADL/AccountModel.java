@@ -31,8 +31,8 @@ public class AccountModel
 //	@XmlElement
 	@Column(name = "password")
 	private String password;
-	
-	@OneToMany(mappedBy="account")
+
+	@OneToMany(mappedBy="oAccount")
 	@XmlTransient
 	private Set<RESTServiceModel> setOfRESTService= new HashSet<RESTServiceModel>();
 	
@@ -89,7 +89,7 @@ public class AccountModel
 	{
 		this.password = password;
 	}
-	
+
 	public Set<RESTServiceModel> getSetOfRESTServiceModel()
 	{
 		return this.setOfRESTService;
@@ -99,5 +99,6 @@ public class AccountModel
 	{
         this.setOfRESTService = setOfRESTService;
 	}
+
 }
 

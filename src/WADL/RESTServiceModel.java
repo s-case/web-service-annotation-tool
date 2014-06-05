@@ -41,7 +41,7 @@ public class RESTServiceModel
 	private String baseUri;
 	
 //	@XmlElement
-	@Column(name = "baseUri")
+	@Column(name = "wsName")
 	private String wsName;
 	
 //	@XmlElement
@@ -49,14 +49,14 @@ public class RESTServiceModel
 	private String wsDescription;
 	
 //	@XmlElement
-	@OneToMany  // CHECK THE VALIDITY OF THIS AND IF IT IS VALID IMPORT IT TO THE LANGUAGE
-	private List<String> wsKeywords;
+//	@OneToMany  //CHECK THE VALIDITY OF THIS AND IF IT IS VALID IMPORT IT TO THE LANGUAGE
+//	private List<String> wsKeywords; //TODO UNCOMMENT THIS ONE
 	
 	@ManyToOne
-	@JoinColumn(name="accountIds")
+	@JoinColumn(name="accountId")
 	@XmlTransient
 	private AccountModel oAccount;
-	
+
 	//operations
 	//place holder for marshalModel operation
 
@@ -130,6 +130,7 @@ public class RESTServiceModel
 		this.wsDescription = wsDescription;
 	}
 
+/*	//TODO uncomment this one
 	public List<String> getWsKeywords()
 	{
 		return wsKeywords;
@@ -139,7 +140,7 @@ public class RESTServiceModel
 	{
 		this.wsKeywords = wsKeywords;
 	}
-
+*/
 	public AccountModel getAccount()
 	{
 		return oAccount;
@@ -149,6 +150,6 @@ public class RESTServiceModel
 	{
 		this.oAccount = oAccount;
 	}
-	
+
 }
 
