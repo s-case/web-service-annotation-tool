@@ -10,7 +10,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 
-@Path("/")
+@Path("/account")
 public class AccountController
 {
 	private AccountModel oAccount; //resourceModel object
@@ -24,7 +24,7 @@ public class AccountController
 	
 	//placeholder to add any HTTPActivity() template operation
 	 
-	 @Path("/account")
+	 @Path("/")
 	 @POST
 	 @Consumes("application/json")
 	 @Produces("application/json")
@@ -38,7 +38,7 @@ public class AccountController
 	 
 	//GET for individual resource
 
-	@Path("/account/{accountId}")
+	@Path("/{accountId}")
 	@GET
 	@Produces("application/json")
 	//TODO CHANGE AccountModel to AccountRepresentation
@@ -52,7 +52,7 @@ public class AccountController
 
 	//PUT
 
-	 @Path("/account/{accountId}")
+	 @Path("/{accountId}")
 	 @PUT
 	 @Consumes("application/json")
 	 @Produces("application/json")
@@ -66,7 +66,7 @@ public class AccountController
 	 
 	 //DELETE
 
-	@Path("/account/{accountId}")
+	@Path("/{accountId}")
 	@DELETE
 
 	public void deleteAccount (@PathParam("accountId") int accountId)

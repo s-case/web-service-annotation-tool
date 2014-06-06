@@ -17,6 +17,9 @@ public class JAXRSServicePublisher extends Application
 		HashSet<Class<?>> SetOfClasses = new HashSet<Class<?>>(); 
 		SetOfClasses.add(AccountController.class);  // add all the javaResourceControllers that way
 		SetOfClasses.add(RESTServiceController.class);
+		SetOfClasses.add(ResourceController.class);
+		SetOfClasses.add(RESTMethodController.class);
+		SetOfClasses.add(RESTParameterController.class);
 		return SetOfClasses;
 	}
 	

@@ -1,9 +1,13 @@
 package WADL;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,8 +16,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.*;
 
 @XmlRootElement
@@ -49,8 +51,14 @@ public class RESTServiceModel
 	private String wsDescription;
 	
 //	@XmlElement
-//	@OneToMany  //CHECK THE VALIDITY OF THIS AND IF IT IS VALID IMPORT IT TO THE LANGUAGE
-//	private List<String> wsKeywords; //TODO UNCOMMENT THIS ONE
+	@ElementCollection
+	@CollectionTable(name="RESTServiceWsKeywords", joinColumns=@JoinColumn(name="RESTServiceId"))
+	@Column(name="wsKeywords")
+	private List<String> wsKeywords; //TODO UNCOMMENT THIS ONE
+	
+	@OneToMany(mappedBy="oRESTService")
+	@XmlTransient
+	private Set<ResourceModel> setOfResource = new HashSet<ResourceModel>();
 	
 	@ManyToOne
 	@JoinColumn(name="accountId")
@@ -130,7 +138,7 @@ public class RESTServiceModel
 		this.wsDescription = wsDescription;
 	}
 
-/*	//TODO uncomment this one
+
 	public List<String> getWsKeywords()
 	{
 		return wsKeywords;
@@ -140,7 +148,18 @@ public class RESTServiceModel
 	{
 		this.wsKeywords = wsKeywords;
 	}
-*/
+
+    public Set<ResourceModel> getSetOfResource()
+    {
+        return this.setOfResource;
+    }
+
+    public void setSetOfResource( Set<ResourceModel> setOfResource)
+    {
+        this.setOfResource = setOfResource;
+    }
+
+	
 	public AccountModel getAccount()
 	{
 		return oAccount;

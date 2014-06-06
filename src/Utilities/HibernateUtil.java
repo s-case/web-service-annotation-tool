@@ -4,7 +4,10 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
 import WADL.AccountModel;
+import WADL.RESTMethodModel;
+import WADL.RESTParameterModel;
 import WADL.RESTServiceModel;
+import WADL.ResourceModel;
 
 public class HibernateUtil {
 
@@ -13,7 +16,7 @@ public class HibernateUtil {
     private static SessionFactory buildSessionFactory() {
         try {
             // Create the SessionFactory from hibernate.cfg.xml
-            return new AnnotationConfiguration().configure().addAnnotatedClass(AccountModel.class).addAnnotatedClass(RESTServiceModel.class).buildSessionFactory();//TODO add the rest models here
+            return new AnnotationConfiguration().configure().addAnnotatedClass(AccountModel.class).addAnnotatedClass(RESTServiceModel.class).addAnnotatedClass(ResourceModel.class).addAnnotatedClass(RESTMethodModel.class).addAnnotatedClass(RESTParameterModel.class).buildSessionFactory();//TODO add the rest models here
         }
         catch (Throwable ex) {
             // Make sure you log the exception, as it might be swallowed
