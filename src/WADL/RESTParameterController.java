@@ -10,7 +10,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 
-@Path("/")
+@Path("/multiRESTParameter/")
 
 public class RESTParameterController
 {

@@ -9,6 +9,7 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -18,6 +19,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+
+import org.hibernate.annotations.Cascade;
 
 @XmlRootElement
 @Entity
@@ -48,20 +51,23 @@ public class ResourceModel
 	private String resourceDescription;
 	
 //	@XmlElement
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     @CollectionTable(name="resourceResourceDescription", joinColumns=@JoinColumn(name="resourceId"))
 	@Column(name = "resourceDescription")
 	private List<String> resourceKeywords;
 	
-	@OneToMany(mappedBy="oResource")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="oResource")
+	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	@XmlTransient
 	private Set<RESTMethodModel> setOfRESTMethod = new HashSet<RESTMethodModel>();
 	
-	@OneToMany(mappedBy="oResource")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="oResource")
+	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	@XmlTransient
 	private Set<RESTParameterModel> setOfRESTParameter = new HashSet<RESTParameterModel>();
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="RESTServiceId")
 	@XmlTransient
 	private RESTServiceModel oRESTService;

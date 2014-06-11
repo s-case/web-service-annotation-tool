@@ -7,6 +7,7 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -15,6 +16,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+
+import org.hibernate.annotations.Cascade;
 
 
 @XmlRootElement
@@ -50,7 +53,8 @@ public class RESTParameterModel
 	private Boolean parameterRequired;
 	
 //	@XmlElement
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     @CollectionTable(name="RESTParameterParameterValueOption", joinColumns=@JoinColumn(name="RESTParameterId"))
 	@Column(name = "parameterValueOption")
 	private List<String> parameterValueOption;
@@ -59,12 +63,12 @@ public class RESTParameterModel
 	@Column(name = "parameterMediaType")
 	private String parameterMediaType;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="resourceId")
 	@XmlTransient
 	private ResourceModel oResource;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="RESTMethodId")
 	@XmlTransient
 	private RESTMethodModel oRESTMethod;

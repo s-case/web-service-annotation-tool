@@ -8,6 +8,8 @@ import java.util.Set;
 import javax.xml.bind.annotation.*;
 import javax.persistence.*;
 
+import org.hibernate.annotations.Cascade;
+
 @XmlRootElement
 @Entity
 @Table(name="account")
@@ -32,7 +34,8 @@ public class AccountModel
 	@Column(name = "password")
 	private String password;
 
-	@OneToMany(mappedBy="oAccount")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="oAccount")
+	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	@XmlTransient
 	private Set<RESTServiceModel> setOfRESTService= new HashSet<RESTServiceModel>();
 	

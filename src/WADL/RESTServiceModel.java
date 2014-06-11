@@ -9,6 +9,7 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -18,9 +19,11 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.*;
 
+import org.hibernate.annotations.Cascade;
+
 @XmlRootElement
 @Entity
-@Table(name="RESTServiceModel")
+@Table(name="RESTService")
 public class RESTServiceModel
 {
 	//properties
@@ -51,16 +54,18 @@ public class RESTServiceModel
 	private String wsDescription;
 	
 //	@XmlElement
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
+	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	@CollectionTable(name="RESTServiceWsKeywords", joinColumns=@JoinColumn(name="RESTServiceId"))
 	@Column(name="wsKeywords")
-	private List<String> wsKeywords; //TODO UNCOMMENT THIS ONE
+	private List<String> wsKeywords; 
 	
-	@OneToMany(mappedBy="oRESTService")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="oRESTService")
+	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	@XmlTransient
 	private Set<ResourceModel> setOfResource = new HashSet<ResourceModel>();
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="accountId")
 	@XmlTransient
 	private AccountModel oAccount;

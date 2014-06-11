@@ -62,7 +62,7 @@ import Utilities.HibernateUtil;
 			
 			//find the  <ResourceName> in the database 
 			oAccount = (AccountModel) hibernateSession.get(AccountModel.class, oAccount.getAccountId());
-			
+//			Hibernate.initialize(oAccount.getSetOfRESTServiceModel());
 			//commit and terminate the session
 			hibernateTransaction.commit();
 			hibernateSession.close();
@@ -126,7 +126,8 @@ import Utilities.HibernateUtil;
 			
 			//find the  <ResourceName> in the database 
 			oRESTService = (RESTServiceModel) hibernateSession.get(RESTServiceModel.class, oRESTService.getRESTServiceId());
-			Hibernate.initialize(oRESTService.getWsKeywords());
+//			Hibernate.initialize(oRESTService.getWsKeywords());
+//			Hibernate.initialize(oRESTService.getSetOfResource());
 			//commit and terminate the session
 			hibernateTransaction.commit();
 			hibernateSession.close();
@@ -190,8 +191,9 @@ import Utilities.HibernateUtil;
 			
 			//find the  <ResourceName> in the database 
 			oResource = (ResourceModel) hibernateSession.get(ResourceModel.class, oResource.getResourceId());
-			Hibernate.initialize(oResource.getResourceKeywords());
-			
+//			Hibernate.initialize(oResource.getResourceKeywords());
+//			Hibernate.initialize(oResource.getSetOfRESTMethod());
+//			Hibernate.initialize(oResource.getSetOfRESTParameter());
 			//commit and terminate the session
 			hibernateTransaction.commit();
 			hibernateSession.close();
@@ -255,8 +257,8 @@ import Utilities.HibernateUtil;
 			
 			//find the  <ResourceName> in the database 
 			oRESTMethod = (RESTMethodModel) hibernateSession.get(RESTMethodModel.class, oRESTMethod.getRESTMethodId());
-			Hibernate.initialize(oRESTMethod.getMethodKeywords());
-
+//			Hibernate.initialize(oRESTMethod.getMethodKeywords());
+//			Hibernate.initialize(oRESTMethod.getSetOfRESTParameter());
 			//commit and terminate the session
 			hibernateTransaction.commit();
 			hibernateSession.close();
@@ -320,7 +322,7 @@ import Utilities.HibernateUtil;
 			
 			//find the  <ResourceName> in the database 
 			oRESTParameter = (RESTParameterModel) hibernateSession.get(RESTParameterModel.class, oRESTParameter.getRESTParameterId());
-			Hibernate.initialize(oRESTParameter.getParameterValueOption());
+//			Hibernate.initialize(oRESTParameter.getParameterValueOption());
 
 			//commit and terminate the session
 			hibernateTransaction.commit();
