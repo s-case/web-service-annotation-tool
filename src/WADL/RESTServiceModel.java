@@ -2,9 +2,11 @@ package WADL;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -19,7 +21,13 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.*;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.ForeignKey;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 
 @XmlRootElement
 @Entity
@@ -27,47 +35,41 @@ import org.hibernate.annotations.Cascade;
 public class RESTServiceModel
 {
 	//properties
-//	@XmlElement(name="link")
 	@Transient
 	private List<Link> linkList = new ArrayList<Link>();
 	//place holder for all resource model properties
-//	@XmlElement
+
 	@Id
 	@GeneratedValue
 	@Column(name = "RESTServiceId")
 	private Integer RESTServiceId;
 	
-//	@XmlElement
 	@Column(name = "wsProvider")
 	private String wsProvider;
 	
-//	@XmlElement
 	@Column(name = "baseUri")
 	private String baseUri;
 	
-//	@XmlElement
 	@Column(name = "wsName")
 	private String wsName;
 	
-//	@XmlElement
 	@Column(name = "wsDescription")
 	private String wsDescription;
 	
-//	@XmlElement
 	@ElementCollection(fetch = FetchType.EAGER)
-	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	@CollectionTable(name="RESTServiceWsKeywords", joinColumns=@JoinColumn(name="RESTServiceId"))
+	@ForeignKey(name = "fk_restservice_wskeywords")
+	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	@Column(name="wsKeywords")
-	private List<String> wsKeywords; 
+	private Set<String> wsKeywords; 
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="oRESTService")
-	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-	@XmlTransient
+	@OnDelete(action=OnDeleteAction.CASCADE)
 	private Set<ResourceModel> setOfResource = new HashSet<ResourceModel>();
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="accountId")
-	@XmlTransient
+	@ForeignKey(name = "fk_account_restservice")
 	private AccountModel oAccount;
 
 	//operations
@@ -144,27 +146,40 @@ public class RESTServiceModel
 	}
 
 
-	public List<String> getWsKeywords()
+	public Set<String> getWsKeywords()
 	{
 		return wsKeywords;
 	}
 	
-	public void setWsKeywords(List<String> wsKeywords)
+	public void setWsKeywords(Set<String> wsKeywords)
 	{
 		this.wsKeywords = wsKeywords;
 	}
+	
+    public void deleteAllCollections(Session hibernateSession)
+    {
 
+        Query query = hibernateSession.createSQLQuery(String.format("DELETE FROM %s where %sId = %d","RESTServicewsKeywords".toLowerCase(),"RESTService",this.getRESTServiceId()));
+        query.executeUpdate();
+    	
+        Iterator<ResourceModel> resourceIterator = setOfResource.iterator();
+        while(resourceIterator.hasNext())
+        {
+        	resourceIterator.next().deleteAllCollections(hibernateSession);
+        }
+    }
+	
+	@XmlTransient
     public Set<ResourceModel> getSetOfResource()
     {
         return this.setOfResource;
     }
-
+    
     public void setSetOfResource( Set<ResourceModel> setOfResource)
     {
         this.setOfResource = setOfResource;
     }
-
-	
+    @XmlTransient
 	public AccountModel getAccount()
 	{
 		return oAccount;

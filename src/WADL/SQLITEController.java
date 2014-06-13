@@ -62,7 +62,7 @@ import Utilities.HibernateUtil;
 			
 			//find the  <ResourceName> in the database 
 			oAccount = (AccountModel) hibernateSession.get(AccountModel.class, oAccount.getAccountId());
-//			Hibernate.initialize(oAccount.getSetOfRESTServiceModel());
+
 			//commit and terminate the session
 			hibernateTransaction.commit();
 			hibernateSession.close();
@@ -93,6 +93,9 @@ import Utilities.HibernateUtil;
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
 
 			//find the  <ResourceName> in the database 
+	        oAccount = (AccountModel) hibernateSession.get(AccountModel.class, oAccount.getAccountId());
+	        oAccount.deleteAllCollections(hibernateSession);
+			
 			hibernateSession.delete(oAccount);
 			
 			//commit and terminate the session
@@ -126,8 +129,7 @@ import Utilities.HibernateUtil;
 			
 			//find the  <ResourceName> in the database 
 			oRESTService = (RESTServiceModel) hibernateSession.get(RESTServiceModel.class, oRESTService.getRESTServiceId());
-//			Hibernate.initialize(oRESTService.getWsKeywords());
-//			Hibernate.initialize(oRESTService.getSetOfResource());
+
 			//commit and terminate the session
 			hibernateTransaction.commit();
 			hibernateSession.close();
@@ -142,6 +144,8 @@ import Utilities.HibernateUtil;
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
 
 			//find the  <ResourceName> in the database 
+	        oRESTService = (RESTServiceModel) hibernateSession.get(RESTServiceModel.class, oRESTService.getRESTServiceId());
+	        oRESTService.deleteAllCollections(hibernateSession);
 			hibernateSession.delete(oRESTService);
 			
 			//commit and terminate the session
@@ -191,9 +195,7 @@ import Utilities.HibernateUtil;
 			
 			//find the  <ResourceName> in the database 
 			oResource = (ResourceModel) hibernateSession.get(ResourceModel.class, oResource.getResourceId());
-//			Hibernate.initialize(oResource.getResourceKeywords());
-//			Hibernate.initialize(oResource.getSetOfRESTMethod());
-//			Hibernate.initialize(oResource.getSetOfRESTParameter());
+
 			//commit and terminate the session
 			hibernateTransaction.commit();
 			hibernateSession.close();
@@ -223,7 +225,9 @@ import Utilities.HibernateUtil;
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
 
-			//find the  <ResourceName> in the database 
+			//find the  <ResourceName> in the database
+	        oResource = (ResourceModel) hibernateSession.get(ResourceModel.class, oResource.getResourceId());
+	        oResource.deleteAllCollections(hibernateSession);
 			hibernateSession.delete(oResource);
 			
 			//commit and terminate the session
@@ -257,8 +261,7 @@ import Utilities.HibernateUtil;
 			
 			//find the  <ResourceName> in the database 
 			oRESTMethod = (RESTMethodModel) hibernateSession.get(RESTMethodModel.class, oRESTMethod.getRESTMethodId());
-//			Hibernate.initialize(oRESTMethod.getMethodKeywords());
-//			Hibernate.initialize(oRESTMethod.getSetOfRESTParameter());
+
 			//commit and terminate the session
 			hibernateTransaction.commit();
 			hibernateSession.close();
@@ -289,6 +292,8 @@ import Utilities.HibernateUtil;
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
 
 			//find the  <ResourceName> in the database 
+	        oRESTMethod = (RESTMethodModel) hibernateSession.get(RESTMethodModel.class, oRESTMethod.getRESTMethodId());
+	        oRESTMethod.deleteAllCollections(hibernateSession);
 			hibernateSession.delete(oRESTMethod);
 			
 			//commit and terminate the session
@@ -322,7 +327,6 @@ import Utilities.HibernateUtil;
 			
 			//find the  <ResourceName> in the database 
 			oRESTParameter = (RESTParameterModel) hibernateSession.get(RESTParameterModel.class, oRESTParameter.getRESTParameterId());
-//			Hibernate.initialize(oRESTParameter.getParameterValueOption());
 
 			//commit and terminate the session
 			hibernateTransaction.commit();
@@ -355,6 +359,8 @@ import Utilities.HibernateUtil;
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
 
 			//find the  <ResourceName> in the database 
+	        oRESTParameter = (RESTParameterModel) hibernateSession.get(RESTParameterModel.class, oRESTParameter.getRESTParameterId());
+	        oRESTParameter.deleteAllCollections(hibernateSession);
 			hibernateSession.delete(oRESTParameter);
 			
 			//commit and terminate the session

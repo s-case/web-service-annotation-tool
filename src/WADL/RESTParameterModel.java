@@ -1,7 +1,9 @@
 package WADL;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -17,7 +19,9 @@ import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.hibernate.annotations.Cascade;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.annotations.ForeignKey;
 
 
 @XmlRootElement
@@ -26,51 +30,44 @@ import org.hibernate.annotations.Cascade;
 public class RESTParameterModel
 {
 	//properties
-//	@XmlElement(name="link")
 	@Transient
 	private List<Link> linkList = new ArrayList<Link>();
 	//place holder for all resource model properties
-//	@XmlElement
+
 	@Id
 	@GeneratedValue
 	@Column(name = "RESTParameterId")
 	private int RESTParameterId;
 	
-//	@XmlElement
 	@Column(name = "parameterName")
 	private String parameterName;
 	
-//	@XmlElement
 	@Column(name = "parameterStyle")
 	private String parameterStyle;
 	
-//	@XmlElement
 	@Column(name = "parameterDefault")
 	private String parameterDefault;
 	
-//	@XmlElement
 	@Column(name = "parameterRequired")
 	private Boolean parameterRequired;
 	
-//	@XmlElement
     @ElementCollection(fetch = FetchType.EAGER)
-    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    @CollectionTable(name="RESTParameterParameterValueOption", joinColumns=@JoinColumn(name="RESTParameterId"))
+    @CollectionTable(name="restparameterparametervalueoption", joinColumns=@JoinColumn(name="RESTParameterId"))
+    @ForeignKey(name = "fk_restparameter_parameterValueOption")
 	@Column(name = "parameterValueOption")
-	private List<String> parameterValueOption;
+	private Set<String> parameterValueOption;
 	
-//	@XmlElement
 	@Column(name = "parameterMediaType")
 	private String parameterMediaType;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="resourceId")
-	@XmlTransient
+	@ForeignKey(name = "fk_resource_restparameter")
 	private ResourceModel oResource;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="RESTMethodId")
-	@XmlTransient
+	@ForeignKey(name = "fk_restmethod_restparameter")
 	private RESTMethodModel oRESTMethod;
 	
 	//operations
@@ -146,12 +143,12 @@ public class RESTParameterModel
 		this.parameterRequired = parameterRequired;
 	}
 	
-	public List<String> getParameterValueOption()
+	public Set<String> getParameterValueOption()
 	{
 		return parameterValueOption;
 	}
 	
-	public void setParameterValueOption(List<String> parameterValueOption)
+	public void setParameterValueOption(Set<String> parameterValueOption)
 	{
 		this.parameterValueOption = parameterValueOption;
 	}
@@ -165,7 +162,14 @@ public class RESTParameterModel
 	{
 		this.parameterMediaType = parameterMediaType;
 	}
-
+	
+    public void deleteAllCollections(Session hibernateSession)
+    {
+        Query query = hibernateSession.createSQLQuery(String.format("DELETE FROM %s where %sId = %d","RESTParameterparameterValueOption".toLowerCase(),"RESTParameter",this.getRESTParameterId()));
+        query.executeUpdate();
+    }
+	
+	@XmlTransient
 	public ResourceModel getResource()
 	{
 		return oResource;
@@ -175,7 +179,7 @@ public class RESTParameterModel
 	{
 		this.oResource = oResource;
 	}
-	
+	@XmlTransient
 	public RESTMethodModel getRESTMethod()
 	{
 		return oRESTMethod;

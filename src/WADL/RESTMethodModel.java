@@ -2,6 +2,7 @@ package WADL;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -20,7 +21,12 @@ import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.hibernate.annotations.Cascade;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.annotations.ForeignKey;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 
 @XmlRootElement
 @Entity
@@ -48,19 +54,18 @@ public class RESTMethodModel
 	private String methodIdentifier;
 	
     @ElementCollection(fetch = FetchType.EAGER)
-    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     @CollectionTable(name="RESTMethodMethodKeywords", joinColumns=@JoinColumn(name="RESTMethodId"))
+    @ForeignKey(name = "fk_restmethod_methodkeywords")
 	@Column(name = "methodKeywords")
-	private List<String> methodKeywords;
+	private Set<String> methodKeywords;
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="oRESTMethod")
-	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-	@XmlTransient
+	@OnDelete(action=OnDeleteAction.CASCADE)
 	private Set<RESTParameterModel> setOfRESTParameter = new HashSet<RESTParameterModel>();
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="resourceId")
-	@XmlTransient
+	@ForeignKey(name = "fk_resource_restmethod")
 	private ResourceModel oResource;
 	
 	//operations
@@ -126,26 +131,39 @@ public class RESTMethodModel
 		this.methodIdentifier = methodIdentifier;
 	}
 
-	public List<String> getMethodKeywords()
+	public Set<String> getMethodKeywords()
 	{
 		return methodKeywords;
 	}
 	
-	public void setMethodKeywords(List<String> methodKeywords)
+	public void setMethodKeywords(Set<String> methodKeywords)
 	{
 		this.methodKeywords = methodKeywords;
 	}
+	
+    public void deleteAllCollections(Session hibernateSession)
+    {
+        Query query = hibernateSession.createSQLQuery(String.format("DELETE FROM %s where %sId = %d","RESTMethodmethodKeywords".toLowerCase(),"RESTMethod",this.getRESTMethodId()));
+        query.executeUpdate();
 
+        Iterator<RESTParameterModel> RESTParameterIterator = setOfRESTParameter.iterator();
+        while(RESTParameterIterator.hasNext())
+        {
+            RESTParameterIterator.next().deleteAllCollections(hibernateSession);
+        }
+    }
+	
+	@XmlTransient
     public Set<RESTParameterModel> getSetOfRESTParameter()
     {
         return this.setOfRESTParameter;
     }
-
+    
     public void setSetOfRESTParameter( Set<RESTParameterModel> setOfRESTParameter)
     {
         this.setOfRESTParameter = setOfRESTParameter;
     }
-
+    @XmlTransient
 	public ResourceModel getResource()
 	{
 		return oResource;
