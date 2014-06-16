@@ -114,7 +114,7 @@ public class AccountModel
     }
 	
 	@XmlTransient
-	public Set<RESTServiceModel> getSetOfRESTServiceModel()
+	public Set<RESTServiceModel> getSetOfRESTService()
 	{
 		return this.setOfRESTService;
     }

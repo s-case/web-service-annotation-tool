@@ -8,6 +8,8 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
 
 
 @Path("/multiRESTParameter/")
@@ -23,9 +25,11 @@ public class RESTParameterController
 	private GETRESTMethodRESTParameterHandler oGETRESTMethodRESTParameterHandler;
 	private PUTRESTMethodRESTParameterHandler oPUTRESTMethodRESTParameterHandler;
 	private DELETERESTMethodRESTParameterHandler oDELETERESTMethodRESTParameterHandler;
-//	[OPTIONAL]private GET<ResourceName>ListHandler oGET<ResourceName>ListHandler; // only if the resource is of aggregate type
-//	[OPTIONAL]private GET<ResourceName>ListHandler oGET<ResourceName>ListHandler;
-	
+	private GETResourceRESTParameterListHandler oGETResourceRESTParameterListHandler; // only if the resource is of aggregate type
+	private GETRESTMethodRESTParameterListHandler oGETRESTMethodRESTParameterListHandler;
+
+	@Context
+	private UriInfo oApplicationUri;
 	
 	public RESTParameterController() {}
 	
@@ -135,16 +139,27 @@ public class RESTParameterController
 		oDELETERESTMethodRESTParameterHandler.deleteRESTParameter();
 	}
 
-/*
-	@Path("/[ONLY IF IT IS RELATED RESOURCE OF MORE THAN ONE OTHER RESOURCES]<baseUri>/[ONLY IF IT IS RELATED RESOURCE OF MORE THAN ONE OTHER RESOURCES]<resourceName>/")
-	@GET
-	@Produces("application/vnd.<ApplicationName>+xml")
 
-	public <resourceModel> get[ONLY IF IT IS RELATED RESOURCE OF MORE THAN ONE OTHER RESOURCES]<SourceResourceName><resourceName>List([ONLY IF AUTH=BOTH] @DefaultValue("guest")[ONLY IF AUTH!= NO] @HeaderParam("authorization") String authHeader, [ONLY IF RESOURCE IS RELATED OF ANOTHER] @PathParam("<sourceResourceIdentifierName>") <sourceResourceIdentifierType> <sourceResourceIdentifierName>)
+	@Path("/account/{accountId}/RESTService/{RESTServiceId}/resource/{resourceId}/RESTParameter/")
+	@GET
+	@Produces("application/json")
+
+	public RESTParameterModel getResourceRESTParameterList(@PathParam("resourceId") int resourceId)
 	{
 		//create a new get<resourceName>ListHandler
-		oGET[ONLY IF IT IS RELATED RESOURCE OF MORE THAN ONE OTHER RESOURCES]<SourceResourceName><resourceName>ListHandler = new GET[ONLY IF IT IS RELATED RESOURCE OF MORE THAN ONE OTHER RESOURCES]<SourceResourceName><resourceName>ListHandler([ONLY IF AUTH!= NO] authHeader, [ONLY IF RESOURCE IS RELATED OF ANOTHER] <sourceResourceIdentifierName>);
-		return oGET[ONLY IF IT IS RELATED RESOURCE OF MORE THAN ONE OTHER RESOURCES]<SourceResourceName><resourceName>ListHandler.get<resourceName>List();
+		oGETResourceRESTParameterListHandler = new GETResourceRESTParameterListHandler(resourceId,oApplicationUri);
+		return oGETResourceRESTParameterListHandler.getRESTParameterList();
 	}
-*/	 
+	
+	@Path("account/{accountId}/RESTService/{RESTServiceId}/resource/{resourceId}/RESTMethod/{RESTMethodId}/RESTParameter/")
+	@GET
+	@Produces("application/json")
+
+	public RESTParameterModel getRESTMethodRESTParameterList(@PathParam("RESTMethodId") int RESTMethodId)
+	{
+		//create a new get<resourceName>ListHandler
+		oGETRESTMethodRESTParameterListHandler = new GETRESTMethodRESTParameterListHandler(RESTMethodId,oApplicationUri);
+		return oGETRESTMethodRESTParameterListHandler.getRESTParameterList();
+	}
+	 
 }

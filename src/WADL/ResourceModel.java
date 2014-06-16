@@ -174,7 +174,7 @@ public class ResourceModel
         return this.setOfRESTMethod;
     }
     
-    public void setSetOfRESTMethodModel( Set<RESTMethodModel> setOfRESTMethod)
+    public void setSetOfRESTMethod( Set<RESTMethodModel> setOfRESTMethod)
     {
         this.setOfRESTMethod = setOfRESTMethod;
     }

@@ -12,6 +12,8 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
 
 //[ONLY IF RESOURCE IS RELATED OF ANOTHER] --> added only if the resource is a related resource of another resource
 
@@ -24,7 +26,10 @@ public class RESTServiceController
 	private GETRESTServiceHandler oGETRESTServiceHandler;
 	private PUTRESTServiceHandler oPUTRESTServiceHandler;
 	private DELETERESTServiceHandler oDELETERESTServiceHandler;
-//	private GETRESTServiceListHandler oGETRESTServiceListHandler; // only if the resource is of aggregate type
+	private GETRESTServiceListHandler oGETRESTServiceListHandler; // only if the resource is of aggregate type
+	
+	@Context
+	private UriInfo oApplicationUri;
 	
 	public RESTServiceController() {}
 	
@@ -83,14 +88,14 @@ public class RESTServiceController
 	}
 
 	//GET (aggregate resource)
-//	@Path("/")
-//	@GET
-//	@Produces("application/JSON")
+	@Path("/")
+	@GET
+	@Produces("application/json")
 
-//	public RESTServiceModel getRESTServiceList(@PathParam("accountId") Integer accountId)
-//	{
+	public RESTServiceModel getRESTServiceList(@PathParam("accountId") Integer accountId)
+	{
 		//create a new get<resourceName>ListHandler
-	//	oGETRESTServiceListHandler = new GETRESTServiceListHandler(accountId);
-		//return oGETRESTServiceListHandler.getRESTServiceList();
-	//}
+		oGETRESTServiceListHandler = new GETRESTServiceListHandler(accountId, oApplicationUri);
+		return oGETRESTServiceListHandler.getRESTServiceList();
+	}
 }

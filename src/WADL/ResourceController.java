@@ -8,6 +8,8 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
 
 @Path("/account/{accountId}/RESTService/{RESTServiceId}/resource")
 public class ResourceController
@@ -17,7 +19,10 @@ public class ResourceController
 	private GETResourceHandler oGETResourceHandler;
 	private PUTResourceHandler oPUTResourceHandler;
 	private DELETEResourceHandler oDELETEResourceHandler;
-//	[OPTIONAL]private GET<ResourceName>ListHandler oGET<ResourceName>ListHandler; // only if the resource is of aggregate type
+	private GETResourceListHandler oGETResourceListHandler; // only if the resource is of aggregate type
+	
+	@Context
+	private UriInfo oApplicationUri;
 	
 	public ResourceController() {}
 	
@@ -71,16 +76,16 @@ public class ResourceController
 		oDELETEResourceHandler = new DELETEResourceHandler(resourceId);
 		oDELETEResourceHandler.deleteResource();
 	}
-/*
+
 	@Path("/")
 	@GET
-	@Produces("application/vnd.<ApplicationName>+xml")
+	@Produces("application/json")
 
-	public <resourceModel> get<resourceName>List([ONLY IF AUTH=BOTH] @DefaultValue("guest")[ONLY IF AUTH!= NO] @HeaderParam("authorization") String authHeader, [ONLY IF RESOURCE IS RELATED OF ANOTHER] @PathParam("<sourceResourceIdentifierName>") <sourceResourceIdentifierType> <sourceResourceIdentifierName>)
+	public ResourceModel getResourceList(@PathParam("RESTServiceId") int RESTServiceId)
 	{
 		//create a new get<resourceName>ListHandler
-		oGET<resourceName>ListHandler = new GET<resourceName>ListHandler([ONLY IF AUTH!= NO] authHeader, [ONLY IF RESOURCE IS RELATED OF ANOTHER] <sourceResourceIdentifierName>);
-		return oGET<resourceName>ListHandler.get<resourceName>List();
+		oGETResourceListHandler = new GETResourceListHandler(RESTServiceId,oApplicationUri);
+		return oGETResourceListHandler.getResourceList();
 	}
-*/	 
+	 
 }

@@ -367,4 +367,84 @@ import Utilities.HibernateUtil;
 			hibernateTransaction.commit();
 			hibernateSession.close();
 	 }
+	 
+	 public RESTServiceModel getResourceList(RESTServiceModel oRESTService)
+	 {
+	     //create a new session and begin the transaction
+	     Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+	     Transaction hibernateTransaction = hibernateSession.beginTransaction();
+
+	     //find the  <ResourceName> in the database
+	     oRESTService = (RESTServiceModel) hibernateSession.get(RESTServiceModel.class, oRESTService.getRESTServiceId());
+
+	     //commit and terminate the session
+	     hibernateTransaction.commit();
+	     hibernateSession.close();
+
+	     return oRESTService;
+	 }
+	 
+	 public AccountModel getRESTServiceList(AccountModel oAccount)
+	 {
+	     //create a new session and begin the transaction
+	     Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+	     Transaction hibernateTransaction = hibernateSession.beginTransaction();
+
+	     //find the  <ResourceName> in the database
+	     oAccount = (AccountModel) hibernateSession.get(AccountModel.class, oAccount.getAccountId());
+
+	     //commit and terminate the session
+	     hibernateTransaction.commit();
+	     hibernateSession.close();
+
+	     return oAccount;
+	 }
+	 
+	 public ResourceModel getRESTMethodList(ResourceModel oResource)
+	 {
+	     //create a new session and begin the transaction
+	     Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+	     Transaction hibernateTransaction = hibernateSession.beginTransaction();
+
+	     //find the  <ResourceName> in the database
+	     oResource = (ResourceModel) hibernateSession.get(ResourceModel.class, oResource.getResourceId());
+
+	     //commit and terminate the session
+	     hibernateTransaction.commit();
+	     hibernateSession.close();
+
+	     return oResource;
+	 }
+	 
+	 public ResourceModel getResourceRESTParameterList(ResourceModel oResource)
+	 {
+	     //create a new session and begin the transaction
+	     Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+	     Transaction hibernateTransaction = hibernateSession.beginTransaction();
+
+	     //find the  <ResourceName> in the database
+	     oResource = (ResourceModel) hibernateSession.get(ResourceModel.class, oResource.getResourceId());
+
+	     //commit and terminate the session
+	     hibernateTransaction.commit();
+	     hibernateSession.close();
+
+	     return oResource;
+	 }
+	 
+	 public RESTMethodModel getRESTMethodRESTParameterList(RESTMethodModel oRESTMethod)
+	 {
+	     //create a new session and begin the transaction
+	     Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+	     Transaction hibernateTransaction = hibernateSession.beginTransaction();
+
+	     //find the  <ResourceName> in the database
+	     oRESTMethod = (RESTMethodModel) hibernateSession.get(RESTMethodModel.class, oRESTMethod.getRESTMethodId());
+
+	     //commit and terminate the session
+	     hibernateTransaction.commit();
+	     hibernateSession.close();
+
+	     return oRESTMethod;
+	 }
  }

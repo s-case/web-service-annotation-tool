@@ -5,11 +5,13 @@ public class Link
 {
 	String uri;
 	String rel;
+	String httpVerb;
 	
-	Link(String uri, String rel)
+	Link(String uri, String rel, String httpVerb)
 	{
 		this.uri = uri;
 		this.rel = rel;
+		this.httpVerb = httpVerb;
 	}
 	
 	public void setUri( String uri)
@@ -30,5 +32,15 @@ public class Link
 	public String getRel()
 	{
 		return this.rel;
+	}
+	
+	public void setHttpVerb(String httpVerb)
+	{
+		this.httpVerb = httpVerb;
+	}
+	
+	public String getHttpVerb()
+	{
+		return this.httpVerb;
 	}
 }
