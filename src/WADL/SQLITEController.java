@@ -86,7 +86,7 @@ import Utilities.HibernateUtil;
 			return oAccount;
 	 }
 	 
-	 public void deleteAccount(AccountModel oAccount)
+	 public AccountModel deleteAccount(AccountModel oAccount)
 	 {
 	  		//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
@@ -101,6 +101,7 @@ import Utilities.HibernateUtil;
 			//commit and terminate the session
 			hibernateTransaction.commit();
 			hibernateSession.close();
+			return oAccount;
 	 }
 	 
 	 public RESTServiceModel postRESTService(RESTServiceModel oRESTService)
@@ -137,7 +138,7 @@ import Utilities.HibernateUtil;
 			return oRESTService;
 	 }
 	 
-	 public void deleteRESTService(RESTServiceModel oRESTService)
+	 public RESTServiceModel deleteRESTService(RESTServiceModel oRESTService)
 	 {
 	  		//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
@@ -151,6 +152,7 @@ import Utilities.HibernateUtil;
 			//commit and terminate the session
 			hibernateTransaction.commit();
 			hibernateSession.close();
+			return oRESTService;
 	 }
 	 
 	 public RESTServiceModel putRESTService(RESTServiceModel oRESTService)
@@ -219,7 +221,7 @@ import Utilities.HibernateUtil;
 			return oResource;
 	 }
 	 
-	 public void deleteResource(ResourceModel oResource)
+	 public ResourceModel deleteResource(ResourceModel oResource)
 	 {
 	  		//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
@@ -233,6 +235,7 @@ import Utilities.HibernateUtil;
 			//commit and terminate the session
 			hibernateTransaction.commit();
 			hibernateSession.close();
+			return oResource;
 	 }
 	 
 	 public RESTMethodModel postRESTMethod(RESTMethodModel oRESTMethod)
@@ -285,7 +288,7 @@ import Utilities.HibernateUtil;
 			return oRESTMethod;
 	 }
 	 
-	 public void deleteRESTMethod(RESTMethodModel oRESTMethod)
+	 public RESTMethodModel deleteRESTMethod(RESTMethodModel oRESTMethod)
 	 {
 	  		//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
@@ -299,6 +302,7 @@ import Utilities.HibernateUtil;
 			//commit and terminate the session
 			hibernateTransaction.commit();
 			hibernateSession.close();
+			return oRESTMethod;
 	 }
 	 
 	 public RESTParameterModel postRESTParameter(RESTParameterModel oRESTParameter)
@@ -352,7 +356,7 @@ import Utilities.HibernateUtil;
 	 }
 	 
 	 
-	 public void deleteRESTParameter(RESTParameterModel oRESTParameter)
+	 public RESTParameterModel deleteRESTParameter(RESTParameterModel oRESTParameter)
 	 {
 	  		//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
@@ -366,6 +370,7 @@ import Utilities.HibernateUtil;
 			//commit and terminate the session
 			hibernateTransaction.commit();
 			hibernateSession.close();
+			return oRESTParameter;
 	 }
 	 
 	 public RESTServiceModel getResourceList(RESTServiceModel oRESTService)

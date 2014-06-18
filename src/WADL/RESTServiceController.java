@@ -43,7 +43,7 @@ public class RESTServiceController
 	public RESTServiceModel getRESTService(@PathParam("RESTServiceId") Integer RESTServiceId)
 	{
 		//create a new get<resourceName>Handler
-		oGETRESTServiceHandler = new GETRESTServiceHandler(RESTServiceId);
+		oGETRESTServiceHandler = new GETRESTServiceHandler(RESTServiceId,oApplicationUri);
 		return oGETRESTServiceHandler.getRESTService();
 	}
 	 
@@ -71,20 +71,21 @@ public class RESTServiceController
 	 public RESTServiceModel putRESTService (@PathParam("accountId") Integer accountId, @PathParam("RESTServiceId") Integer RESTServiceId, RESTServiceModel oRESTService)
 	 {
 		//create a new put<resourceName>Handler
-		oPUTRESTServiceHandler = new PUTRESTServiceHandler(accountId, RESTServiceId, oRESTService);
+		oPUTRESTServiceHandler = new PUTRESTServiceHandler(accountId, RESTServiceId, oRESTService,oApplicationUri);
 		return oPUTRESTServiceHandler.putRESTService();
 	 }
 	 
 	 //DELETE
 
 	@Path("/{RESTServiceId}")
+	@Produces("application/json")
 	@DELETE
 
-	public void deleteRESTService (@PathParam("RESTServiceId") Integer RESTServiceId)
+	public RESTServiceModel deleteRESTService (@PathParam("RESTServiceId") Integer RESTServiceId)
 	{
 		//create a new delete<resourceName>Handler
-		oDELETERESTServiceHandler = new DELETERESTServiceHandler(RESTServiceId);
-		oDELETERESTServiceHandler.deleteRESTService();
+		oDELETERESTServiceHandler = new DELETERESTServiceHandler(RESTServiceId,oApplicationUri);
+		return oDELETERESTServiceHandler.deleteRESTService();
 	}
 
 	//GET (aggregate resource)

@@ -42,7 +42,7 @@ public class RESTParameterController
 	public RESTParameterModel getResourceRESTParameter(@PathParam("RESTParameterId") int RESTParameterId)
 	{
 		//create a new get<resourceName>Handler
-		oGETResourceRESTParameterHandler = new GETResourceRESTParameterHandler(RESTParameterId);
+		oGETResourceRESTParameterHandler = new GETResourceRESTParameterHandler(RESTParameterId,oApplicationUri);
 		return oGETResourceRESTParameterHandler.getRESTParameter();
 	}
 	
@@ -67,18 +67,19 @@ public class RESTParameterController
 	 public RESTParameterModel putResourceRESTParameter (@PathParam("resourceId") int resourceId, @PathParam("RESTParameterId") int RESTParameterId, RESTParameterModel oRESTParameter)
 	 {
 		//create a new put<resourceName>Handler
-		oPUTResourceRESTParameterHandler = new PUTResourceRESTParameterHandler(resourceId, RESTParameterId, oRESTParameter);
+		oPUTResourceRESTParameterHandler = new PUTResourceRESTParameterHandler(resourceId, RESTParameterId, oRESTParameter,oApplicationUri);
 		return oPUTResourceRESTParameterHandler.putRESTParameter();
 	 }
 	 
 	@Path("/account/{accountId}/RESTService/{RESTServiceId}/resource/{resourceId}/RESTParameter/{RESTParameterId}")
 	@DELETE
-
-	public void deleteResourceRESTParameter (@PathParam("RESTParameterId") int RESTParameterId)
+	@Produces("application/json")
+	
+	public RESTParameterModel deleteResourceRESTParameter (@PathParam("RESTParameterId") int RESTParameterId)
 	{
 		//create a new delete<resourceName>Handler
-		oDELETEResourceRESTParameterHandler = new DELETEResourceRESTParameterHandler(RESTParameterId);
-		oDELETEResourceRESTParameterHandler.deleteRESTParameter();
+		oDELETEResourceRESTParameterHandler = new DELETEResourceRESTParameterHandler(RESTParameterId,oApplicationUri);
+		return oDELETEResourceRESTParameterHandler.deleteRESTParameter();
 	}
 
 /*
@@ -101,7 +102,7 @@ public class RESTParameterController
 	public RESTParameterModel getRESTMethodRESTParameter(@PathParam("RESTParameterId") int RESTParameterId)
 	{
 		//create a new get<resourceName>Handler
-		oGETRESTMethodRESTParameterHandler = new GETRESTMethodRESTParameterHandler(RESTParameterId);
+		oGETRESTMethodRESTParameterHandler = new GETRESTMethodRESTParameterHandler(RESTParameterId,oApplicationUri);
 		return oGETRESTMethodRESTParameterHandler.getRESTParameter();
 	}
 	 
@@ -125,18 +126,19 @@ public class RESTParameterController
 	 public RESTParameterModel putRESTMethodRESTParameter(@PathParam("RESTMethodId") int RESTMethodId, @PathParam("RESTParameterId") int RESTParameterId, RESTParameterModel oRESTParameter)
 	 {
 		//create a new put<resourceName>Handler
-		oPUTRESTMethodRESTParameterHandler = new PUTRESTMethodRESTParameterHandler(RESTMethodId, RESTParameterId, oRESTParameter);
+		oPUTRESTMethodRESTParameterHandler = new PUTRESTMethodRESTParameterHandler(RESTMethodId, RESTParameterId, oRESTParameter,oApplicationUri);
 		return oPUTRESTMethodRESTParameterHandler.putRESTParameter();
 	 }
 	 
 	@Path("/account/{accountId}/RESTService/{RESTServiceId}/resource/{resourceId}/RESTMethod/{RESTMethodId}/RESTParameter/{RESTParameterId}")
 	@DELETE
-
-	public void deleteRESTMethodRESTParameter(@PathParam("RESTParameterId") int RESTParameterId)
+	@Produces("application/json")
+	
+	public RESTParameterModel deleteRESTMethodRESTParameter(@PathParam("RESTParameterId") int RESTParameterId)
 	{
 		//create a new delete<resourceName>Handler
-		oDELETERESTMethodRESTParameterHandler = new DELETERESTMethodRESTParameterHandler(RESTParameterId);
-		oDELETERESTMethodRESTParameterHandler.deleteRESTParameter();
+		oDELETERESTMethodRESTParameterHandler = new DELETERESTMethodRESTParameterHandler(RESTParameterId,oApplicationUri);
+		return oDELETERESTMethodRESTParameterHandler.deleteRESTParameter();
 	}
 
 

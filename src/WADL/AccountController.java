@@ -49,7 +49,7 @@ public class AccountController
 	public AccountModel getAccount(@PathParam("accountId") int accountId)
 	{
 		//create a new get<resourceName>Handler
-		oGETAccountHandler = new GETAccountHandler(accountId);
+		oGETAccountHandler = new GETAccountHandler(accountId,oApplicationUri);
 		return oGETAccountHandler.getAccount();
 	}
 	
@@ -64,19 +64,20 @@ public class AccountController
 	 public AccountModel putAccount (@PathParam("accountId") int accountId, AccountModel oAccount)
 	 {
 		//create a new put<resourceName>Handler
-		oPUTAccountHandler = new PUTAccountHandler(accountId, oAccount);
+		oPUTAccountHandler = new PUTAccountHandler(accountId, oAccount,oApplicationUri);
 		return oPUTAccountHandler.putAccount();
 	 }
 	 
 	 //DELETE
 
 	@Path("/{accountId}")
+	@Produces("application/json")
 	@DELETE
 
-	public void deleteAccount (@PathParam("accountId") int accountId)
+	public AccountModel deleteAccount (@PathParam("accountId") int accountId)
 	{
 		//create a new delete<resourceName>Handler
-		oDELETEAccountHandler = new DELETEAccountHandler(accountId);
-		oDELETEAccountHandler.deleteAccount();
+		oDELETEAccountHandler = new DELETEAccountHandler(accountId,oApplicationUri);
+		return oDELETEAccountHandler.deleteAccount();
 	}
 }

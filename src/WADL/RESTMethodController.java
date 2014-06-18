@@ -35,7 +35,7 @@ public class RESTMethodController
 	public RESTMethodModel getRESTMethod(@PathParam("RESTMethodId") int RESTMethodId)
 	{
 		//create a new get<resourceName>Handler
-		oGETRESTMethodHandler = new GETRESTMethodHandler(RESTMethodId);
+		oGETRESTMethodHandler = new GETRESTMethodHandler(RESTMethodId,oApplicationUri);
 		return oGETRESTMethodHandler.getRESTMethod();
 	}
 	 
@@ -59,18 +59,19 @@ public class RESTMethodController
 	 public RESTMethodModel putRESTMethod (@PathParam("resourceId") int resourceId, @PathParam("RESTMethodId") int RESTMethodId, RESTMethodModel oRESTMethod)
 	 {
 		//create a new put<resourceName>Handler
-		oPUTRESTMethodHandler = new PUTRESTMethodHandler(resourceId, RESTMethodId, oRESTMethod);
+		oPUTRESTMethodHandler = new PUTRESTMethodHandler(resourceId, RESTMethodId, oRESTMethod,oApplicationUri);
 		return oPUTRESTMethodHandler.putRESTMethod();
 	 }
 	 
 	@Path("/{RESTMethodId}")
 	@DELETE
+	@Produces("application/json")
 
-	public void deleteRESTMethod (@PathParam("RESTMethodId") int RESTMethodId)
+	public RESTMethodModel deleteRESTMethod (@PathParam("RESTMethodId") int RESTMethodId)
 	{
 		//create a new delete<resourceName>Handler
-		oDELETERESTMethodHandler = new DELETERESTMethodHandler(RESTMethodId);
-		oDELETERESTMethodHandler.deleteRESTMethod();
+		oDELETERESTMethodHandler = new DELETERESTMethodHandler(RESTMethodId,oApplicationUri);
+		return oDELETERESTMethodHandler.deleteRESTMethod();
 	}
 
 

@@ -50,13 +50,17 @@ public class POSTResourceHandler
         oResource.getLinkList().add(new Link(String.format("%s%s/%d",oApplicationUri.getBaseUri(),oApplicationUri.getPath(),oResource.getResourceId()),"Update created Resource", "PUT", "Child"));
         oResource.getLinkList().add(new Link(String.format("%s%s/%d",oApplicationUri.getBaseUri(),oApplicationUri.getPath(),oResource.getResourceId()),"DELETE created Resource", "DELETE", "Child"));
 
+        String oRelativePath;
+        //add the child hypermedia links POST, GETL
+
+        oRelativePath = oApplicationUri.getPath();
+
         //add the parent's hypermedia links PUT, GET DELETE
         //find last index of "/" in order to cut off to get the parent URI appropriately
-        int iLastSlashIndex = String.format("%s%s",oApplicationUri.getBaseUri(),oApplicationUri.getPath()).lastIndexOf("/");
-        oResource.getLinkList().add(new Link(String.format("%s%s",oApplicationUri.getBaseUri(),oApplicationUri.getPath()).substring(0, iLastSlashIndex),"Update RESTService","PUT","Parent"));
-        oResource.getLinkList().add(new Link(String.format("%s%s",oApplicationUri.getBaseUri(),oApplicationUri.getPath()).substring(0, iLastSlashIndex),"Read RESTService","GET","Parent"));
-        oResource.getLinkList().add(new Link(String.format("%s%s",oApplicationUri.getBaseUri(),oApplicationUri.getPath()).substring(0, iLastSlashIndex),"Delete RESTService","DELETE","Parent"));
-
+        int iLastSlashIndex = String.format("%s%s",oApplicationUri.getBaseUri(),oRelativePath).lastIndexOf("/");
+        oResource.getLinkList().add(new Link(String.format("%s%s",oApplicationUri.getBaseUri(),oRelativePath).substring(0, iLastSlashIndex),"Update RESTService","PUT","Parent"));
+        oResource.getLinkList().add(new Link(String.format("%s%s",oApplicationUri.getBaseUri(),oRelativePath).substring(0, iLastSlashIndex),"Read RESTService","GET","Parent"));
+        oResource.getLinkList().add(new Link(String.format("%s%s",oApplicationUri.getBaseUri(),oRelativePath).substring(0, iLastSlashIndex),"Delete RESTService","DELETE","Parent"));
         return oResource;
     }
 }

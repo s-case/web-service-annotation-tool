@@ -34,7 +34,7 @@ public class ResourceController
 	public ResourceModel getResource(@PathParam("resourceId") int resourceId)
 	{
 		//create a new get<resourceName>Handler
-		oGETResourceHandler = new GETResourceHandler(resourceId);
+		oGETResourceHandler = new GETResourceHandler(resourceId,oApplicationUri);
 		return oGETResourceHandler.getResource();
 	}
 	 
@@ -58,7 +58,7 @@ public class ResourceController
 	 public ResourceModel putResource (@PathParam("RESTServiceId") int RESTServiceId, @PathParam("resourceId") int resourceId, ResourceModel oResource)
 	 {
 		//create a new put<resourceName>Handler
-		oPUTResourceHandler = new PUTResourceHandler(RESTServiceId, resourceId, oResource);
+		oPUTResourceHandler = new PUTResourceHandler(RESTServiceId, resourceId, oResource,oApplicationUri);
 		return oPUTResourceHandler.putResource();
 	 }
 	 
@@ -68,13 +68,14 @@ public class ResourceController
 	// [ONLY IF RESOURCE IS RELATED OF ANOTHER] --> added only if the resource is a related resource of another resource
 
 	@Path("/{resourceId}")
+	@Produces("application/json")
 	@DELETE
 
-	public void deleteResource (@PathParam("resourceId") int resourceId)
+	public ResourceModel deleteResource (@PathParam("resourceId") int resourceId)
 	{
 		//create a new delete<resourceName>Handler
-		oDELETEResourceHandler = new DELETEResourceHandler(resourceId);
-		oDELETEResourceHandler.deleteResource();
+		oDELETEResourceHandler = new DELETEResourceHandler(resourceId,oApplicationUri);
+		return oDELETEResourceHandler.deleteResource();
 	}
 
 	@Path("/")

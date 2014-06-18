@@ -49,13 +49,17 @@ public class GETRESTMethodListHandler
             oRESTMethod.getLinkList().add(new Link(String.format("%s%s/%d",oApplicationUri.getBaseUri(),oApplicationUri.getPath(),oNextRESTMethod.getRESTMethodId()),String.format("%s",oNextRESTMethod.getMethodIdentifier()), "GET", "Child"));
         }
 
+        String oRelativePath;
+        //add the child hypermedia links POST, GETL
+
+        oRelativePath = oApplicationUri.getPath();
+
         //add the parent's hypermedia links PUT, GET DELETE
         //find last index of "/" in order to cut off to get the parent URI appropriately
-        int iLastSlashIndex = String.format("%s%s",oApplicationUri.getBaseUri(),oApplicationUri.getPath()).lastIndexOf("/");
-        oRESTMethod.getLinkList().add(new Link(String.format("%s%s",oApplicationUri.getBaseUri(),oApplicationUri.getPath()).substring(0, iLastSlashIndex),"Update resource","PUT","Parent"));
-        oRESTMethod.getLinkList().add(new Link(String.format("%s%s",oApplicationUri.getBaseUri(),oApplicationUri.getPath()).substring(0, iLastSlashIndex),"Read resource","GET","Parent"));
-        oRESTMethod.getLinkList().add(new Link(String.format("%s%s",oApplicationUri.getBaseUri(),oApplicationUri.getPath()).substring(0, iLastSlashIndex),"Delete resource","DELETE","Parent"));
-
+        int iLastSlashIndex = String.format("%s%s",oApplicationUri.getBaseUri(),oRelativePath).lastIndexOf("/");
+        oRESTMethod.getLinkList().add(new Link(String.format("%s%s",oApplicationUri.getBaseUri(),oRelativePath).substring(0, iLastSlashIndex),"Update Resource","PUT","Parent"));
+        oRESTMethod.getLinkList().add(new Link(String.format("%s%s",oApplicationUri.getBaseUri(),oRelativePath).substring(0, iLastSlashIndex),"Read Resource","GET","Parent"));
+        oRESTMethod.getLinkList().add(new Link(String.format("%s%s",oApplicationUri.getBaseUri(),oRelativePath).substring(0, iLastSlashIndex),"Delete Resource","DELETE","Parent"));
         return oRESTMethod;
     }
 }
