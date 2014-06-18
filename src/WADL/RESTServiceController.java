@@ -57,7 +57,7 @@ public class RESTServiceController
 	 public RESTServiceModel postRESTService (@PathParam("accountId") Integer accountId, RESTServiceModel oRESTService )
 	 {
 		//create a new post<resourceName>Handler
-		oPOSTRESTServiceHandler = new POSTRESTServiceHandler(accountId, oRESTService);
+		oPOSTRESTServiceHandler = new POSTRESTServiceHandler(accountId, oRESTService,oApplicationUri);
 		return oPOSTRESTServiceHandler.postRESTService();
 	 }
 	 

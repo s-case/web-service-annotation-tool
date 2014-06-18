@@ -55,7 +55,7 @@ public class RESTParameterController
 	 public RESTParameterModel postResourceRESTParameter (@PathParam("resourceId") int resourceId, RESTParameterModel oRESTParameter )
 	 {
 		//create a new post<resourceName>Handler
-		oPOSTResourceRESTParameterHandler = new POSTResourceRESTParameterHandler(resourceId, oRESTParameter);
+		oPOSTResourceRESTParameterHandler = new POSTResourceRESTParameterHandler(resourceId, oRESTParameter,oApplicationUri);
 		return oPOSTResourceRESTParameterHandler.postRESTParameter();
 	 }
 
@@ -113,7 +113,7 @@ public class RESTParameterController
 	 public RESTParameterModel postRESTMethodRESTParameter(@PathParam("RESTMethodId") int RESTMethodId, RESTParameterModel oRESTParameter )
 	 {
 		//create a new post<resourceName>Handler
-		oPOSTRESTMethodRESTParameterHandler = new POSTRESTMethodRESTParameterHandler(RESTMethodId, oRESTParameter);
+		oPOSTRESTMethodRESTParameterHandler = new POSTRESTMethodRESTParameterHandler(RESTMethodId, oRESTParameter,oApplicationUri);
 		return oPOSTRESTMethodRESTParameterHandler.postRESTParameter();
 	 }
 	 

@@ -6,12 +6,14 @@ public class Link
 	String uri;
 	String rel;
 	String httpVerb;
+	String type;
 	
-	Link(String uri, String rel, String httpVerb)
+	Link(String uri, String rel, String httpVerb, String type)
 	{
 		this.uri = uri;
 		this.rel = rel;
 		this.httpVerb = httpVerb;
+		this.type = type;
 	}
 	
 	public void setUri( String uri)
@@ -42,5 +44,15 @@ public class Link
 	public String getHttpVerb()
 	{
 		return this.httpVerb;
+	}
+	
+	public String getType()
+	{
+		return this.type;
+	}
+	
+	public void setType(String type)
+	{
+		this.type = type;
 	}
 }

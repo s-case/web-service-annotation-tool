@@ -30,15 +30,31 @@ public class GETRESTMethodListHandler
 
     public RESTMethodModel createHypermediaURIs(ResourceModel oResource)
     {
+        //create an empty <resourceModel> and populate its linklists with hypermedia links
     	RESTMethodModel oRESTMethod = new RESTMethodModel();
+
+        //add the sibling hypermedia links POST and GET list
+
+        oRESTMethod.getLinkList().add(new Link(String.format("%s%s",oApplicationUri.getBaseUri(),oApplicationUri.getPath()),"List of RESTMethod","GET","Sibling"));
+        oRESTMethod.getLinkList().add(new Link(String.format("%s%s",oApplicationUri.getBaseUri(),oApplicationUri.getPath()),"Create new RESTMethod","POST","Sibling"));
+
+
+        //add the children hypermedia links GET
         Iterator<RESTMethodModel> setIterator = oResource.getSetOfRESTMethod().iterator();
 
         while(setIterator.hasNext())
         {
-            RESTMethodModel oNextRESTMethod = new RESTMethodModel();
+        	RESTMethodModel oNextRESTMethod = new RESTMethodModel();
             oNextRESTMethod = setIterator.next();
-            oRESTMethod.getLinkList().add(new Link(String.format("%s%s/%d",oApplicationUri.getBaseUri(),oApplicationUri.getPath(),oNextRESTMethod.getRESTMethodId()),String.format("%s",oNextRESTMethod.getMethodIdentifier()), "GET"));
+            oRESTMethod.getLinkList().add(new Link(String.format("%s%s/%d",oApplicationUri.getBaseUri(),oApplicationUri.getPath(),oNextRESTMethod.getRESTMethodId()),String.format("%s",oNextRESTMethod.getMethodIdentifier()), "GET", "Child"));
         }
+
+        //add the parent's hypermedia links PUT, GET DELETE
+        //find last index of "/" in order to cut off to get the parent URI appropriately
+        int iLastSlashIndex = String.format("%s%s",oApplicationUri.getBaseUri(),oApplicationUri.getPath()).lastIndexOf("/");
+        oRESTMethod.getLinkList().add(new Link(String.format("%s%s",oApplicationUri.getBaseUri(),oApplicationUri.getPath()).substring(0, iLastSlashIndex),"Update resource","PUT","Parent"));
+        oRESTMethod.getLinkList().add(new Link(String.format("%s%s",oApplicationUri.getBaseUri(),oApplicationUri.getPath()).substring(0, iLastSlashIndex),"Read resource","GET","Parent"));
+        oRESTMethod.getLinkList().add(new Link(String.format("%s%s",oApplicationUri.getBaseUri(),oApplicationUri.getPath()).substring(0, iLastSlashIndex),"Delete resource","DELETE","Parent"));
 
         return oRESTMethod;
     }

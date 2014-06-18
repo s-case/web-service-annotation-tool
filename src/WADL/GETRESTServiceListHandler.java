@@ -30,15 +30,31 @@ public class GETRESTServiceListHandler
 
     public RESTServiceModel createHypermediaURIs(AccountModel oAccount)
     {
+        //create an empty <resourceModel> and populate its linklists with hypermedia links
         RESTServiceModel oRESTService = new RESTServiceModel();
+
+        //add the sibling hypermedia links POST and GET list
+
+        oRESTService.getLinkList().add(new Link(String.format("%s%s",oApplicationUri.getBaseUri(),oApplicationUri.getPath()),"List of RESTService","GET","Sibling"));
+        oRESTService.getLinkList().add(new Link(String.format("%s%s",oApplicationUri.getBaseUri(),oApplicationUri.getPath()),"Create new RESTService","POST","Sibling"));
+
+
+        //add the children hypermedia links GET
         Iterator<RESTServiceModel> setIterator = oAccount.getSetOfRESTService().iterator();
 
         while(setIterator.hasNext())
         {
-        	RESTServiceModel oNextRESTService = new RESTServiceModel();
+            RESTServiceModel oNextRESTService = new RESTServiceModel();
             oNextRESTService = setIterator.next();
-            oRESTService.getLinkList().add(new Link(String.format("%s%s/%d",oApplicationUri.getBaseUri(),oApplicationUri.getPath(),oNextRESTService.getRESTServiceId()),String.format("%s",oNextRESTService.getWsName()), "GET"));
+            oRESTService.getLinkList().add(new Link(String.format("%s%s/%d",oApplicationUri.getBaseUri(),oApplicationUri.getPath(),oNextRESTService.getRESTServiceId()),String.format("%s",oNextRESTService.getWsName()), "GET", "Child"));
         }
+
+        //add the parent's hypermedia links PUT, GET DELETE
+        //find last index of "/" in order to cut off to get the parent URI appropriately
+        int iLastSlashIndex = String.format("%s%s",oApplicationUri.getBaseUri(),oApplicationUri.getPath()).lastIndexOf("/");
+        oRESTService.getLinkList().add(new Link(String.format("%s%s",oApplicationUri.getBaseUri(),oApplicationUri.getPath()).substring(0, iLastSlashIndex),"Update account","PUT","Parent"));
+        oRESTService.getLinkList().add(new Link(String.format("%s%s",oApplicationUri.getBaseUri(),oApplicationUri.getPath()).substring(0, iLastSlashIndex),"Read account","GET","Parent"));
+        oRESTService.getLinkList().add(new Link(String.format("%s%s",oApplicationUri.getBaseUri(),oApplicationUri.getPath()).substring(0, iLastSlashIndex),"Delete account","DELETE","Parent"));
 
         return oRESTService;
     }

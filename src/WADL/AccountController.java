@@ -36,7 +36,7 @@ public class AccountController
 	 public AccountModel postAccount (AccountModel oAccount )
 	 {
 		//create a new post<resourceName>Handler
-		oPOSTAccountHandler = new POSTAccountHandler(oAccount);
+		oPOSTAccountHandler = new POSTAccountHandler(oAccount,oApplicationUri);
 		return oPOSTAccountHandler.postAccount();
 	 }
 	 

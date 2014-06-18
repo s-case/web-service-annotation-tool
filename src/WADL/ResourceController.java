@@ -46,7 +46,7 @@ public class ResourceController
 	 public ResourceModel postResource (@PathParam("RESTServiceId") int RESTServiceId, ResourceModel oResource )
 	 {
 		//create a new post<resourceName>Handler
-		oPOSTResourceHandler = new POSTResourceHandler(RESTServiceId, oResource);
+		oPOSTResourceHandler = new POSTResourceHandler(RESTServiceId, oResource,oApplicationUri);
 		return oPOSTResourceHandler.postResource();
 	 }
 	 

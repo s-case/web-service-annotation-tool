@@ -47,7 +47,7 @@ public class RESTMethodController
 	 public RESTMethodModel postRESTMethod (@PathParam("resourceId") int resourceId, RESTMethodModel oRESTMethod )
 	 {
 		//create a new post<resourceName>Handler
-		oPOSTRESTMethodHandler = new POSTRESTMethodHandler(resourceId, oRESTMethod);
+		oPOSTRESTMethodHandler = new POSTRESTMethodHandler(resourceId, oRESTMethod,oApplicationUri);
 		return oPOSTRESTMethodHandler.postRESTMethod();
 	 }
 	 
