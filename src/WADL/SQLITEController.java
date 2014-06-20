@@ -6,6 +6,12 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import Utilities.HibernateUtil;
+import WSDL.InputMessageModel;
+import WSDL.InputParameterModel;
+import WSDL.OutputMessageModel;
+import WSDL.OutputParameterModel;
+import WSDL.SOAPOperationModel;
+import WSDL.SOAPServiceModel;
 
 
 
@@ -451,5 +457,553 @@ import Utilities.HibernateUtil;
 	     hibernateSession.close();
 
 	     return oRESTMethod;
+	 }
+	 
+	 public InputMessageModel deleteInputMessage(InputMessageModel oInputMessage)
+	 {
+	  		//create a new session and begin the transaction
+			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			Transaction hibernateTransaction = hibernateSession.beginTransaction();
+
+			//find the  <ResourceName> in the database
+	        //retrieve the whole resource
+
+	        oInputMessage = (InputMessageModel) hibernateSession.get(InputMessageModel.class, oInputMessage.getInputMessageId());
+	        oInputMessage.deleteAllCollections(hibernateSession);
+
+	        hibernateSession.delete(oInputMessage);
+			
+			//commit and terminate the session
+			hibernateTransaction.commit();
+			hibernateSession.close();
+	        return oInputMessage;
+	 }
+	 
+	 public InputParameterModel deleteInputParameter(InputParameterModel oInputParameter)
+	 {
+	  		//create a new session and begin the transaction
+			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			Transaction hibernateTransaction = hibernateSession.beginTransaction();
+
+			//find the  <ResourceName> in the database
+	        //retrieve the whole resource
+
+	        oInputParameter = (InputParameterModel) hibernateSession.get(InputParameterModel.class, oInputParameter.getInputParameterId());
+	        oInputParameter.deleteAllCollections(hibernateSession);
+
+	        hibernateSession.delete(oInputParameter);
+			
+			//commit and terminate the session
+			hibernateTransaction.commit();
+			hibernateSession.close();
+	        return oInputParameter;
+	 }
+	 
+	 public OutputMessageModel deleteOutputMessage(OutputMessageModel oOutputMessage)
+	 {
+	  		//create a new session and begin the transaction
+			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			Transaction hibernateTransaction = hibernateSession.beginTransaction();
+
+			//find the  <ResourceName> in the database
+	        //retrieve the whole resource
+
+	        oOutputMessage = (OutputMessageModel) hibernateSession.get(OutputMessageModel.class, oOutputMessage.getOutputMessageId());
+	        oOutputMessage.deleteAllCollections(hibernateSession);
+
+	        hibernateSession.delete(oOutputMessage);
+			
+			//commit and terminate the session
+			hibernateTransaction.commit();
+			hibernateSession.close();
+	        return oOutputMessage;
+	 }
+	 
+	 public OutputParameterModel deleteOutputParameter(OutputParameterModel oOutputParameter)
+	 {
+	  		//create a new session and begin the transaction
+			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			Transaction hibernateTransaction = hibernateSession.beginTransaction();
+
+			//find the  <ResourceName> in the database
+	        //retrieve the whole resource
+
+	        oOutputParameter = (OutputParameterModel) hibernateSession.get(OutputParameterModel.class, oOutputParameter.getOutputParameterId());
+	        oOutputParameter.deleteAllCollections(hibernateSession);
+
+	        hibernateSession.delete(oOutputParameter);
+			
+			//commit and terminate the session
+			hibernateTransaction.commit();
+			hibernateSession.close();
+	        return oOutputParameter;
+	 }
+	 
+	 public SOAPOperationModel deleteSOAPOperation(SOAPOperationModel oSOAPOperation)
+	 {
+	  		//create a new session and begin the transaction
+			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			Transaction hibernateTransaction = hibernateSession.beginTransaction();
+
+			//find the  <ResourceName> in the database
+	        //retrieve the whole resource
+
+	        oSOAPOperation = (SOAPOperationModel) hibernateSession.get(SOAPOperationModel.class, oSOAPOperation.getSOAPOperationId());
+	        oSOAPOperation.deleteAllCollections(hibernateSession);
+
+	        hibernateSession.delete(oSOAPOperation);
+			
+			//commit and terminate the session
+			hibernateTransaction.commit();
+			hibernateSession.close();
+	        return oSOAPOperation;
+	 }
+	 
+	 public SOAPServiceModel deleteSOAPService(SOAPServiceModel oSOAPService)
+	 {
+	  		//create a new session and begin the transaction
+			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			Transaction hibernateTransaction = hibernateSession.beginTransaction();
+
+			//find the  <ResourceName> in the database
+	        //retrieve the whole resource
+
+	        oSOAPService = (SOAPServiceModel) hibernateSession.get(SOAPServiceModel.class, oSOAPService.getSOAPServiceId());
+	        oSOAPService.deleteAllCollections(hibernateSession);
+
+	        hibernateSession.delete(oSOAPService);
+			
+			//commit and terminate the session
+			hibernateTransaction.commit();
+			hibernateSession.close();
+	        return oSOAPService;
+	 }
+	 
+	 public InputMessageModel getInputMessage(InputMessageModel oInputMessage)
+	 {
+	 		//create a new session and begin the transaction
+			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			Transaction hibernateTransaction = hibernateSession.beginTransaction();
+			
+			//find the  <ResourceName> in the database 
+			oInputMessage = (InputMessageModel) hibernateSession.get(InputMessageModel.class, oInputMessage.getInputMessageId());
+
+			//commit and terminate the session
+			hibernateTransaction.commit();
+			hibernateSession.close();
+			
+			return oInputMessage;
+	 }
+	 
+	 public InputParameterModel getInputParameter(InputParameterModel oInputParameter)
+	 {
+	 		//create a new session and begin the transaction
+			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			Transaction hibernateTransaction = hibernateSession.beginTransaction();
+			
+			//find the  <ResourceName> in the database 
+			oInputParameter = (InputParameterModel) hibernateSession.get(InputParameterModel.class, oInputParameter.getInputParameterId());
+
+			//commit and terminate the session
+			hibernateTransaction.commit();
+			hibernateSession.close();
+			
+			return oInputParameter;
+	 }
+	 
+	 public OutputMessageModel getOutputMessage(OutputMessageModel oOutputMessage)
+	 {
+	 		//create a new session and begin the transaction
+			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			Transaction hibernateTransaction = hibernateSession.beginTransaction();
+			
+			//find the  <ResourceName> in the database 
+			oOutputMessage = (OutputMessageModel) hibernateSession.get(OutputMessageModel.class, oOutputMessage.getOutputMessageId());
+
+			//commit and terminate the session
+			hibernateTransaction.commit();
+			hibernateSession.close();
+			
+			return oOutputMessage;
+	 }
+	 
+	 public OutputParameterModel getOutputParameter(OutputParameterModel oOutputParameter)
+	 {
+	 		//create a new session and begin the transaction
+			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			Transaction hibernateTransaction = hibernateSession.beginTransaction();
+			
+			//find the  <ResourceName> in the database 
+			oOutputParameter = (OutputParameterModel) hibernateSession.get(OutputParameterModel.class, oOutputParameter.getOutputParameterId());
+
+			//commit and terminate the session
+			hibernateTransaction.commit();
+			hibernateSession.close();
+			
+			return oOutputParameter;
+	 }
+	 
+	 public SOAPOperationModel getSOAPOperation(SOAPOperationModel oSOAPOperation)
+	 {
+	 		//create a new session and begin the transaction
+			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			Transaction hibernateTransaction = hibernateSession.beginTransaction();
+			
+			//find the  <ResourceName> in the database 
+			oSOAPOperation = (SOAPOperationModel) hibernateSession.get(SOAPOperationModel.class, oSOAPOperation.getSOAPOperationId());
+
+			//commit and terminate the session
+			hibernateTransaction.commit();
+			hibernateSession.close();
+			
+			return oSOAPOperation;
+	 }
+	 
+	 public SOAPServiceModel getSOAPService(SOAPServiceModel oSOAPService)
+	 {
+	 		//create a new session and begin the transaction
+			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			Transaction hibernateTransaction = hibernateSession.beginTransaction();
+			
+			//find the  <ResourceName> in the database 
+			oSOAPService = (SOAPServiceModel) hibernateSession.get(SOAPServiceModel.class, oSOAPService.getSOAPServiceId());
+
+			//commit and terminate the session
+			hibernateTransaction.commit();
+			hibernateSession.close();
+			
+			return oSOAPService;
+	 }
+	 
+	 public InputMessageModel postInputMessage(InputMessageModel oInputMessage)
+	 {
+			//create a new session and begin the transaction
+			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			Transaction hibernateTransaction = hibernateSession.beginTransaction();
+			
+			//insert the new <ResourceName> to database 
+			int InputMessageId = (Integer) hibernateSession.save(oInputMessage);
+			
+			//commit and terminate the session
+			hibernateTransaction.commit();
+			hibernateSession.close();
+			
+			//return the <accountModelName> with updated <accountModelName>Id
+			oInputMessage.setInputMessageId(InputMessageId);
+			return oInputMessage;
+	 }
+	 
+	 public InputParameterModel postInputParameter(InputParameterModel oInputParameter)
+	 {
+			//create a new session and begin the transaction
+			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			Transaction hibernateTransaction = hibernateSession.beginTransaction();
+			
+			//insert the new <ResourceName> to database 
+			int InputParameterId = (Integer) hibernateSession.save(oInputParameter);
+			
+			//commit and terminate the session
+			hibernateTransaction.commit();
+			hibernateSession.close();
+			
+			//return the <accountModelName> with updated <accountModelName>Id
+			oInputParameter.setInputParameterId(InputParameterId);
+			return oInputParameter;
+	 }
+	 
+	 public OutputMessageModel postOutputMessage(OutputMessageModel oOutputMessage)
+	 {
+			//create a new session and begin the transaction
+			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			Transaction hibernateTransaction = hibernateSession.beginTransaction();
+			
+			//insert the new <ResourceName> to database 
+			int OutputMessageId = (Integer) hibernateSession.save(oOutputMessage);
+			
+			//commit and terminate the session
+			hibernateTransaction.commit();
+			hibernateSession.close();
+			
+			//return the <accountModelName> with updated <accountModelName>Id
+			oOutputMessage.setOutputMessageId(OutputMessageId);
+			return oOutputMessage;
+	 }
+	 
+	 public OutputParameterModel postOutputParameter(OutputParameterModel oOutputParameter)
+	 {
+			//create a new session and begin the transaction
+			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			Transaction hibernateTransaction = hibernateSession.beginTransaction();
+			
+			//insert the new <ResourceName> to database 
+			int OutputParameterId = (Integer) hibernateSession.save(oOutputParameter);
+			
+			//commit and terminate the session
+			hibernateTransaction.commit();
+			hibernateSession.close();
+			
+			//return the <accountModelName> with updated <accountModelName>Id
+			oOutputParameter.setOutputParameterId(OutputParameterId);
+			return oOutputParameter;
+	 }
+	 
+	 public SOAPOperationModel postSOAPOperation(SOAPOperationModel oSOAPOperation)
+	 {
+			//create a new session and begin the transaction
+			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			Transaction hibernateTransaction = hibernateSession.beginTransaction();
+			
+			//insert the new <ResourceName> to database 
+			int SOAPOperationId = (Integer) hibernateSession.save(oSOAPOperation);
+			
+			//commit and terminate the session
+			hibernateTransaction.commit();
+			hibernateSession.close();
+			
+			//return the <accountModelName> with updated <accountModelName>Id
+			oSOAPOperation.setSOAPOperationId(SOAPOperationId);
+			return oSOAPOperation;
+	 }
+	 
+	 public SOAPServiceModel postSOAPService(SOAPServiceModel oSOAPService)
+	 {
+			//create a new session and begin the transaction
+			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			Transaction hibernateTransaction = hibernateSession.beginTransaction();
+			
+			//insert the new <ResourceName> to database 
+			int SOAPServiceId = (Integer) hibernateSession.save(oSOAPService);
+			
+			//commit and terminate the session
+			hibernateTransaction.commit();
+			hibernateSession.close();
+			
+			//return the <accountModelName> with updated <accountModelName>Id
+			oSOAPService.setSOAPServiceId(SOAPServiceId);
+			return oSOAPService;
+	 }
+	 
+	 public InputMessageModel putInputMessage(InputMessageModel oInputMessage)
+	 {
+			//create a new session and begin the transaction
+			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			Transaction hibernateTransaction = hibernateSession.beginTransaction();
+			
+			//update the  <ResourceName> to database 
+			hibernateSession.update(oInputMessage);
+			
+			//commit and terminate the session
+			hibernateTransaction.commit();
+			hibernateSession.close();
+			
+			return oInputMessage;
+	 }
+	 
+	 public InputParameterModel putInputParameter(InputParameterModel oInputParameter)
+	 {
+			//create a new session and begin the transaction
+			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			Transaction hibernateTransaction = hibernateSession.beginTransaction();
+			
+			//update the  <ResourceName> to database 
+			hibernateSession.update(oInputParameter);
+			
+			//commit and terminate the session
+			hibernateTransaction.commit();
+			hibernateSession.close();
+			
+			return oInputParameter;
+	 }
+	 
+	 public OutputMessageModel putOutputMessage(OutputMessageModel oOutputMessage)
+	 {
+			//create a new session and begin the transaction
+			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			Transaction hibernateTransaction = hibernateSession.beginTransaction();
+			
+			//update the  <ResourceName> to database 
+			hibernateSession.update(oOutputMessage);
+			
+			//commit and terminate the session
+			hibernateTransaction.commit();
+			hibernateSession.close();
+			
+			return oOutputMessage;
+	 }
+	 
+	 public OutputParameterModel putOutputParameter(OutputParameterModel oOutputParameter)
+	 {
+			//create a new session and begin the transaction
+			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			Transaction hibernateTransaction = hibernateSession.beginTransaction();
+			
+			//update the  <ResourceName> to database 
+			hibernateSession.update(oOutputParameter);
+			
+			//commit and terminate the session
+			hibernateTransaction.commit();
+			hibernateSession.close();
+			
+			return oOutputParameter;
+	 }
+	 
+	 public SOAPOperationModel putSOAPOperation(SOAPOperationModel oSOAPOperation)
+	 {
+			//create a new session and begin the transaction
+			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			Transaction hibernateTransaction = hibernateSession.beginTransaction();
+			
+			//update the  <ResourceName> to database 
+			hibernateSession.update(oSOAPOperation);
+			
+			//commit and terminate the session
+			hibernateTransaction.commit();
+			hibernateSession.close();
+			
+			return oSOAPOperation;
+	 }
+	 
+	 public SOAPServiceModel putSOAPService(SOAPServiceModel oSOAPService)
+	 {
+			//create a new session and begin the transaction
+			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			Transaction hibernateTransaction = hibernateSession.beginTransaction();
+			
+			//update the  <ResourceName> to database 
+			hibernateSession.update(oSOAPService);
+			
+			//commit and terminate the session
+			hibernateTransaction.commit();
+			hibernateSession.close();
+			
+			return oSOAPService;
+	 }
+	 
+	 public InputMessageModel getInputMessageInputParameterList(InputMessageModel oInputMessage)
+	 {
+	     //create a new session and begin the transaction
+	     Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+	     Transaction hibernateTransaction = hibernateSession.beginTransaction();
+
+	     //find the  <ResourceName> in the database
+	     oInputMessage = (InputMessageModel) hibernateSession.get(InputMessageModel.class, oInputMessage.getInputMessageId());
+
+	     //commit and terminate the session
+	     hibernateTransaction.commit();
+	     hibernateSession.close();
+
+	     return oInputMessage;
+	 }
+	 
+	 public SOAPOperationModel getInputMessageList(SOAPOperationModel oSOAPOperation)
+	 {
+	     //create a new session and begin the transaction
+	     Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+	     Transaction hibernateTransaction = hibernateSession.beginTransaction();
+
+	     //find the  <ResourceName> in the database
+	     oSOAPOperation = (SOAPOperationModel) hibernateSession.get(SOAPOperationModel.class, oSOAPOperation.getSOAPOperationId());
+
+	     //commit and terminate the session
+	     hibernateTransaction.commit();
+	     hibernateSession.close();
+
+	     return oSOAPOperation;
+	 }
+	 
+	 public InputParameterModel getInputParameterInputParameterList(InputParameterModel oInputParameter)
+	 {
+	     //create a new session and begin the transaction
+	     Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+	     Transaction hibernateTransaction = hibernateSession.beginTransaction();
+
+	     //find the  <ResourceName> in the database
+	     oInputParameter = (InputParameterModel) hibernateSession.get(InputParameterModel.class, oInputParameter.getInputParameterId());
+
+	     //commit and terminate the session
+	     hibernateTransaction.commit();
+	     hibernateSession.close();
+
+	     return oInputParameter;
+	 }
+	 
+	 public SOAPOperationModel getOutputMessageList(SOAPOperationModel oSOAPOperation)
+	 {
+	     //create a new session and begin the transaction
+	     Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+	     Transaction hibernateTransaction = hibernateSession.beginTransaction();
+
+	     //find the  <ResourceName> in the database
+	     oSOAPOperation = (SOAPOperationModel) hibernateSession.get(SOAPOperationModel.class, oSOAPOperation.getSOAPOperationId());
+
+	     //commit and terminate the session
+	     hibernateTransaction.commit();
+	     hibernateSession.close();
+
+	     return oSOAPOperation;
+	 }
+	 
+	 public OutputMessageModel getOutputMessageOutputParameterList(OutputMessageModel oOutputMessage)
+	 {
+	     //create a new session and begin the transaction
+	     Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+	     Transaction hibernateTransaction = hibernateSession.beginTransaction();
+
+	     //find the  <ResourceName> in the database
+	     oOutputMessage = (OutputMessageModel) hibernateSession.get(OutputMessageModel.class, oOutputMessage.getOutputMessageId());
+
+	     //commit and terminate the session
+	     hibernateTransaction.commit();
+	     hibernateSession.close();
+
+	     return oOutputMessage;
+	 }
+	 
+	 public OutputParameterModel getOutputParameterOutputParameterList(OutputParameterModel oOutputParameter)
+	 {
+	     //create a new session and begin the transaction
+	     Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+	     Transaction hibernateTransaction = hibernateSession.beginTransaction();
+
+	     //find the  <ResourceName> in the database
+	     oOutputParameter = (OutputParameterModel) hibernateSession.get(OutputParameterModel.class, oOutputParameter.getOutputParameterId());
+
+	     //commit and terminate the session
+	     hibernateTransaction.commit();
+	     hibernateSession.close();
+
+	     return oOutputParameter;
+	 }
+	 
+	 public SOAPServiceModel getSOAPOperationList(SOAPServiceModel oSOAPService)
+	 {
+	     //create a new session and begin the transaction
+	     Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+	     Transaction hibernateTransaction = hibernateSession.beginTransaction();
+
+	     //find the  <ResourceName> in the database
+	     oSOAPService = (SOAPServiceModel) hibernateSession.get(SOAPServiceModel.class, oSOAPService.getSOAPServiceId());
+
+	     //commit and terminate the session
+	     hibernateTransaction.commit();
+	     hibernateSession.close();
+
+	     return oSOAPService;
+	 }
+	 
+	 public AccountModel getSOAPServiceList(AccountModel oAccount)
+	 {
+	     //create a new session and begin the transaction
+	     Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+	     Transaction hibernateTransaction = hibernateSession.beginTransaction();
+
+	     //find the  <ResourceName> in the database
+	     oAccount = (AccountModel) hibernateSession.get(AccountModel.class, oAccount.getAccountId());
+
+	     //commit and terminate the session
+	     hibernateTransaction.commit();
+	     hibernateSession.close();
+
+	     return oAccount;
 	 }
  }

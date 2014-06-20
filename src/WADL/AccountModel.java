@@ -23,6 +23,8 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import WSDL.SOAPServiceModel;
+
 
 @XmlRootElement
 @Entity
@@ -49,6 +51,10 @@ public class AccountModel
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="oAccount",orphanRemoval=true)
 	@OnDelete(action=OnDeleteAction.CASCADE)
 	private Set<RESTServiceModel> setOfRESTService= new HashSet<RESTServiceModel>();
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="oAccount",orphanRemoval=true)
+	@OnDelete(action=OnDeleteAction.CASCADE)
+	private Set<SOAPServiceModel> setOfSOAPService= new HashSet<SOAPServiceModel>();
 	
 	//operations
 	//place holder for marshalModel operation
@@ -106,10 +112,17 @@ public class AccountModel
 	
     public void deleteAllCollections(Session hibernateSession)
     {
+
         Iterator<RESTServiceModel> RESTServiceIterator = setOfRESTService.iterator();
         while(RESTServiceIterator.hasNext())
         {
-        	RESTServiceIterator.next().deleteAllCollections(hibernateSession);
+            RESTServiceIterator.next().deleteAllCollections(hibernateSession);
+        }
+        
+        Iterator<SOAPServiceModel> SOAPServiceIterator = setOfSOAPService.iterator();
+        while(SOAPServiceIterator.hasNext())
+        {
+            SOAPServiceIterator.next().deleteAllCollections(hibernateSession);
         }
     }
 	
@@ -123,6 +136,18 @@ public class AccountModel
 	public void setSetOfRESTService( Set<RESTServiceModel> setOfRESTService)
 	{
         this.setOfRESTService = setOfRESTService;
+	}
+	
+	@XmlTransient
+	public Set<SOAPServiceModel> getSetOfSOAPService()
+	{
+		return this.setOfSOAPService;
+    }
+	
+	
+	public void setSetOfSOAPService( Set<SOAPServiceModel> setOfSOAPService)
+	{
+        this.setOfSOAPService = setOfSOAPService;
 	}
 
 }

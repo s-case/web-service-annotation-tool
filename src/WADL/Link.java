@@ -8,7 +8,7 @@ public class Link
 	String httpVerb;
 	String type;
 	
-	Link(String uri, String rel, String httpVerb, String type)
+	public Link(String uri, String rel, String httpVerb, String type)
 	{
 		this.uri = uri;
 		this.rel = rel;
