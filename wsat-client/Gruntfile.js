@@ -196,7 +196,8 @@ module.exports = function (grunt) {
     // The following *-min tasks produce minified files in the dist folder
     cssmin: {
       options: {
-        root: '<%= yeoman.app %>'
+        // https://github.com/yeoman/generator-angular/issues/645
+        // root: '<%= yeoman.app %>'
       }
     },
 
