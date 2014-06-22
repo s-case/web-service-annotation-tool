@@ -11,13 +11,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 
-@Path("/account/{accountid}/SOAPService/{SOAPServiceId}/SOAPOperation")
+@Path("/account/{accountId}/SOAPService/{SOAPServiceId}/SOAPOperation")
 
 public class SOAPOperationController
 {
 	private SOAPOperationModel oSOAPOperation; //resourceModel object
-	private POSTSOAPOperationHandler oPOSTSOAPOperationHandler;// add all the activity handlers this controller is associated with in the PSM
 	private GETSOAPOperationHandler oGETSOAPOperationHandler;// add all the activity handlers this controller is associated with in the PSM
+	private POSTSOAPOperationHandler oPOSTSOAPOperationHandler;// add all the activity handlers this controller is associated with in the PSM
 	private PUTSOAPOperationHandler oPUTSOAPOperationHandler;// add all the activity handlers this controller is associated with in the PSM
 	private DELETESOAPOperationHandler oDELETESOAPOperationHandler;// add all the activity handlers this controller is associated with in the PSM
 	private GETSOAPOperationListHandler oGETSOAPOperationListHandler; // only if the resource is of aggregate type
@@ -28,8 +28,9 @@ public class SOAPOperationController
 	public SOAPOperationController() {}
 	
 	//placeholder to add any HTTPActivity() template operation
+	//GET for individual resource
 
-	@Path("/{SOAPOperationId}")
+	@Path("{SOAPOperationId}")
 	@GET
 	@Produces("application/json")
 
@@ -41,14 +42,13 @@ public class SOAPOperationController
 	}
 	 
 	 //POST
-
-	 
+	
 	 @Path("/")
 	 @POST
 	 @Consumes("application/json")
 	 @Produces("application/json")
 	 
-	 public SOAPOperationModel postSOAPOperation(@PathParam("SOAPServiceid") int SOAPServiceId, SOAPOperationModel oSOAPOperation )
+	 public SOAPOperationModel postSOAPOperation(@PathParam("SOAPServiceId") int SOAPServiceId, SOAPOperationModel oSOAPOperation )
 	 {
 		//create a new post<resourceName>Handler
 		oPOSTSOAPOperationHandler = new POSTSOAPOperationHandler(SOAPServiceId, oSOAPOperation,oApplicationUri);
@@ -75,7 +75,7 @@ public class SOAPOperationController
 	@Produces("application/json")
 	@DELETE
 
-	public SOAPOperationModel deleteSOAPOperation( @PathParam("SOAPOperationId") int SOAPOperationId)
+	public SOAPOperationModel deleteSOAPOperation(@PathParam("SOAPOperationId") int SOAPOperationId)
 	{
 		//create a new delete<resourceName>Handler
 		oDELETESOAPOperationHandler = new DELETESOAPOperationHandler(SOAPOperationId,oApplicationUri);
@@ -86,7 +86,7 @@ public class SOAPOperationController
 
 	@Path("/")
 	@GET
-	@Produces("application/jsonl")
+	@Produces("application/json")
 
 	public SOAPOperationModel getSOAPOperationList(@PathParam("SOAPServiceId") int SOAPServiceId)
 	{

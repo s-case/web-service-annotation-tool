@@ -85,7 +85,7 @@ public class SOAPServiceController
 
 	@Path("/")
 	@GET
-	@Produces("application/josn")
+	@Produces("application/json")
 
 	public SOAPServiceModel getSOAPServiceList(@PathParam("accountId") int accountId)
 	{

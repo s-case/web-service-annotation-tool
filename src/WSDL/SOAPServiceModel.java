@@ -23,6 +23,8 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -35,7 +37,7 @@ import WADL.Link;
 
 @XmlRootElement
 @Entity
-@Table(name="soapservice")
+@Table(name="SOAPService")
 public class SOAPServiceModel
 {
 	//properties
@@ -58,7 +60,7 @@ public class SOAPServiceModel
 	@Column(name = "ontologyConcept")
 	private String ontologyConcept;
 	
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name="soapservicekeyword", joinColumns=@JoinColumn(name="SOAPServiceId"))
     @ForeignKey(name = "fk_soapservice_keyword")
 	@Column(name = "keyword")

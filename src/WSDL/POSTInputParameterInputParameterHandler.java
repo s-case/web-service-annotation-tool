@@ -42,16 +42,15 @@ public class POSTInputParameterInputParameterHandler
     public InputParameterModel createHypermediaURIs(InputParameterModel oInputParameter)
     {
         //add the sibling hypermedia links POST and GET list
-
         oInputParameter.getLinkList().add(new Link(String.format("%s%s",oApplicationUri.getBaseUri(),oApplicationUri.getPath()),"List of InputParameter","GET","Sibling"));
         oInputParameter.getLinkList().add(new Link(String.format("%s%s",oApplicationUri.getBaseUri(),oApplicationUri.getPath()),"Create new InputParameter","POST","Sibling"));
-
 
         //add the child hypermedia links GET, PUT, DELETE
 
         oInputParameter.getLinkList().add(new Link(String.format("%s%s/%d",oApplicationUri.getBaseUri(),oApplicationUri.getPath(),oInputParameter.getInputParameterId()),"GET created InputParameter", "GET", "Child"));
         oInputParameter.getLinkList().add(new Link(String.format("%s%s/%d",oApplicationUri.getBaseUri(),oApplicationUri.getPath(),oInputParameter.getInputParameterId()),"Update created InputParameter", "PUT", "Child"));
         oInputParameter.getLinkList().add(new Link(String.format("%s%s/%d",oApplicationUri.getBaseUri(),oApplicationUri.getPath(),oInputParameter.getInputParameterId()),"DELETE created InputParameter", "DELETE", "Child"));
+
 
         String oRelativePath;
         //add the parent hypermedia links POST, GETL
@@ -61,7 +60,7 @@ public class POSTInputParameterInputParameterHandler
         oSourceInputParameter = oSQLITEController.getInputParameter(oSourceInputParameter);
         if(oSourceInputParameter.getInputParameter() != null)
         {
-            oRelativePath = oRelativePath.replaceAll(String.format("InputParameter/(.*)/InputParameter"),String.format("InputParameter/%d/InputParameter/%d/InputParameter",oSourceInputParameter.getInputParameter().getInputParameter() ,oSourceInputParameter.getInputParameter()));
+            oRelativePath = oRelativePath.replaceAll(String.format("/InputParameter/(.*)/InputParameter"),String.format("/InputParameter/%d/InputParameter/%d/InputParameter",oSourceInputParameter.getInputParameter().getInputParameterId() ,oSourceInputParameter.getInputParameterId()));
         }
 
         //add the parent's hypermedia links PUT, GET DELETE

@@ -54,7 +54,7 @@ public class POSTSOAPOperationHandler
         oSOAPOperation.getLinkList().add(new Link(String.format("%s%s/%d",oApplicationUri.getBaseUri(),oApplicationUri.getPath(),oSOAPOperation.getSOAPOperationId()),"DELETE created SOAPOperation", "DELETE", "Child"));
 
         String oRelativePath;
-        //add the child hypermedia links POST, GETL
+        //add the parent hypermedia links POST, GETL
 
         oRelativePath = oApplicationUri.getPath();
 
@@ -68,4 +68,3 @@ public class POSTSOAPOperationHandler
         return oSOAPOperation;
     }
 }
-

@@ -54,7 +54,7 @@ public class InputParameterModel
 	@Column(name = "type")
 	private String type;
 	
-    @ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name="inputParameterKeyword", joinColumns=@JoinColumn(name="inputParameterId"))
     @ForeignKey(name = "fk_inputParameter_keyword")
 	@Column(name = "keyword")
@@ -70,7 +70,7 @@ public class InputParameterModel
 	private InputMessageModel oInputMessage;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="inputParameterId")
+	@JoinColumn(name="sourceInputParameterId")
     @ForeignKey(name = "fk_inputParameter_inputParameter")
 	private InputParameterModel oInputParameter;
 	

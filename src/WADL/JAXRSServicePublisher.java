@@ -6,6 +6,13 @@ import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
+import WSDL.InputMessageController;
+import WSDL.InputParameterController;
+import WSDL.OutputMessageController;
+import WSDL.OutputParameterController;
+import WSDL.SOAPOperationController;
+import WSDL.SOAPServiceController;
+
 @ApplicationPath("/api/")
 public class JAXRSServicePublisher extends Application
 {	
@@ -20,6 +27,13 @@ public class JAXRSServicePublisher extends Application
 		SetOfClasses.add(ResourceController.class);
 		SetOfClasses.add(RESTMethodController.class);
 		SetOfClasses.add(RESTParameterController.class);
+		SetOfClasses.add(InputMessageController.class);
+		SetOfClasses.add(InputParameterController.class);
+		SetOfClasses.add(OutputMessageController.class);
+		SetOfClasses.add(OutputParameterController.class);
+		SetOfClasses.add(SOAPOperationController.class);
+		SetOfClasses.add(SOAPServiceController.class);
+
 		return SetOfClasses;
 	}
 	

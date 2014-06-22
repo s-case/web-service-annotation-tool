@@ -55,7 +55,7 @@ public class OutputParameterModel
 	@Column(name = "type")
 	private String type;
 	
-   @ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name="outputParameterKeyword", joinColumns=@JoinColumn(name="outputParameterId"))
     @ForeignKey(name = "fk_outputParameter_keyword")
 	@Column(name = "keyword")
@@ -71,7 +71,7 @@ public class OutputParameterModel
 	private OutputMessageModel oOutputMessage;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="outputParameterid")
+	@JoinColumn(name="sourceOutputParameterId")
     @ForeignKey(name = "fk_outputParameter_outputParameter")
 	private OutputParameterModel oOutputParameter;
 	

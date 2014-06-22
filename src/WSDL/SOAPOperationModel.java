@@ -54,9 +54,9 @@ public class SOAPOperationModel
 	@Column(name = "ontologyConcept")
 	private String ontologyConcept;
 	
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name="SOAPOperationKeyword", joinColumns=@JoinColumn(name="SOAPOperationId"))
-    @ForeignKey(name = "fk_SOAPOperation_keyword")
+    @ForeignKey(name = "fk_SOAPOperation_Keyword")
 	@Column(name = "keyword")
 	private Set<String> keyword;
 	
@@ -115,7 +115,6 @@ public class SOAPOperationModel
 	{
 		this.name = name;
 	}
-	
 	public String getDescription()
 	{
 		return description;
@@ -125,7 +124,6 @@ public class SOAPOperationModel
 	{
 		this.description = description;
 	}
-	
 	public String getOntologyConcept()
 	{
 		return ontologyConcept;
@@ -135,7 +133,6 @@ public class SOAPOperationModel
 	{
 		this.ontologyConcept = ontologyConcept;
 	}
-	
 	public Set<String> getKeyword()
 	{
 		return keyword;
@@ -174,7 +171,7 @@ public class SOAPOperationModel
     {
         this.setOfInputMessage = setOfInputMessage;
     }
-	
+    
     @XmlTransient
     public Set<OutputMessageModel> getSetOfOutputMessage()
     {
@@ -183,7 +180,7 @@ public class SOAPOperationModel
 
     public void setSetOfOutputMessage( Set<OutputMessageModel> setOfOutputMessage)
     {
-        this.setOfOutputMessage = setOfOutputMessage;
+        this.setOfOutputMessage= setOfOutputMessage;
     }
 
     @XmlTransient
@@ -198,4 +195,6 @@ public class SOAPOperationModel
 	}
 	
 }
+
+
 

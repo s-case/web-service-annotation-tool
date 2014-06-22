@@ -56,9 +56,9 @@ public class POSTInputMessageInputParameterHandler
         String oRelativePath;
         //add the child hypermedia links POST, GETL
 
+        oRelativePath = oApplicationUri.getPath().replaceAll("multiInputParameter/","");
 
-        oRelativePath = String.format("%s/%s","multiInputParameter",oApplicationUri.getPath());
-
+        
         //add the parent's hypermedia links PUT, GET DELETE
         //find last index of "/" in order to cut off to get the parent URI appropriately
         int iLastSlashIndex = String.format("%s%s",oApplicationUri.getBaseUri(),oRelativePath).lastIndexOf("/");

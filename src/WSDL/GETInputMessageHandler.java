@@ -39,7 +39,7 @@ public class GETInputMessageHandler
         String oRelativePath;
         //add the child hypermedia links POST, GETL
 
-        oRelativePath = String.format("%s/%s","multi<TargetResourceName>",oApplicationUri.getPath());
+        oRelativePath = String.format("%s/%s","multiInputParameter",oApplicationUri.getPath());
 
         oInputMessage.getLinkList().add(new Link(String.format("%s%s/%s",oApplicationUri.getBaseUri(),oRelativePath,"InputParameter"),"Create a new InputParameter for this InputMessage", "POST", "Child"));
         oInputMessage.getLinkList().add(new Link(String.format("%s%s/%s",oApplicationUri.getBaseUri(),oRelativePath,"InputParameter"),"GET all the InputParameter of this InputMessage", "GET", "Child"));
