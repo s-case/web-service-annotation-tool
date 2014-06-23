@@ -41,7 +41,7 @@ public class GETOutputParameterOutputParameterHandler
 
         oRelativePath = oApplicationUri.getPath().replaceAll("multiOutputParameter/","multiOutputParameter/");
 
-        oRelativePath = oRelativePath.replaceAll(String.format("OutputParameter/(.*)/OutputParameter/%d",oOutputParameter.getOutputParameterId()),String.format("OutputParameter/%d",oOutputParameter.getOutputParameterId()));
+        oRelativePath = oRelativePath.replaceAll(String.format("OutputParameter/[0-9]*/OutputParameter/%d",oOutputParameter.getOutputParameterId()),String.format("OutputParameter/%d",oOutputParameter.getOutputParameterId()));
 
         oOutputParameter.getLinkList().add(new Link(String.format("%s%s/%s",oApplicationUri.getBaseUri(),oRelativePath,"OutputParameter"),"Create a new OutputParameter for this OutputParameter", "POST", "Child"));
         oOutputParameter.getLinkList().add(new Link(String.format("%s%s/%s",oApplicationUri.getBaseUri(),oRelativePath,"OutputParameter"),"GET all the OutputParameter of this OutputParameter", "GET", "Child"));

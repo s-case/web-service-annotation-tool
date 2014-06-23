@@ -60,7 +60,7 @@ public class GETOutputParameterOutputParameterListHandler
         oSourceOutputParameter = oSQLITEController.getOutputParameter(oSourceOutputParameter);
         if(oSourceOutputParameter.getOutputParameter() != null)
         {
-            oRelativePath = oRelativePath.replaceAll(String.format("OutputParameter/(.*)/OutputParameter"),String.format("OutputParameter/%d/OutputParameter/%d/OutputParameter",oSourceOutputParameter.getOutputParameter().getOutputParameter() ,oSourceOutputParameter.getOutputParameterId()));
+            oRelativePath = oRelativePath.replaceAll(String.format("OutputParameter/[0-9]*/OutputParameter"),String.format("OutputParameter/%d/OutputParameter/%d/OutputParameter",oSourceOutputParameter.getOutputParameter().getOutputParameter() ,oSourceOutputParameter.getOutputParameterId()));
         }
 
         //add the parent's hypermedia links PUT, GET DELETE

@@ -60,7 +60,7 @@ public class POSTInputParameterInputParameterHandler
         oSourceInputParameter = oSQLITEController.getInputParameter(oSourceInputParameter);
         if(oSourceInputParameter.getInputParameter() != null)
         {
-            oRelativePath = oRelativePath.replaceAll(String.format("/InputParameter/(.*)/InputParameter"),String.format("/InputParameter/%d/InputParameter/%d/InputParameter",oSourceInputParameter.getInputParameter().getInputParameterId() ,oSourceInputParameter.getInputParameterId()));
+            oRelativePath = oRelativePath.replaceAll(String.format("InputParameter/[0-9]*/InputParameter"),String.format("InputParameter/%d/InputParameter/%d/InputParameter",oSourceInputParameter.getInputParameter().getInputParameterId() ,oSourceInputParameter.getInputParameterId()));
         }
 
         //add the parent's hypermedia links PUT, GET DELETE

@@ -41,7 +41,7 @@ public class GETInputParameterInputParameterHandler
 
         oRelativePath = oApplicationUri.getPath().replaceAll("multiInputParameter/","multiInputParameter/");
 
-        oRelativePath = oRelativePath.replaceAll(String.format("/InputParameter/(.*)/InputParameter/%d",oInputParameter.getInputParameterId()),String.format("/InputParameter/%d",oInputParameter.getInputParameterId()));
+        oRelativePath = oRelativePath.replaceAll(String.format("InputParameter/[0-9]*/InputParameter/%d",oInputParameter.getInputParameterId()),String.format("InputParameter/%d",oInputParameter.getInputParameterId()));
 
         oInputParameter.getLinkList().add(new Link(String.format("%s%s/%s",oApplicationUri.getBaseUri(),oRelativePath,"InputParameter"),"Create a new InputParameter for this InputParameter", "POST", "Child"));
         oInputParameter.getLinkList().add(new Link(String.format("%s%s/%s",oApplicationUri.getBaseUri(),oRelativePath,"InputParameter"),"GET all the InputParameter of this InputParameter", "GET", "Child"));

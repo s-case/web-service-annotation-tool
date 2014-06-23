@@ -102,5 +102,42 @@ curl -i -H "Content-Type: application/json" -d '\{"parameterName":"upgreadeCost"
 
 \f0 \cf0 \cb1 \CocoaLigature1 SOAPOperation:\
 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+
+\f1 \cf2 \cb3 \CocoaLigature0 curl -i -H "Content-Type: application/json" -d '\{"name":"weirdOperation","description":"This is an arcane technology operation","ontologyConcept":"Ask Kyeriakos","keyword":["test1","test2"]\}' -X POST http://localhost:8080/wsAnnotationTool/api/account/37/SOAPService/38/SOAPOperation\
+\
+\
+curl -i -X GET http://localhost:8080/wsAnnotationTool/api/account/37/SOAPService/38/SOAPOperation/45
+\f0 \cf0 \cb1 \CocoaLigature1 \
+\
+\
+\
+OutputMessage:\
+\
+
+\f1 \cf2 \cb3 \CocoaLigature0 curl -i -H "Content-Type: application/json" -d '\{"name":"Sample OUTPUT soap operation message"\}' -X POST http://localhost:8080/wsAnnotationTool/api/account/37/SOAPService/38/SOAPOperation/45/OutputMessage\
+\
+
+\f0 \cf0 \cb1 \CocoaLigature1 OuputParameter\
+\
+
+\f1 \cf2 \cb3 \CocoaLigature0 curl -i -H "Content-Type: application/json" -d '\{"name":"ouputMessageParameter","ontologyConcept":"Ask Kyriakos","type":"int","keyword":["cool","output parameter","message parameter"]\}' -X POST http://localhost:8080/wsAnnotationTool/api/multiOutputParameter/account/37/SOAPService/38/SOAPOperation/45/OutputMessage/47/OutputParameter\
+\
+\
+curl -i -X GET http://localhost:8080/wsAnnotationTool/api/multiOutputParameter/account/37/SOAPService/38/SOAPOperation/45/OutputMessage/47/OutputParameter/57
+\f0 \cf0 \cb1 \CocoaLigature1 \
+\
+InputMessage:\
+\
+
+\f1 \cf2 \cb3 \CocoaLigature0 curl -i -X GET http://localhost:8080/wsAnnotationTool/api/account/37/SOAPService/38/SOAPOperation/45/InputMessage/46
+\f0 \cf0 \cb1 \CocoaLigature1 \
+\
+\
+InputParameter\
+\
+
+\f1 \cf2 \cb3 \CocoaLigature0 curl -i -H "Content-Type: application/json" -d '\{"name":"InputParameter1","ontologyConcept":"Ask Kyriakos","type":"String","keyword":["parameter","input","soap inputmessage parameter"]\}' -X POST http://localhost:8080/wsAnnotationTool/api/multiInputParameter/account/37/SOAPService/38/SOAPOperation/45/InputMessage/46/InputParameter\
+\
 \
 }
