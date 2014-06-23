@@ -62,7 +62,7 @@ public class RESTServiceModel
 	@ForeignKey(name = "fk_restservice_wskeywords")
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	@Column(name="wsKeywords")
-	private Set<String> wsKeywords; 
+	private Set<String> wsKeywords = new HashSet<String>(); 
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="oRESTService")
 	@OnDelete(action=OnDeleteAction.CASCADE)

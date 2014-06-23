@@ -46,7 +46,9 @@ public class GETAccountHandler
         oAccount.getLinkList().add(new Link(String.format("%s%s/%s",oApplicationUri.getBaseUri(),oRelativePath,"SOAPService"),"Create a new SOAPService for this Account", "POST", "Child"));
         oAccount.getLinkList().add(new Link(String.format("%s%s/%s",oApplicationUri.getBaseUri(),oRelativePath,"SOAPService"),"GET all the SOAPService of this Account", "GET", "Child"));
 
+        oRelativePath = oApplicationUri.getPath();
 
+        oAccount.getLinkList().add(new Link(String.format("%s%s/%s",oApplicationUri.getBaseUri(),oRelativePath,"algoRESTService/WADLParse"),"Create a new RESTService for this Account by parsing a WADL file", "POST", "Child"));
 
         //add the parent's hypermedia links POST, GETL
         //find last index of "/" in order to cut off to get the parent URI appropriately

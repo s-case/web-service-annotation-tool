@@ -61,7 +61,7 @@ public class ResourceModel
     @CollectionTable(name="resourceresourceKeywords", joinColumns=@JoinColumn(name="resourceId"))
     @ForeignKey(name = "fk_resource_resourceKeywords")
 	@Column(name = "resourceKeywords")
-	private Set<String> resourceKeywords;
+	private Set<String> resourceKeywords  = new HashSet<String>();
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="oResource")
 	@OnDelete(action=OnDeleteAction.CASCADE)

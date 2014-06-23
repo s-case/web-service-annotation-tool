@@ -1,6 +1,7 @@
 package WADL;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -49,16 +50,19 @@ public class RESTParameterModel
 	private String parameterDefault;
 	
 	@Column(name = "parameterRequired")
-	private Boolean parameterRequired;
+	private String parameterRequired;
+	
+	@Column(name = "description")
+	private String description;
 	
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name="restparameterparametervalueoption", joinColumns=@JoinColumn(name="RESTParameterId"))
     @ForeignKey(name = "fk_restparameter_parameterValueOption")
 	@Column(name = "parameterValueOption")
-	private Set<String> parameterValueOption;
+	private Set<String> parameterValueOption = new HashSet<String>();
 	
-	@Column(name = "parameterMediaType")
-	private String parameterMediaType;
+	@Column(name = "parameterType")
+	private String parameterType;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="resourceId")
@@ -133,12 +137,12 @@ public class RESTParameterModel
 		this.parameterDefault = parameterDefault;
 	}
 	
-	public Boolean getParameterRequired()
+	public String getParameterRequired()
 	{
 		return parameterRequired;
 	}
 	
-	public void setParameterRequired(Boolean parameterRequired)
+	public void setParameterRequired(String parameterRequired)
 	{
 		this.parameterRequired = parameterRequired;
 	}
@@ -153,14 +157,24 @@ public class RESTParameterModel
 		this.parameterValueOption = parameterValueOption;
 	}
 	
-	public String getParameterMediaType()
+	public String getParameterType()
 	{
-		return parameterMediaType;
+		return parameterType;
 	}
 	
-	public void setParameterMediaType(String parameterMediaType)
+	public void setParameterType(String parameterType)
 	{
-		this.parameterMediaType = parameterMediaType;
+		this.parameterType = parameterType;
+	}
+	
+	public String getDescription()
+	{
+		return this.description;
+	}
+	
+	public void setDescription(String description)
+	{
+		this.description = description;
 	}
 	
     public void deleteAllCollections(Session hibernateSession)

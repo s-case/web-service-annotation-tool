@@ -58,7 +58,7 @@ public class InputParameterModel
     @CollectionTable(name="inputParameterKeyword", joinColumns=@JoinColumn(name="inputParameterId"))
     @ForeignKey(name = "fk_inputParameter_keyword")
 	@Column(name = "keyword")
-	private Set<String> keyword;
+	private Set<String> keyword  = new HashSet<String>();
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="oInputParameter",orphanRemoval=true)
     @OnDelete(action=OnDeleteAction.CASCADE)

@@ -64,7 +64,7 @@ public class SOAPServiceModel
     @CollectionTable(name="soapservicekeyword", joinColumns=@JoinColumn(name="SOAPServiceId"))
     @ForeignKey(name = "fk_soapservice_keyword")
 	@Column(name = "keyword")
-	private Set<String> keyword;
+	private Set<String> keyword  = new HashSet<String>();
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="oSOAPService",orphanRemoval=true)
     @OnDelete(action=OnDeleteAction.CASCADE)

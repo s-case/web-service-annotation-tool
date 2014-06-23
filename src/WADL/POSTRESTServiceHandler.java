@@ -42,8 +42,7 @@ public class POSTRESTServiceHandler
         //add the sibling hypermedia links POST and GET list
 
         oRESTService.getLinkList().add(new Link(String.format("%s%s",oApplicationUri.getBaseUri(),oApplicationUri.getPath()),"List of RESTService","GET","Sibling"));
-        oRESTService.getLinkList().add(new Link(String.format("%s%s",oApplicationUri.getBaseUri(),oApplicationUri.getPath()),"Create new RESTService","POST","Sibling"));
-
+        oRESTService.getLinkList().add(new Link(String.format("%s%s",oApplicationUri.getBaseUri(),oApplicationUri.getPath()),"Create new RESTService","POST","Sibling"));       
 
         //add the child hypermedia links GET, PUT, DELETE
 
@@ -62,6 +61,8 @@ public class POSTRESTServiceHandler
         oRESTService.getLinkList().add(new Link(String.format("%s%s",oApplicationUri.getBaseUri(),oRelativePath).substring(0, iLastSlashIndex),"Update Account","PUT","Parent"));
         oRESTService.getLinkList().add(new Link(String.format("%s%s",oApplicationUri.getBaseUri(),oRelativePath).substring(0, iLastSlashIndex),"Read Account","GET","Parent"));
         oRESTService.getLinkList().add(new Link(String.format("%s%s",oApplicationUri.getBaseUri(),oRelativePath).substring(0, iLastSlashIndex),"Delete Account","DELETE","Parent"));
+        oRESTService.getLinkList().add(new Link(String.format("%s/%s",String.format("%s%s",oApplicationUri.getBaseUri(),oRelativePath).substring(0, iLastSlashIndex),"/algoRESTService/WADLParse"),"Create a new RESTService for this Account by parsing a WADL file", "POST", "Child"));
+        
         return oRESTService;
     }
 }

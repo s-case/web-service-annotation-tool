@@ -57,7 +57,7 @@ public class RESTMethodModel
     @CollectionTable(name="RESTMethodMethodKeywords", joinColumns=@JoinColumn(name="RESTMethodId"))
     @ForeignKey(name = "fk_restmethod_methodkeywords")
 	@Column(name = "methodKeywords")
-	private Set<String> methodKeywords;
+	private Set<String> methodKeywords = new HashSet<String>();
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="oRESTMethod")
 	@OnDelete(action=OnDeleteAction.CASCADE)

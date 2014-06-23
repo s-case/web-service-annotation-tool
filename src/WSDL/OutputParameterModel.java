@@ -59,7 +59,7 @@ public class OutputParameterModel
     @CollectionTable(name="outputParameterKeyword", joinColumns=@JoinColumn(name="outputParameterId"))
     @ForeignKey(name = "fk_outputParameter_keyword")
 	@Column(name = "keyword")
-	private Set<String> keyword;
+	private Set<String> keyword  = new HashSet<String>();
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="oOutputParameter",orphanRemoval=true)
     @OnDelete(action=OnDeleteAction.CASCADE)
