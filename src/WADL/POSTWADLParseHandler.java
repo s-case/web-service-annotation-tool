@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.jdom2.Document;
@@ -18,8 +20,9 @@ public class POSTWADLParseHandler
     private RESTServiceModel oRESTService;
     private SQLITEController oSQLITEController;
     private UriInfo		 oApplicationUri;
+    private String wadlName;
 
-    POSTWADLParseHandler(int accountId,UriInfo applicationUri)
+    POSTWADLParseHandler(int accountId,UriInfo applicationUri, String wadlName)
     {
         oAccount = new AccountModel();
         oAccount.setAccountId(accountId);
@@ -27,6 +30,7 @@ public class POSTWADLParseHandler
         oRESTService.setAccount( this.oAccount);
         oSQLITEController = new SQLITEController();
         oApplicationUri = applicationUri;
+        this.wadlName = wadlName;
     }
 
     public void setAccount(AccountModel oAccount)
@@ -80,10 +84,24 @@ public class POSTWADLParseHandler
     	try
     	{
     		//build the JDOM object
-    		Document wadlDocument = (Document) (new SAXBuilder()).build(new File("webapps/wsAnnotationTool/WEB-INF/classes/WADL.xml"));
+    		Document wadlDocument = (Document) (new SAXBuilder()).build(new File(String.format("webapps/wsAnnotationTool/WEB-INF/WADLFiles/%s.xml",wadlName)));
     		
     		//get root element (application node in a WADL file)
     		Element WADLApplicationNode = wadlDocument.getRootElement();
+    		
+    		//parse application documentation
+        	List<Element> listOfApplicationDocs = WADLApplicationNode.getChildren();
+        	Iterator<Element> iteratorOfApplicationDocs = listOfApplicationDocs.iterator();
+        	
+        	//for every documentation element of this rest method
+        	while(iteratorOfApplicationDocs.hasNext())
+        	{
+    			Element oNextApplicationDocElement = iteratorOfApplicationDocs.next();
+    			if(oNextApplicationDocElement.getName().equalsIgnoreCase("doc") && oNextApplicationDocElement.getAttribute("title") != null && !oNextApplicationDocElement.getAttributeValue("title").isEmpty())
+    			{
+    				oRESTService.getWsKeywords().add(oNextApplicationDocElement.getAttributeValue("title"));
+    			}
+        	}
     		
     		//parse all resources nodes
     		parseEntryPoints(WADLApplicationNode);
@@ -91,10 +109,12 @@ public class POSTWADLParseHandler
     	catch (IOException io) 
     	{
     		System.out.println(io.getMessage());
+    		throw new WebApplicationException(Response.Status.NOT_FOUND);
     	} 
     	catch (JDOMException jdomex) 
     	{
     		System.out.println(jdomex.getMessage());
+    		throw new WebApplicationException(Response.Status.BAD_REQUEST);
         }
     }
     
@@ -174,7 +194,11 @@ public class POSTWADLParseHandler
 				oRESTParameter.setParameterType(oNextParameterElement.getAttributeValue("type"));
 				oRESTParameter.setParameterRequired(oNextParameterElement.getAttributeValue("required"));
 				oRESTParameter.setDescription(oNextParameterElement.getChildText("doc"));
-    		
+				oRESTParameter.setParameterDefault(oNextParameterElement.getAttributeValue("default"));
+
+				//parse parameter value options
+				parseParameterValueOptions(oRESTParameter, oNextParameterElement);
+				
 				//create the new parameter
 				POSTResourceRESTParameterHandler oPOSTResourceRESTParameterHandler = new POSTResourceRESTParameterHandler(oResource.getResourceId(),oRESTParameter,  oApplicationUri);
 				oPOSTResourceRESTParameterHandler.postRESTParameter();
@@ -184,7 +208,6 @@ public class POSTWADLParseHandler
     
     public void parseResourceMethods(ResourceModel oResource, Element oResourceElement)
     {
-    	
     	List<Element> listOfResourceMethods = oResourceElement.getChildren();
     	Iterator<Element> iteratorOfResourceMethods = listOfResourceMethods.iterator();
     	
@@ -210,7 +233,6 @@ public class POSTWADLParseHandler
 				parseMethodParameters(oRESTMethod, oNextMethodElement);
 			}
     	}
-    	
     }
     
     public void parseMethodDocumentation(RESTMethodModel oRESTMethod, Element oMethodElement)
@@ -222,7 +244,7 @@ public class POSTWADLParseHandler
     	while(iteratorOfMethodDocs.hasNext())
     	{
 			Element oNextMethodDocElement = iteratorOfMethodDocs.next();
-			if(oNextMethodDocElement.getName().equalsIgnoreCase("doc") && !oNextMethodDocElement.getAttributeValue("title").isEmpty())
+			if(oNextMethodDocElement.getName().equalsIgnoreCase("doc") && oNextMethodDocElement.getAttribute("title") != null && !oNextMethodDocElement.getAttributeValue("title").isEmpty())
 			{
 				oRESTMethod.getMethodKeywords().add(oNextMethodDocElement.getAttributeValue("title"));
 			}
@@ -231,28 +253,105 @@ public class POSTWADLParseHandler
     
     public void parseMethodParameters(RESTMethodModel oRESTMethod, Element oMethodElement)
     {
-    	List<Element> listOfMethodParameters = oMethodElement.getChildren();
-    	Iterator<Element> iteratorOfMethodParameters = listOfMethodParameters.iterator();
+    	
+    	List<Element> listOfResourceMethodNodes = oMethodElement.getChildren();
+    	Iterator<Element> iteratorOfResourceMethodNodes = listOfResourceMethodNodes.iterator();
+    	
+    	while( iteratorOfResourceMethodNodes.hasNext() )
+    	{
+    		Element oNextResourceMethodNode = iteratorOfResourceMethodNodes.next();
+    		
+    		
+    		if(oNextResourceMethodNode.getName().equalsIgnoreCase("request"))
+    		{
+    			parseMethodRequestParameters(oRESTMethod,  oNextResourceMethodNode);
+    		}
+    		else if(oNextResourceMethodNode.getName().equalsIgnoreCase("response"))
+    		{
+    			parseMethodResponseParameters(oRESTMethod, oNextResourceMethodNode);
+    		}
+    		
+    	}
+    }
+    	
+    public void parseMethodRequestParameters(RESTMethodModel oRESTMethod, Element oNextRequestMethodNode)
+    {
+    		
+        	
+    	List<Element> listOfMethodRequestParameters = oNextRequestMethodNode.getChildren();
+    	Iterator<Element> iteratorOfMethodRequestParameters = listOfMethodRequestParameters.iterator();
     	
     	//for each method parameter
-    	while( iteratorOfMethodParameters.hasNext())
+    	while( iteratorOfMethodRequestParameters.hasNext())
     	{
-    		Element oNextMethodParameter = iteratorOfMethodParameters.next();
+    		Element oNextMethodRequestParameter = iteratorOfMethodRequestParameters.next();
     		
-			if(oNextMethodParameter.getName().equalsIgnoreCase("param"))
+			if(oNextMethodRequestParameter.getName().equalsIgnoreCase("param"))
 			{
 				RESTParameterModel oRESTParameter = new RESTParameterModel();
     		
-				oRESTParameter.setParameterName(oNextMethodParameter.getAttributeValue("name"));
-				oRESTParameter.setParameterStyle(oNextMethodParameter.getAttributeValue("style"));
-				oRESTParameter.setParameterType(oNextMethodParameter.getAttributeValue("type"));
-				oRESTParameter.setParameterRequired(oNextMethodParameter.getAttributeValue("required"));
-				oRESTParameter.setDescription(oNextMethodParameter.getChildText("doc"));
-    		
+				oRESTParameter.setParameterName(oNextMethodRequestParameter.getAttributeValue("name"));
+				oRESTParameter.setParameterStyle(oNextMethodRequestParameter.getAttributeValue("style"));
+				oRESTParameter.setParameterType(oNextMethodRequestParameter.getAttributeValue("type"));
+				oRESTParameter.setParameterRequired(oNextMethodRequestParameter.getAttributeValue("required"));
+				oRESTParameter.setDescription(oNextMethodRequestParameter.getChildText("doc"));
+				oRESTParameter.setParameterDefault(oNextMethodRequestParameter.getAttributeValue("default"));
+				oRESTParameter.setParameterDirection("request");
+				
+				//parse parameter value options
+				parseParameterValueOptions(oRESTParameter, oNextMethodRequestParameter);
+				
 				//create the new parameter
 				POSTRESTMethodRESTParameterHandler oPOSTRESTMethodRESTParameterHandler = new POSTRESTMethodRESTParameterHandler(oRESTMethod.getRESTMethodId(),  oRESTParameter, oApplicationUri);
 				oPOSTRESTMethodRESTParameterHandler.postRESTParameter();
 			}
     	}
     }
+    
+    public void parseMethodResponseParameters(RESTMethodModel oRESTMethod, Element oNextResponseMethodNode)
+    {	
+    	List<Element> listOfMethodResponseParameters = oNextResponseMethodNode.getChildren();
+    	Iterator<Element> iteratorOfMethodResponseParameters = listOfMethodResponseParameters.iterator();
+	
+    	//for each method parameter
+    	while( iteratorOfMethodResponseParameters.hasNext())
+    	{
+    		Element oNextMethodResponseParameter = iteratorOfMethodResponseParameters.next();
+		
+    		if(oNextMethodResponseParameter.getName().equalsIgnoreCase("param"))
+    		{
+    			RESTParameterModel oRESTParameter = new RESTParameterModel();
+		
+    			oRESTParameter.setParameterName(oNextMethodResponseParameter.getAttributeValue("name"));
+    			oRESTParameter.setParameterStyle(oNextMethodResponseParameter.getAttributeValue("style"));
+    			oRESTParameter.setParameterType(oNextMethodResponseParameter.getAttributeValue("type"));
+    			oRESTParameter.setParameterRequired(oNextMethodResponseParameter.getAttributeValue("required"));
+    			oRESTParameter.setDescription(oNextMethodResponseParameter.getChildText("doc"));
+    			oRESTParameter.setParameterDefault(oNextMethodResponseParameter.getAttributeValue("default"));
+    			oRESTParameter.setParameterDirection("response");
+    			
+				//parse parameter value options
+				parseParameterValueOptions(oRESTParameter, oNextMethodResponseParameter);
+    			
+    			//create the new parameter
+    			POSTRESTMethodRESTParameterHandler oPOSTRESTMethodRESTParameterHandler = new POSTRESTMethodRESTParameterHandler(oRESTMethod.getRESTMethodId(),  oRESTParameter, oApplicationUri);
+    			oPOSTRESTMethodRESTParameterHandler.postRESTParameter();
+    		}
+    	}
+    }
+    
+    public void parseParameterValueOptions(RESTParameterModel oRESTParameter, Element oMethodParameter)
+    {
+    	List<Element> listOfParameterValueOptions = oMethodParameter.getChildren();
+    	Iterator<Element> iteratorOfParameterValueOptions = listOfParameterValueOptions.iterator();
+    	
+    	//for each parameter value options
+    	while(iteratorOfParameterValueOptions.hasNext())
+    	{
+    		Element oNextParameterValueOption = iteratorOfParameterValueOptions.next();
+    		
+    		oRESTParameter.getParameterValueOption().add(oNextParameterValueOption.getAttributeValue("value"));
+    	}
+    }
+    	
 }

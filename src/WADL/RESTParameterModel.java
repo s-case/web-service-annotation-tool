@@ -63,6 +63,9 @@ public class RESTParameterModel
 	
 	@Column(name = "parameterType")
 	private String parameterType;
+	
+	@Column(name = "parameterDirection")
+	private String parameterDirection;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="resourceId")
@@ -175,6 +178,16 @@ public class RESTParameterModel
 	public void setDescription(String description)
 	{
 		this.description = description;
+	}
+	
+	public String getParameterDirection()
+	{
+		return this.parameterDirection;
+	}
+	
+	public void setParameterDirection(String parameterDirection)
+	{
+		this.parameterDirection = parameterDirection;
 	}
 	
     public void deleteAllCollections(Session hibernateSession)
