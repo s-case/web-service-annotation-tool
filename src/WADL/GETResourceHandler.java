@@ -39,15 +39,15 @@ public class GETResourceHandler
 
         oRelativePath = oApplicationUri.getPath();
 
-        oResource.getLinkList().add(new Link(String.format("%s%s/%s",oApplicationUri.getBaseUri(),oRelativePath,"RESTMethod"),"Create a new RESTMethod for this Resource", "POST", "Child"));
-        oResource.getLinkList().add(new Link(String.format("%s%s/%s",oApplicationUri.getBaseUri(),oRelativePath,"RESTMethod"),"GET all the RESTMethod of this Resource", "GET", "Child"));
+        oResource.getLinkList().add(new Link(String.format("%s%s/%s",oApplicationUri.getBaseUri(),oRelativePath,"RESTMethod"),"RESTMethod", "POST", "Child"));
+        oResource.getLinkList().add(new Link(String.format("%s%s/%s",oApplicationUri.getBaseUri(),oRelativePath,"RESTMethod"),"RESTMethod", "GET", "Child"));
 
         //add the child hypermedia links POST, GETL
 
         oRelativePath = String.format("%s/%s","multiRESTParameter",oApplicationUri.getPath());
 
-        oResource.getLinkList().add(new Link(String.format("%s%s/%s",oApplicationUri.getBaseUri(),oRelativePath,"RESTParameter"),"Create a new RESTParameter for this Resource", "POST", "Child"));
-        oResource.getLinkList().add(new Link(String.format("%s%s/%s",oApplicationUri.getBaseUri(),oRelativePath,"RESTParameter"),"GET all the RESTParameter of this Resource", "GET", "Child"));
+        oResource.getLinkList().add(new Link(String.format("%s%s/%s",oApplicationUri.getBaseUri(),oRelativePath,"RESTParameter"),"RESTParameter", "POST", "Child"));
+        oResource.getLinkList().add(new Link(String.format("%s%s/%s",oApplicationUri.getBaseUri(),oRelativePath,"RESTParameter"),"RESTParameter", "GET", "Child"));
 
         //add the parent's hypermedia links POST, GETL
         //find last index of "/" in order to cut off to get the parent URI appropriately
