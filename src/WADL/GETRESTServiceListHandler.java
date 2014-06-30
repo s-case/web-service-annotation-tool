@@ -46,7 +46,7 @@ public class GETRESTServiceListHandler
         {
             RESTServiceModel oNextRESTService = new RESTServiceModel();
             oNextRESTService = setIterator.next();
-            oRESTService.getLinkList().add(new Link(String.format("%s%s/%d",oApplicationUri.getBaseUri(),oApplicationUri.getPath(),oNextRESTService.getRESTServiceId()),String.format("%s",oNextRESTService.getWsName()), "GET", "Child"));
+            oRESTService.getLinkList().add(new Link(String.format("%s%s/%d",oApplicationUri.getBaseUri(),oApplicationUri.getPath(),oNextRESTService.getRESTServiceId()),String.format("%s",oNextRESTService.getBaseUri()), "GET", "Child"));
         }
 
         String oRelativePath;
