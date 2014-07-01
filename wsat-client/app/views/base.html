@@ -8,30 +8,36 @@
   <div class="form-group">
     <label for="name" class="col-sm-3 control-label">Name</label>
     <div class="col-sm-9">
-      <input type="text" class="form-control" id="name">
+      <input type="text" class="form-control" id="name" ng-model="base.wsName">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="name" class="col-sm-3 control-label">Provider</label>
+    <div class="col-sm-9">
+      <input type="text" class="form-control" id="name" ng-model="base.wsProvider">
     </div>
   </div>
   <div class="form-group">
     <label for="baseUrl" class="col-sm-3 control-label">Base URL</label>
     <div class="col-sm-9">
-      <input type="text" class="form-control" id="baseUrl">
+      <input type="text" class="form-control" id="baseUrl" ng-model="base.baseUri">
     </div>
   </div>
   <div class="form-group">
     <label for="desc" class="col-sm-3 control-label">Description</label>
     <div class="col-sm-9">
-      <textarea class="form-control" id="desc" rows="3"></textarea>
+      <textarea class="form-control" id="desc" rows="3" ng-model="base.wsDescription"></textarea>
     </div>
   </div>
   <div class="form-group">
     <label for="keywors" class="col-sm-3 control-label">Keywords</label>
     <div class="col-sm-9">
-      <input type="text" class="form-control" id="keywords">
+      <input type="text" class="form-control" id="keywords" ng-model="base.wsKeywords">
     </div>
   </div>
   <div class="form-group">
     <div class="col-sm-offset-3 col-sm-9">
-      <button type="submit" class="btn btn-default">Save</button>
+      <button type="submit" class="btn btn-default" ng-click="save()">Save</button>
     </div>
   </div>
 </form>

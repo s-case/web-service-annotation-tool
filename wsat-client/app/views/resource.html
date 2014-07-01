@@ -2,37 +2,31 @@
   <div class="form-group">
     <label for="node" class="col-sm-3 control-label">Node</label>
     <div class="col-sm-9">
-      <input type="text" class="form-control" id="node" value="Resource 1" disabled>
+      <input type="text" class="form-control" id="node" ng-model="resource.id" disabled>
     </div>
   </div>
   <div class="form-group">
     <label for="path" class="col-sm-3 control-label">Path</label>
     <div class="col-sm-9">
-      <input type="text" class="form-control" id="path">
+      <input type="text" class="form-control" id="path" ng-model="resource.relativeUri">
     </div>
   </div>
   <div class="form-group">
     <label for="expath" class="col-sm-3 control-label">Example Path</label>
     <div class="col-sm-9">
-      <input type="text" class="form-control" id="expath">
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="baseUrl" class="col-sm-3 control-label">Base URL</label>
-    <div class="col-sm-9">
-      <input type="text" class="form-control" id="baseUrl">
+      <input type="text" class="form-control" id="expath" ng-model="resource.examplePath">
     </div>
   </div>
   <div class="form-group">
     <label for="desc" class="col-sm-3 control-label">Description</label>
     <div class="col-sm-9">
-      <textarea class="form-control" id="desc" rows="3"></textarea>
+      <textarea class="form-control" id="desc" rows="3" ng-model="resource.resourceDescription"></textarea>
     </div>
   </div>
   <div class="form-group">
     <label for="keywors" class="col-sm-3 control-label">Keywords</label>
     <div class="col-sm-9">
-      <input type="text" class="form-control" id="keywords">
+      <input type="text" class="form-control" id="keywords" ng-model="resource.resourceKeywords">
     </div>
   </div>
   <div class="form-group">
@@ -87,7 +81,7 @@
   </div>
   <div class="form-group">
     <div class="col-sm-offset-3 col-sm-9">
-      <button type="submit" class="btn btn-default">Save</button>
+      <button type="submit" class="btn btn-default" ng-click="save()">Save</button>
     </div>
   </div>
 </form>
