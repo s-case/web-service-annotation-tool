@@ -8,13 +8,13 @@
   <div class="form-group">
     <label for="name" class="col-sm-3 control-label">HTTP method (name)</label>
     <div class="col-sm-9">
-      <input type="text" class="form-control" id="name" value="GET">
+      <input type="text" class="form-control" id="name" ng-model="method.HTTPVerb">
     </div>
   </div>
   <div class="form-group">
     <label for="methodid" class="col-sm-3 control-label">Method ID</label>
     <div class="col-sm-9">
-      <input type="text" class="form-control" id="methodid" value="getuser">
+      <input type="text" class="form-control" id="methodid" ng-model="method.methodIdentifier">
     </div>
   </div>
   <div class="form-group">
@@ -32,13 +32,13 @@
   <div class="form-group">
     <label for="desc" class="col-sm-3 control-label">Description</label>
     <div class="col-sm-9">
-      <textarea class="form-control" id="desc" rows="3"></textarea>
+      <textarea class="form-control" id="desc" rows="3" ng-model="method.methodDescription"></textarea>
     </div>
   </div>
   <div class="form-group">
     <label for="keywors" class="col-sm-3 control-label">Keywords</label>
     <div class="col-sm-9">
-      <input type="text" class="form-control" id="keywords">
+      <input type="text" class="form-control" id="keywords" ng-model="method.methodKeywords">
     </div>
   </div>
   <div class="form-group">
@@ -102,7 +102,7 @@
   </div>
   <div class="form-group">
     <div class="col-sm-offset-3 col-sm-9">
-      <button type="submit" class="btn btn-default">Save</button>
+      <button type="submit" class="btn btn-default" ng-click="save()">Save</button>
     </div>
   </div>
 </form>

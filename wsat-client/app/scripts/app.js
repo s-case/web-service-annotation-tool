@@ -29,19 +29,19 @@ angular
                 controller: 'ServiceCtrl'
             })
             .state('home.service.base', {
-                url: '/bases/:baseid',
+                url: '/base',
                 templateUrl: 'views/base.html',
                 controller: 'BaseCtrl'
+            })
+            .state('home.service.method', {
+                url: '/resources/:resourceid/methods/:methodid',
+                templateUrl: 'views/method.html',
+                controller: 'MethodCtrl'
             })
             .state('home.service.resource', {
                 url: '/resources/:resourceid',
                 templateUrl: 'views/resource.html',
                 controller: 'ResourceCtrl'
-            })
-            .state('home.service.method', {
-                url: '/methods/:methodid',
-                templateUrl: 'views/method.html',
-                controller: 'MethodCtrl'
             })
             .state('home.service.resourceparams', {
                 url: '/resourceparams/:resourceparamid',
