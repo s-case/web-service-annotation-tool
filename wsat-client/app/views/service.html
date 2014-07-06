@@ -4,7 +4,7 @@
             <script type="text/ng-template" id="items_renderer.html">
                 <div ui-tree-handle>
                     <a class="btn btn-success btn-xs" data-nodrag ng-click="play(this)"><span class="glyphicon" ng-class="{'glyphicon-plus': collapsed, 'glyphicon-minus': !collapsed}"></span></a>
-                    <a ng-href="#{{item.link}}">{{item.title}}</a>
+                    <a ng-click="goto(item)" ng-href="#{{item.link}}" ng-class="{red : item.type == 'resourceparam' || item.type == 'queryparam'}">{{item.title}}</a>
                 </div>
                 <ol ui-tree-nodes="" ng-model="item.items" ng-class="{hidden: collapsed}">
                     <li ng-repeat="item in item.items" ui-tree-node data-collapsed="item.collapsed" ng-include="'items_renderer.html'"></li>

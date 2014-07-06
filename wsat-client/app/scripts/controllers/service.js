@@ -18,12 +18,16 @@ angular.module('angClientApp')
 		    	"type": "base",
 		    	"title": "Base",
 		    	"link": "/services/" + $stateParams.serviceid + "/base",
-		    	"expandLink": "http://localhost:8080/wsAnnotationTool/api/account/" + accountId + "/RESTService/" + $stateParams.serviceid + "/resource",
+		    	"expandLink": "http://localhost:8080/wsAnnotationTool/api/account/" + accountId + "/RESTService/" + $stateParams.serviceid,
 		    	"collapsed": true,
 		    	"items": []
 		    }];
 
 	  	});
+
+		$scope.goto = function(item) {	  	
+			console.log(item);
+		}
 
 		$scope.play = function(scope) {
 			console.log(scope);
@@ -33,40 +37,111 @@ angular.module('angClientApp')
 				if(nodeData.type == "base") {
 					$http.get(nodeData.expandLink)
 					.success(function(data, status, headers, config) {
-						var resources = data.linkList;
-						for(var i in resources) {
-							if(resources[i].type == "Child" && resources[i].httpVerb == "GET") {
-								var id = resources[i].uri.substring(resources[i].uri.lastIndexOf("/") + 1, resources[i].uri.length);
-								var obj = {
-									"id" : id,
-									"type": "resource",
-									"title": (resources[i].rel === "null" ? "Resource " + id : resources[i].rel),
-									"link": "/services/" + $stateParams.serviceid + "/resources/" + id,
-									"expandLink": nodeData.expandLink + "/" + id,
-									"collapsed": true,
-									"items": []
-								};
-								nodeData.items.push(obj);
+						var linkList = data.linkList;
+						for(var i in linkList) {
+							if(linkList[i].type == "Child" && linkList[i].httpVerb == "GET") {
+								$http.get(linkList[i].uri)
+								.success(function(data, status, headers, config) {
+									var resources = data.linkList;
+									for(var i in resources) {
+										if(resources[i].type == "Child" && resources[i].httpVerb == "GET") {
+											var id = resources[i].uri.substring(resources[i].uri.lastIndexOf("/") + 1, resources[i].uri.length);
+											var obj = {
+												"id" : id,
+												"type": "resource",
+												"title": (resources[i].rel === "null" ? "Resource " + id : resources[i].rel),
+												"link": "/services/" + $stateParams.serviceid + "/resources/" + id,
+												"expandLink": resources[i].uri,
+												"collapsed": true,
+												"items": []
+											};
+											nodeData.items.push(obj);
+										}
+									}
+								});
+								break;
 							}
 						}
 					});
 				} else if(nodeData.type == "resource") {
-					$http.get(nodeData.expandLink+"/RESTMethod")
+					$http.get(nodeData.expandLink)
 					.success(function(data, status, headers, config) {
-						var resources = data.linkList;
-						for(var i in resources) {
-							if(resources[i].type == "Child") {
-								var id = resources[i].uri.substring(resources[i].uri.lastIndexOf("/") + 1, resources[i].uri.length);
-								var obj = {
-									"id" : id,
-									"type": "method",
-									"title": resources[i].rel,
-									"link": nodeData.link + "/methods/" + id,
-									"expandLink": nodeData.expandLink + "/RESTMethod/" + id + "/RESTParameter",
-									"collapsed": true,
-									"items": []
-								};
-								nodeData.items.push(obj);
+						var linkList = data.linkList;
+						for(var i in linkList) {
+							if(linkList[i].type == "Child" && linkList[i].httpVerb == "GET" && linkList[i].rel == "RESTMethod") {
+								$http.get(linkList[i].uri)
+								.success(function(data, status, headers, config) {
+									var resources = data.linkList;
+									for(var i in resources) {
+										if(resources[i].type == "Child" && resources[i].httpVerb == "GET") {
+											var id = resources[i].uri.substring(resources[i].uri.lastIndexOf("/") + 1, resources[i].uri.length);
+											var obj = {
+												"id" : id,
+												"type": "method",
+												"title": resources[i].rel,
+												"link": nodeData.link + "/methods/" + id,
+												"expandLink": resources[i].uri,
+												"collapsed": true,
+												"items": []
+											};
+											nodeData.items.push(obj);
+										}
+									}
+									for(var i in linkList) {
+										if(linkList[i].type == "Child" && linkList[i].httpVerb == "GET" && linkList[i].rel == "RESTParameter") {
+											$http.get(linkList[i].uri)
+											.success(function(data, status, headers, config) {
+												var resources = data.linkList;
+												for(var i in resources) {
+													if(resources[i].type == "Child" && resources[i].httpVerb == "GET") {
+														var id = resources[i].uri.substring(resources[i].uri.lastIndexOf("/") + 1, resources[i].uri.length);
+														var obj = {
+															"id" : id,
+															"type": "resourceparam",
+															"title": resources[i].rel,
+															"link": nodeData.link + "/resourceparams/" + id,
+															"expandLink": resources[i].uri,
+															"collapsed": false,
+															"items": []
+														};
+														nodeData.items.push(obj);
+													}
+												}
+											});
+											break;
+										}
+									}
+								});
+								break;
+							}
+						}
+					});
+				} else if(nodeData.type == "method") {
+					$http.get(nodeData.expandLink)
+					.success(function(data, status, headers, config) {
+						var linkList = data.linkList;
+						for(var i in linkList) {
+							if(linkList[i].type == "Child" && linkList[i].httpVerb == "GET") {
+								$http.get(linkList[i].uri)
+								.success(function(data, status, headers, config) {
+									var resources = data.linkList;
+									for(var i in resources) {
+										if(resources[i].type == "Child" && resources[i].httpVerb == "GET") {
+											var id = resources[i].uri.substring(resources[i].uri.lastIndexOf("/") + 1, resources[i].uri.length);
+											var obj = {
+												"id" : id,
+												"type": "queryparam",
+												"title": resources[i].rel,
+												"link": nodeData.link + "/queryparams/" + id,
+												"expandLink": resources[i].uri,
+												"collapsed": false,
+												"items": []
+											};
+											nodeData.items.push(obj);
+										}
+									}
+								});
+								break;
 							}
 						}
 					});

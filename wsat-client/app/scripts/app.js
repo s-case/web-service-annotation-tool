@@ -33,25 +33,25 @@ angular
                 templateUrl: 'views/base.html',
                 controller: 'BaseCtrl'
             })
+            .state('home.service.queryparams', {
+                url: '/resources/:resourceid/methods/:methodid/queryparams/:queryparamid',
+                templateUrl: 'views/queryparam.html',
+                controller: 'QueryparamCtrl'
+            })
             .state('home.service.method', {
                 url: '/resources/:resourceid/methods/:methodid',
                 templateUrl: 'views/method.html',
                 controller: 'MethodCtrl'
             })
+            .state('home.service.resourceparams', {
+                url: '/resources/:resourceid/resourceparams/:resourceparamid',
+                templateUrl: 'views/resourceparam.html',
+                controller: 'ResourceparamCtrl'
+            })
             .state('home.service.resource', {
                 url: '/resources/:resourceid',
                 templateUrl: 'views/resource.html',
                 controller: 'ResourceCtrl'
-            })
-            .state('home.service.resourceparams', {
-                url: '/resourceparams/:resourceparamid',
-                templateUrl: 'views/resourceparam.html',
-                controller: 'ResourceParamCtrl'
-            })
-            .state('home.service.queryparams', {
-                url: '/queryparams/:queryparamid',
-                templateUrl: 'views/queryparam.html',
-                controller: 'QueryParamCtrl'
             })
             .state('home.add', {
                 url: 'add/',
