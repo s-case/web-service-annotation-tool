@@ -12,6 +12,7 @@ import WSDL.OutputMessageController;
 import WSDL.OutputParameterController;
 import WSDL.SOAPOperationController;
 import WSDL.SOAPServiceController;
+import WSDL.WSDLParseController;
 
 @ApplicationPath("/api/")
 public class JAXRSServicePublisher extends Application
@@ -34,6 +35,7 @@ public class JAXRSServicePublisher extends Application
 		SetOfClasses.add(SOAPOperationController.class);
 		SetOfClasses.add(SOAPServiceController.class);
 		SetOfClasses.add(WADLParseController.class);
+		SetOfClasses.add(WSDLParseController.class);
 
 		return SetOfClasses;
 	}
