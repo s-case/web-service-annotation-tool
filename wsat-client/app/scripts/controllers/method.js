@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('angClientApp')
-  .controller('MethodCtrl', function ($scope, $http, $stateParams) {
+  .controller('MethodCtrl', function ($scope, $http, $location) {
   	  	var accountId = 1;
 
-  	  	console.log("method");
+  	  	var link = $location.search().l; 
 
-  		$http.get("http://localhost:8080/wsAnnotationTool/api/account/" + accountId + "/RESTService/" + $stateParams.serviceid + "/resource/" + $stateParams.resourceid + "/RESTMethod/" + $stateParams.methodid)
+  		$http.get(link)
 	  	.success(function(data, status, headers, config) {
 			$scope.method = {
 				HTTPVerb : data.HTTPVerb,
@@ -17,12 +17,12 @@ angular.module('angClientApp')
 		});
 
 		$scope.save = function() {
-			$http.put("http://localhost:8080/wsAnnotationTool/api/account/" + accountId + "/RESTService/" + $stateParams.serviceid + "/resource/" + $stateParams.resourceid + "/RESTMethod/" + $stateParams.methodid, $scope.method)
+			$http.put(link, $scope.method)
   			.success(function(data, status, headers, config) {
-  				console.log("success");
+  				$scope.success = true;
   			})
   			.error(function(data, status, headers, config) { 
-  				console.log("error");
+  				$scope.error = true;
   			});
 	  	};
   });

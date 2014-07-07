@@ -18,6 +18,7 @@ angular.module('angClientApp')
 		    	"type": "base",
 		    	"title": "Base",
 		    	"link": "/services/" + $stateParams.serviceid + "/base",
+		    	"entity": "http://localhost:8080/wsAnnotationTool/api/account/" + accountId + "/RESTService/" + $stateParams.serviceid,
 		    	"expandLink": "http://localhost:8080/wsAnnotationTool/api/account/" + accountId + "/RESTService/" + $stateParams.serviceid,
 		    	"collapsed": true,
 		    	"items": []
@@ -51,6 +52,7 @@ angular.module('angClientApp')
 												"type": "resource",
 												"title": (resources[i].rel === "null" ? "Resource " + id : resources[i].rel),
 												"link": "/services/" + $stateParams.serviceid + "/resources/" + id,
+												"entity": resources[i].uri,
 												"expandLink": resources[i].uri,
 												"collapsed": true,
 												"items": []
@@ -79,7 +81,8 @@ angular.module('angClientApp')
 												"id" : id,
 												"type": "method",
 												"title": resources[i].rel,
-												"link": nodeData.link + "/methods/" + id,
+												"link": "/services/" + $stateParams.serviceid + "/methods/" + id,
+												"entity": resources[i].uri,
 												"expandLink": resources[i].uri,
 												"collapsed": true,
 												"items": []
@@ -97,9 +100,10 @@ angular.module('angClientApp')
 														var id = resources[i].uri.substring(resources[i].uri.lastIndexOf("/") + 1, resources[i].uri.length);
 														var obj = {
 															"id" : id,
-															"type": "resourceparam",
+															"type": "param",
 															"title": resources[i].rel,
-															"link": nodeData.link + "/resourceparams/" + id,
+															"link": "/services/" + $stateParams.serviceid + "/params/" + id,
+															"entity": resources[i].uri,
 															"expandLink": resources[i].uri,
 															"collapsed": false,
 															"items": []
@@ -130,9 +134,10 @@ angular.module('angClientApp')
 											var id = resources[i].uri.substring(resources[i].uri.lastIndexOf("/") + 1, resources[i].uri.length);
 											var obj = {
 												"id" : id,
-												"type": "queryparam",
+												"type": "param",
 												"title": resources[i].rel,
-												"link": nodeData.link + "/queryparams/" + id,
+												"link": "/services/" + $stateParams.serviceid + "/params/" + id,
+												"entity": resources[i].uri,
 												"expandLink": resources[i].uri,
 												"collapsed": false,
 												"items": []
@@ -150,67 +155,5 @@ angular.module('angClientApp')
 			nodeData.collapsed = !nodeData.collapsed
 			scope.toggle();
 		};
-
- //    $scope.list = [{
-	// 	"id": 1,
-	// 	"title": "Base",
-	// 	"link" : "/services/1/bases/1",
-	// 	"items": [{
-	// 		"id": 2,
-	// 		"title": "Resource 1",
-	// 		"link" : "/services/1/resources/1",
-	// 		"items": [{
-	// 			"id": 3,
-	// 			"title": "Resource Param 1",
-	// 			"link" : "/services/1/resourceparams/1",
-	// 			"items": []
- //        	}, {
-	// 			"id": 4,
-	// 			"title": "Method 1",
-	// 			"link" : "/services/1/methods/1",
-	// 			"items": [{
-	//           		"id": 4,
- //    	      		"title": "Query Param 1",
- //    	      		"link" : "/services/1/queryparams/1",
- //        	  		"items": []
- //          		}, {
-	// 				"id": 4,
-	// 				"title": "Query Param 2",
-	// 				"link" : "/services/1/queryparams/2",
-	// 				"items": []
- //          		}]
- //        	}, {
-	// 			"id": 5,
-	// 			"title": "Method 2",
-	// 			"link" : "/services/1/methods/2",
-	// 			"items": []
-	// 		}],
-	// 	}, {
-	// 		"id": 5,
-	// 		"title": "Resource 2",
-	// 		"link" : "/services/1/resources/2",
-	// 		"items": [{
-	// 			"id": 3,
-	// 			"title": "Resource Param 2",
-	// 			"link" : "/services/1/resourceparams/2",
-	// 			"items": []
-	// 		}, {
-	// 			"id": 4,
-	// 			"title": "Method 3",
-	// 			"link" : "/services/1/methods/3",
-	// 			"items": [{
-	// 				"id": 4,
-	// 				"title": "Query Param 3",
-	// 				"link" : "/services/1/queryparams/3",
-	// 				"items": []
-	// 			}, {
-	// 				"id": 4,
-	// 				"title": "Query Param 4",
-	// 				"link" : "/services/1/queryparams/4",
-	// 				"items": []
-	// 			}]
-	// 		}]
-	// 	}]
-	// }]
 
   });

@@ -1,28 +1,28 @@
 'use strict';
 
 angular.module('angClientApp')
-  .controller('QueryparamCtrl', function ($scope) {
-      	  	var accountId = 1;
+  .controller('QueryparamCtrl', function ($scope, $http, $location) {
 
-  	  	console.log("queryparam");
+  	  	var link = $location.search().l; 
 
-		// $http.get("http://localhost:8080/wsAnnotationTool/api/account/" + accountId + "/RESTService/" + $stateParams.serviceid + "/resource/" + $stateParams.resourceid)
-		// .success(function(data, status, headers, config) {
-		// 	$scope.resource = {
-		// 		resourceName : data.resourceName,
-		// 		relativeUri: data.relativeUri,
-		// 		resourceDescription: data.resourceDescription,
-		// 		resourceKeywowrds: data.resourceKeywords
-		// 	};
-		// });
+  	  	$http.get(link)
+	  	.success(function(data, status, headers, config) {
+			$scope.parameter = {
+				name : data.name,
+				type : data.type,
+				description: data.description,
+				keywords: data.keywords
+			};
+		});
 
-		// $scope.save = function() {
-		// 	$http.put("http://localhost:8080/wsAnnotationTool/api/account/" + accountId + "/RESTService/" + $stateParams.serviceid + "/resource/" + $stateParams.resourceid, $scope.resource)
-  // 			.success(function(data, status, headers, config) {
-  // 				console.log("success");
-  // 			})
-  // 			.error(function(data, status, headers, config) { 
-  // 				console.log("error");
-  // 			});
-	 //  	};
+		$scope.save = function() {
+			$http.put(link, $scope.parameter)
+				.success(function(data, status, headers, config) {
+					$scope.success = true;
+				})
+				.error(function(data, status, headers, config) { 
+					$scope.error = true;
+				});
+	  	};
+
   });
