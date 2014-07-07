@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('angClientApp')
-  .controller('ResourceCtrl', function ($scope, $http, $stateParams) {
+  .controller('ResourceCtrl', function ($scope, $http, $location) {
 
   	  	var accountId = 1;
 
-  	  	console.log("resource");
+  	  	var link = $location.search().l; 
 
-		$http.get("http://localhost:8080/wsAnnotationTool/api/account/" + accountId + "/RESTService/" + $stateParams.serviceid + "/resource/" + $stateParams.resourceid)
+		$http.get(link)
 		.success(function(data, status, headers, config) {
 			$scope.resource = {
 				resourceName : data.resourceName,
@@ -18,12 +18,12 @@ angular.module('angClientApp')
 		});
 
 		$scope.save = function() {
-			$http.put("http://localhost:8080/wsAnnotationTool/api/account/" + accountId + "/RESTService/" + $stateParams.serviceid + "/resource/" + $stateParams.resourceid, $scope.resource)
+			$http.put(link, $scope.resource)
   			.success(function(data, status, headers, config) {
-  				console.log("success");
+  				$scope.success = true;
   			})
   			.error(function(data, status, headers, config) { 
-  				console.log("error");
+  				$scope.error = true;
   			});
 	  	};
 
