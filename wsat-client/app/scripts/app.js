@@ -43,11 +43,6 @@ angular
                 templateUrl: 'views/soap.html',
                 controller: 'SoapCtrl'
             })
-            .state('home.service.queryparams', {
-                url: '/queryparams/:queryparamid',
-                templateUrl: 'views/queryparam.html',
-                controller: 'QueryparamCtrl'
-            })
             .state('home.service.method', {
                 url: '/methods/:methodid',
                 templateUrl: 'views/method.html',
@@ -56,7 +51,7 @@ angular
             .state('home.service.params', {
                 url: '/params/:paramid',
                 templateUrl: 'views/resourceparam.html',
-                controller: 'ResourceparamCtrl'
+                controller: 'ParamCtrl'
             })
             .state('home.service.resource', {
                 url: '/resources/:resourceid',

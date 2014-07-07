@@ -1,19 +1,19 @@
 'use strict';
 
 angular.module('angClientApp')
-  .controller('ResourceparamCtrl', function ($scope, $http, $location) {
+  .controller('ParamCtrl', function ($scope, $http, $location) {
 
   	  	var link = $location.search().l; 
 
   	  	$http.get(link)
 	  	.success(function(data, status, headers, config) {
 			$scope.parameter = {
-				name : data.parameterName,
-				type : data.parameterType,
-				required : data.parameterRequired,
-				style : data.parameterStyle,
-				description: data.parameterDescription,
-				keywords: data.parameterKeywords
+				parameterName : data.parameterName,
+				parameterType : data.parameterType,
+				parameterRequired : data.parameterRequired,
+				parameterStyle : data.parameterStyle,
+				parameterDescription: data.parameterDescription,
+				parameterKeywords: data.parameterKeywords
 			};
 		});
 
