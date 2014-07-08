@@ -57,8 +57,12 @@ public class SOAPServiceModel
 	@Column(name = "description" , columnDefinition="TEXT")
 	private String description;
 	
-	@Column(name = "ontologyConcept")
-	private String ontologyConcept;
+	@Column(name = "searchOntology")
+	private String searchOntology;
+	
+	@Column(name = "searchConcept")
+	private String searchConcept;
+	
 	
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name="soapservicekeyword", joinColumns=@JoinColumn(name="SOAPServiceId"))
@@ -128,14 +132,24 @@ public class SOAPServiceModel
 		this.description = description;
 	}
 	
-	public String getOntologyConcept()
+	public void setSearchOntology(String searchOntology)
 	{
-		return ontologyConcept;
+		this.searchOntology = searchOntology;
 	}
 	
-	public void setOntologyConcept(String ontologyConcept)
+	public String getSearchOntology()
 	{
-		this.ontologyConcept = ontologyConcept;
+		return searchOntology;
+	}
+	
+	public void setSearchConcept(String searchConcept)
+	{
+		this.searchConcept = searchConcept;
+	}
+	
+	public String getSearchConcept()
+	{
+		return searchConcept;
 	}
 	
 	public Set<String> getKeyword()

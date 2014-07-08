@@ -49,8 +49,12 @@ public class OutputParameterModel
 	private String name;
 	
 
-	@Column(name = "ontologyConcept")
-	private String ontologyConcept;
+	@Column(name = "searchOntology")
+	private String searchOntology;
+	
+	@Column(name = "searchConcept")
+	private String searchConcept;
+	
 	
 	@Column(name = "type")
 	private String type;
@@ -118,14 +122,24 @@ public class OutputParameterModel
 		this.name = name;
 	}
 	
-	public String getOntologyConcept()
+	public void setSearchOntology(String searchOntology)
 	{
-		return ontologyConcept;
+		this.searchOntology = searchOntology;
 	}
 	
-	public void setOntologyConcept(String ontologyConcept)
+	public String getSearchOntology()
 	{
-		this.ontologyConcept = ontologyConcept;
+		return searchOntology;
+	}
+	
+	public void setSearchConcept(String searchConcept)
+	{
+		this.searchConcept = searchConcept;
+	}
+	
+	public String getSearchConcept()
+	{
+		return searchConcept;
 	}
 	
 	public String getType()
