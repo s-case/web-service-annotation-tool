@@ -13,73 +13,88 @@ angular
         $urlRouterProvider.otherwise("/");
 
         $stateProvider
-            .state('home', {
-                url: '/',
+            .state('main', {
+                abstract: true,
                 templateUrl: 'views/main.html',
                 controller: 'MainCtrl'
             })
-            .state('home.services', {
-                url: 'services',
+            .state('main.home', {
+                url: '/',
+                templateUrl: 'views/home.html',
+                controller: 'HomeCtrl'
+            })
+            .state('main.signin', {
+                url: '/signin',
+                templateUrl: 'views/signin.html',
+                controller: 'SigninCtrl'
+            })
+            .state('main.signup', {
+                url: '/signup',
+                templateUrl: 'views/signup.html',
+                controller: 'SignupCtrl'
+            })
+            .state('main.services', {
+                url: '/services',
                 templateUrl: 'views/services.html',
                 controller: 'ServicesCtrl'
             })
-            .state('home.service', {
-                url: 'services/:serviceid',
+            .state('main.service', {
+                url: '/services/:serviceid',
                 templateUrl: 'views/service.html',
                 controller: 'ServiceCtrl'
             })
-            .state('home.soapservice', {
-                url: 'soapservices/:serviceid',
+            .state('main.soapservice', {
+                url: '/soapservices/:serviceid',
                 templateUrl: 'views/soapservice.html',
                 controller: 'SoapserviceCtrl'
             })
-            .state('home.service.base', {
+            .state('main.service.base', {
                 url: '/base',
                 templateUrl: 'views/base.html',
                 controller: 'BaseCtrl'
             })
-            .state('home.soapservice.base', {
+            .state('main.soapservice.base', {
                 url: '/base',
                 templateUrl: 'views/soap.html',
                 controller: 'SoapCtrl'
             })
-            .state('home.service.queryparams', {
+            .state('main.service.queryparams', {
                 url: '/queryparams/:queryparamid',
                 templateUrl: 'views/queryparam.html',
                 controller: 'QueryparamCtrl'
             })
-            .state('home.service.method', {
+            .state('main.service.method', {
                 url: '/methods/:methodid',
                 templateUrl: 'views/method.html',
                 controller: 'MethodCtrl'
             })
-            .state('home.service.params', {
+            .state('main.service.params', {
                 url: '/params/:paramid',
                 templateUrl: 'views/resourceparam.html',
                 controller: 'ResourceparamCtrl'
             })
-            .state('home.service.resource', {
+            .state('main.service.resource', {
                 url: '/resources/:resourceid',
                 templateUrl: 'views/resource.html',
                 controller: 'ResourceCtrl'
             })
-            .state('home.soapservice.operation', {
+            .state('main.soapservice.operation', {
                 url: '/operations/:operationid',
                 templateUrl: 'views/operation.html',
                 controller: 'OperationCtrl'
             })
-            .state('home.soapservice.message', {
+            .state('main.soapservice.message', {
                 url: '/messages/:messageid',
                 templateUrl: 'views/message.html',
                 controller: 'MessageCtrl'
             })
-            .state('home.soapservice.parameter', {
+            .state('main.soapservice.parameter', {
                 url: '/parameters/:parameterid',
                 templateUrl: 'views/parameter.html',
                 controller: 'ParameterCtrl'
             })
-            .state('home.add', {
-                url: 'add/',
+            .state('main.add', {
+                url: '/add',
                 templateUrl: 'views/add.html',
                 controller: 'AddCtrl'
             });
