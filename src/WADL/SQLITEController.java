@@ -27,8 +27,10 @@ import WSDL.SOAPServiceModel;
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
 			
 			//create the query in HQL language
-			String strQuery = String.format("FROM AccountModel WHERE (AccountModel.username = %s AND AccountModel.password = %s)", oAccount.getUsername() , oAccount.getPassword());
+			String strQuery = String.format("FROM AccountModel WHERE (username = '%s' AND password = '%s')", oAccount.getUsername() , oAccount.getPassword());
 			Query  hibernateQuery = hibernateSession.createQuery(strQuery);
+			
+			oAccount = null;
 			
 			//retrieve the unique result, if there is a result at all
 			oAccount = (AccountModel) hibernateQuery.uniqueResult();

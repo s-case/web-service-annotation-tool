@@ -3,6 +3,7 @@ package WADL;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -20,6 +21,7 @@ public class AccountController
 	private GETAccountHandler oGETAccountHandler;
 	private PUTAccountHandler oPUTAccountHandler;
 	private DELETEAccountHandler oDELETEAccountHandler;
+	private GETAccountLoginHandler oGETAccountLoginHandler;
 	
 	@Context
 	private UriInfo oApplicationUri;
@@ -79,5 +81,17 @@ public class AccountController
 		//create a new delete<resourceName>Handler
 		oDELETEAccountHandler = new DELETEAccountHandler(accountId,oApplicationUri);
 		return oDELETEAccountHandler.deleteAccount();
+	}
+	
+
+	@Path("/")
+	@GET
+	@Produces("application/json")
+
+	public AccountModel getAccountLogin(@HeaderParam("authorization") String authHeader)
+	{
+		//create a new get<resourceName>ListHandler
+		oGETAccountLoginHandler = new GETAccountLoginHandler(authHeader, oApplicationUri);
+		return oGETAccountLoginHandler.checkLogin();
 	}
 }
