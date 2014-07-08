@@ -1,9 +1,16 @@
 package WADL;
 
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
+
 import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.exception.ConstraintViolationException;
+
+import com.sun.jersey.core.spi.factory.ResponseBuilderImpl;
 
 import Utilities.HibernateUtil;
 import WSDL.InputMessageModel;
@@ -22,6 +29,8 @@ import WSDL.SOAPServiceModel;
 	//placeholder for the authenticatedUser operation
 	 public AccountModel authenticatedUser(AccountModel oAccount)
 	 {
+		 try
+		 {
 			//create a new session and begin the transaction
 		    Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -35,17 +44,35 @@ import WSDL.SOAPServiceModel;
 			//retrieve the unique result, if there is a result at all
 			oAccount = (AccountModel) hibernateQuery.uniqueResult();
 			
+			if(oAccount == null)
+			{
+	    		throw new WebApplicationException(Response.Status.UNAUTHORIZED);
+			}
+			
 			//commit and terminate the session
 			hibernateTransaction.commit();
 			hibernateSession.close();
 			
 			//return the <AuthenticationModel> of the authenticated user, or null if authentication failed
 			return oAccount;
+		}
+		catch (HibernateException exception)
+		{
+			System.out.println(exception.getCause());
+
+			ResponseBuilderImpl builder = new ResponseBuilderImpl();
+			builder.status(Response.Status.BAD_REQUEST);
+			builder.entity(String.format("%s",exception.getCause()));
+			Response response = builder.build();
+			throw new WebApplicationException(response);
+		}
 	 }
 	//placeholder for the hibernateActivities, one for every HTTPVerbActivityHandler
 
 	 public AccountModel postAccount(AccountModel oAccount)
 	 {
+		 try
+		 {
 			//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -60,10 +87,23 @@ import WSDL.SOAPServiceModel;
 			//returh the <accountModelName> with updated <accountModelName>Id
 			oAccount.setAccountId(accountId);
 			return oAccount;
+		}
+		catch (HibernateException exception)
+		{
+			System.out.println(exception.getCause());
+
+			ResponseBuilderImpl builder = new ResponseBuilderImpl();
+			builder.status(Response.Status.BAD_REQUEST);
+			builder.entity(String.format("%s",exception.getCause()));
+			Response response = builder.build();
+			throw new WebApplicationException(response);
+		}
 	 } 
 	 
 	 public AccountModel getAccount(AccountModel oAccount)
 	 {
+		 try
+		 {
 	 		//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -71,15 +111,33 @@ import WSDL.SOAPServiceModel;
 			//find the  <ResourceName> in the database 
 			oAccount = (AccountModel) hibernateSession.get(AccountModel.class, oAccount.getAccountId());
 
+			if(oAccount == null)
+			{
+	    		throw new WebApplicationException(Response.Status.NOT_FOUND);
+			}
+			
 			//commit and terminate the session
 			hibernateTransaction.commit();
 			hibernateSession.close();
 			
 			return oAccount;
+		 }		
+		catch (HibernateException exception)
+		{
+			System.out.println(exception.getCause());
+
+			ResponseBuilderImpl builder = new ResponseBuilderImpl();
+			builder.status(Response.Status.BAD_REQUEST);
+			builder.entity(String.format("%s",exception.getCause()));
+			Response response = builder.build();
+			throw new WebApplicationException(response);
+		}
 	 }
 	 
 	 public AccountModel putAccount(AccountModel oAccount)
 	 {
+		 try
+		 {
 			//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -92,10 +150,23 @@ import WSDL.SOAPServiceModel;
 			hibernateSession.close();
 			
 			return oAccount;
+		 }		
+		catch (HibernateException exception)
+		{
+			System.out.println(exception.getCause());
+
+			ResponseBuilderImpl builder = new ResponseBuilderImpl();
+			builder.status(Response.Status.BAD_REQUEST);
+			builder.entity(String.format("%s",exception.getCause()));
+			Response response = builder.build();
+			throw new WebApplicationException(response);
+		}
 	 }
 	 
 	 public AccountModel deleteAccount(AccountModel oAccount)
 	 {
+		 try
+		 {
 	  		//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -110,28 +181,55 @@ import WSDL.SOAPServiceModel;
 			hibernateTransaction.commit();
 			hibernateSession.close();
 			return oAccount;
+		 }		
+		catch (HibernateException exception)
+		{
+			System.out.println(exception.getCause());
+
+			ResponseBuilderImpl builder = new ResponseBuilderImpl();
+			builder.status(Response.Status.BAD_REQUEST);
+			builder.entity(String.format("%s",exception.getCause()));
+			Response response = builder.build();
+			throw new WebApplicationException(response);
+		}
 	 }
 	 
 	 public RESTServiceModel postRESTService(RESTServiceModel oRESTService)
 	 {
-			//create a new session and begin the transaction
-			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
-			Transaction hibernateTransaction = hibernateSession.beginTransaction();
+			try
+			{
+				//create a new session and begin the transaction
+				Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+				Transaction hibernateTransaction = hibernateSession.beginTransaction();
 			
-			//insert the new <ResourceName> to database 
-			int RESTServiceId = (Integer) hibernateSession.save(oRESTService);
+				//insert the new <ResourceName> to database
+				int RESTServiceId = (Integer) hibernateSession.save(oRESTService);
+
+				//commit and terminate the session
+				hibernateTransaction.commit();
+				hibernateSession.close();
+
 			
-			//commit and terminate the session
-			hibernateTransaction.commit();
-			hibernateSession.close();
-			
-			//return the <accountModelName> with updated <accountModelName>Id
-			oRESTService.setRESTServiceId(RESTServiceId);
-			return oRESTService;
+				//return the <accountModelName> with updated <accountModelName>Id
+				oRESTService.setRESTServiceId(RESTServiceId);
+				return oRESTService;
+			}
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 } 
 	 
 	 public RESTServiceModel getRESTService(RESTServiceModel oRESTService)
 	 {
+		 try
+		 {
 	 		//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -139,15 +237,33 @@ import WSDL.SOAPServiceModel;
 			//find the  <ResourceName> in the database 
 			oRESTService = (RESTServiceModel) hibernateSession.get(RESTServiceModel.class, oRESTService.getRESTServiceId());
 
+			if(oRESTService == null)
+			{
+	    		throw new WebApplicationException(Response.Status.NOT_FOUND);
+			}
+			
 			//commit and terminate the session
 			hibernateTransaction.commit();
 			hibernateSession.close();
 			
 			return oRESTService;
+		 }		
+		catch (HibernateException exception)
+		{
+			System.out.println(exception.getCause());
+
+			ResponseBuilderImpl builder = new ResponseBuilderImpl();
+			builder.status(Response.Status.BAD_REQUEST);
+			builder.entity(String.format("%s",exception.getCause()));
+			Response response = builder.build();
+			throw new WebApplicationException(response);
+		}
 	 }
 	 
 	 public RESTServiceModel deleteRESTService(RESTServiceModel oRESTService)
 	 {
+		 try
+		 {
 	  		//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -161,10 +277,23 @@ import WSDL.SOAPServiceModel;
 			hibernateTransaction.commit();
 			hibernateSession.close();
 			return oRESTService;
+		}
+		catch (HibernateException exception)
+		{
+			System.out.println(exception.getCause());
+
+			ResponseBuilderImpl builder = new ResponseBuilderImpl();
+			builder.status(Response.Status.BAD_REQUEST);
+			builder.entity(String.format("%s",exception.getCause()));
+			Response response = builder.build();
+			throw new WebApplicationException(response);
+		}
 	 }
 	 
 	 public RESTServiceModel putRESTService(RESTServiceModel oRESTService)
 	 {
+		 try
+		 {
 			//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -177,10 +306,23 @@ import WSDL.SOAPServiceModel;
 			hibernateSession.close();
 			
 			return oRESTService;
+		 }		
+		catch (HibernateException exception)
+		{
+			System.out.println(exception.getCause());
+
+			ResponseBuilderImpl builder = new ResponseBuilderImpl();
+			builder.status(Response.Status.BAD_REQUEST);
+			builder.entity(String.format("%s",exception.getCause()));
+			Response response = builder.build();
+			throw new WebApplicationException(response);
+		}
 	 }
 	 
 	 public ResourceModel postResource(ResourceModel oResource)
 	 {
+		 try
+		 {
 			//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -195,10 +337,23 @@ import WSDL.SOAPServiceModel;
 			//return the <accountModelName> with updated <accountModelName>Id
 			oResource.setResourceId(resourceId);
 			return oResource;
+		 }
+		catch (HibernateException exception)
+		{
+			System.out.println(exception.getCause());
+
+			ResponseBuilderImpl builder = new ResponseBuilderImpl();
+			builder.status(Response.Status.BAD_REQUEST);
+			builder.entity(String.format("%s",exception.getCause()));
+			Response response = builder.build();
+			throw new WebApplicationException(response);
+		}
 	 } 
 	 
 	 public ResourceModel getResource(ResourceModel oResource)
 	 {
+		 try
+		 {
 	 		//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -206,15 +361,33 @@ import WSDL.SOAPServiceModel;
 			//find the  <ResourceName> in the database 
 			oResource = (ResourceModel) hibernateSession.get(ResourceModel.class, oResource.getResourceId());
 
+			if(oResource == null)
+			{
+	    		throw new WebApplicationException(Response.Status.NOT_FOUND);
+			}
+			
 			//commit and terminate the session
 			hibernateTransaction.commit();
 			hibernateSession.close();
 			
 			return oResource;
+		 }		
+		catch (HibernateException exception)
+		{
+			System.out.println(exception.getCause());
+
+			ResponseBuilderImpl builder = new ResponseBuilderImpl();
+			builder.status(Response.Status.BAD_REQUEST);
+			builder.entity(String.format("%s",exception.getCause()));
+			Response response = builder.build();
+			throw new WebApplicationException(response);
+		}
 	 }
 	 
 	 public ResourceModel putResource(ResourceModel oResource)
 	 {
+		 try
+		 {
 			//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -227,10 +400,23 @@ import WSDL.SOAPServiceModel;
 			hibernateSession.close();
 			
 			return oResource;
+		 }		
+		catch (HibernateException exception)
+		{
+			System.out.println(exception.getCause());
+
+			ResponseBuilderImpl builder = new ResponseBuilderImpl();
+			builder.status(Response.Status.BAD_REQUEST);
+			builder.entity(String.format("%s",exception.getCause()));
+			Response response = builder.build();
+			throw new WebApplicationException(response);
+		}
 	 }
 	 
 	 public ResourceModel deleteResource(ResourceModel oResource)
 	 {
+		 try
+		 {
 	  		//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -244,10 +430,23 @@ import WSDL.SOAPServiceModel;
 			hibernateTransaction.commit();
 			hibernateSession.close();
 			return oResource;
+		 }		
+		catch (HibernateException exception)
+		{
+			System.out.println(exception.getCause());
+
+			ResponseBuilderImpl builder = new ResponseBuilderImpl();
+			builder.status(Response.Status.BAD_REQUEST);
+			builder.entity(String.format("%s",exception.getCause()));
+			Response response = builder.build();
+			throw new WebApplicationException(response);
+		}
 	 }
 	 
 	 public RESTMethodModel postRESTMethod(RESTMethodModel oRESTMethod)
 	 {
+		 try
+		 {
 			//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -262,10 +461,23 @@ import WSDL.SOAPServiceModel;
 			//return the <accountModelName> with updated <accountModelName>Id
 			oRESTMethod.setRESTMethodId(RESTMethodId);
 			return oRESTMethod;
+		 }		
+		catch (HibernateException exception)
+		{
+			System.out.println(exception.getCause());
+
+			ResponseBuilderImpl builder = new ResponseBuilderImpl();
+			builder.status(Response.Status.BAD_REQUEST);
+			builder.entity(String.format("%s",exception.getCause()));
+			Response response = builder.build();
+			throw new WebApplicationException(response);
+		}
 	 } 
 	 
 	 public RESTMethodModel getRESTMethod(RESTMethodModel oRESTMethod)
 	 {
+		 try
+		 {
 	 		//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -273,15 +485,33 @@ import WSDL.SOAPServiceModel;
 			//find the  <ResourceName> in the database 
 			oRESTMethod = (RESTMethodModel) hibernateSession.get(RESTMethodModel.class, oRESTMethod.getRESTMethodId());
 
+			if(oRESTMethod == null)
+			{
+	    		throw new WebApplicationException(Response.Status.NOT_FOUND);
+			}
+			
 			//commit and terminate the session
 			hibernateTransaction.commit();
 			hibernateSession.close();
 			
 			return oRESTMethod;
+		 }		
+		catch (HibernateException exception)
+		{
+			System.out.println(exception.getCause());
+
+			ResponseBuilderImpl builder = new ResponseBuilderImpl();
+			builder.status(Response.Status.BAD_REQUEST);
+			builder.entity(String.format("%s",exception.getCause()));
+			Response response = builder.build();
+			throw new WebApplicationException(response);
+		}
 	 }
 	 
 	 public RESTMethodModel putRESTMethod(RESTMethodModel oRESTMethod)
 	 {
+		 try
+		 {
 			//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -294,10 +524,23 @@ import WSDL.SOAPServiceModel;
 			hibernateSession.close();
 			
 			return oRESTMethod;
+		 }		
+		catch (HibernateException exception)
+		{
+			System.out.println(exception.getCause());
+
+			ResponseBuilderImpl builder = new ResponseBuilderImpl();
+			builder.status(Response.Status.BAD_REQUEST);
+			builder.entity(String.format("%s",exception.getCause()));
+			Response response = builder.build();
+			throw new WebApplicationException(response);
+		}
 	 }
 	 
 	 public RESTMethodModel deleteRESTMethod(RESTMethodModel oRESTMethod)
 	 {
+		 try
+		 {
 	  		//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -311,10 +554,23 @@ import WSDL.SOAPServiceModel;
 			hibernateTransaction.commit();
 			hibernateSession.close();
 			return oRESTMethod;
+		 }		
+		catch (HibernateException exception)
+		{
+			System.out.println(exception.getCause());
+
+			ResponseBuilderImpl builder = new ResponseBuilderImpl();
+			builder.status(Response.Status.BAD_REQUEST);
+			builder.entity(String.format("%s",exception.getCause()));
+			Response response = builder.build();
+			throw new WebApplicationException(response);
+		}
 	 }
 	 
 	 public RESTParameterModel postRESTParameter(RESTParameterModel oRESTParameter)
 	 {
+		 try
+		 {
 			//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -329,10 +585,23 @@ import WSDL.SOAPServiceModel;
 			//return the <accountModelName> with updated <accountModelName>Id
 			oRESTParameter.setRESTParameterId(RESTParameterId);
 			return oRESTParameter;
+		 }		
+		catch (HibernateException exception)
+		{
+			System.out.println(exception.getCause());
+
+			ResponseBuilderImpl builder = new ResponseBuilderImpl();
+			builder.status(Response.Status.BAD_REQUEST);
+			builder.entity(String.format("%s",exception.getCause()));
+			Response response = builder.build();
+			throw new WebApplicationException(response);
+		}
 	 } 
 	 
 	 public RESTParameterModel getRESTParameter(RESTParameterModel oRESTParameter)
 	 {
+		 try
+		 {
 	 		//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -340,15 +609,33 @@ import WSDL.SOAPServiceModel;
 			//find the  <ResourceName> in the database 
 			oRESTParameter = (RESTParameterModel) hibernateSession.get(RESTParameterModel.class, oRESTParameter.getRESTParameterId());
 
+			if(oRESTParameter == null)
+			{
+	    		throw new WebApplicationException(Response.Status.NOT_FOUND);
+			}
+			
 			//commit and terminate the session
 			hibernateTransaction.commit();
 			hibernateSession.close();
 			
 			return oRESTParameter;
+		 }		
+		catch (HibernateException exception)
+		{
+			System.out.println(exception.getCause());
+
+			ResponseBuilderImpl builder = new ResponseBuilderImpl();
+			builder.status(Response.Status.BAD_REQUEST);
+			builder.entity(String.format("%s",exception.getCause()));
+			Response response = builder.build();
+			throw new WebApplicationException(response);
+		}
 	 }
 	 
 	 public RESTParameterModel putRESTParameter(RESTParameterModel oRESTParameter)
 	 {
+		 try
+		 {
 			//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -361,11 +648,24 @@ import WSDL.SOAPServiceModel;
 			hibernateSession.close();
 			
 			return oRESTParameter;
+		 }		
+		catch (HibernateException exception)
+		{
+			System.out.println(exception.getCause());
+
+			ResponseBuilderImpl builder = new ResponseBuilderImpl();
+			builder.status(Response.Status.BAD_REQUEST);
+			builder.entity(String.format("%s",exception.getCause()));
+			Response response = builder.build();
+			throw new WebApplicationException(response);
+		}
 	 }
 	 
 	 
 	 public RESTParameterModel deleteRESTParameter(RESTParameterModel oRESTParameter)
 	 {
+		 try
+		 {
 	  		//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -379,90 +679,168 @@ import WSDL.SOAPServiceModel;
 			hibernateTransaction.commit();
 			hibernateSession.close();
 			return oRESTParameter;
+		 }		
+		catch (HibernateException exception)
+		{
+			System.out.println(exception.getCause());
+
+			ResponseBuilderImpl builder = new ResponseBuilderImpl();
+			builder.status(Response.Status.BAD_REQUEST);
+			builder.entity(String.format("%s",exception.getCause()));
+			Response response = builder.build();
+			throw new WebApplicationException(response);
+		}
 	 }
 	 
 	 public RESTServiceModel getResourceList(RESTServiceModel oRESTService)
 	 {
-	     //create a new session and begin the transaction
-	     Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
-	     Transaction hibernateTransaction = hibernateSession.beginTransaction();
+		 try
+		 {
+			 //create a new session and begin the transaction
+			 Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			 Transaction hibernateTransaction = hibernateSession.beginTransaction();
 
-	     //find the  <ResourceName> in the database
-	     oRESTService = (RESTServiceModel) hibernateSession.get(RESTServiceModel.class, oRESTService.getRESTServiceId());
+			 //find the  <ResourceName> in the database
+			 oRESTService = (RESTServiceModel) hibernateSession.get(RESTServiceModel.class, oRESTService.getRESTServiceId());
 
-	     //commit and terminate the session
-	     hibernateTransaction.commit();
-	     hibernateSession.close();
+			 //commit and terminate the session
+			 hibernateTransaction.commit();
+			 hibernateSession.close();
 
-	     return oRESTService;
+			 return oRESTService;
+		 }
+		catch (HibernateException exception)
+		{
+			System.out.println(exception.getCause());
+
+			ResponseBuilderImpl builder = new ResponseBuilderImpl();
+			builder.status(Response.Status.BAD_REQUEST);
+			builder.entity(String.format("%s",exception.getCause()));
+			Response response = builder.build();
+			throw new WebApplicationException(response);
+		}
 	 }
 	 
 	 public AccountModel getRESTServiceList(AccountModel oAccount)
 	 {
-	     //create a new session and begin the transaction
-	     Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
-	     Transaction hibernateTransaction = hibernateSession.beginTransaction();
+		 try
+		 {
+			 //create a new session and begin the transaction
+			 Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			 Transaction hibernateTransaction = hibernateSession.beginTransaction();
 
-	     //find the  <ResourceName> in the database
-	     oAccount = (AccountModel) hibernateSession.get(AccountModel.class, oAccount.getAccountId());
+			 //find the  <ResourceName> in the database
+			 oAccount = (AccountModel) hibernateSession.get(AccountModel.class, oAccount.getAccountId());
 
-	     //commit and terminate the session
-	     hibernateTransaction.commit();
-	     hibernateSession.close();
+			 //commit and terminate the session
+			 hibernateTransaction.commit();
+			 hibernateSession.close();
 
-	     return oAccount;
+			 return oAccount;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public ResourceModel getRESTMethodList(ResourceModel oResource)
 	 {
-	     //create a new session and begin the transaction
-	     Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
-	     Transaction hibernateTransaction = hibernateSession.beginTransaction();
+		 try
+		 {
+			 //create a new session and begin the transaction
+			 Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			 Transaction hibernateTransaction = hibernateSession.beginTransaction();
 
-	     //find the  <ResourceName> in the database
-	     oResource = (ResourceModel) hibernateSession.get(ResourceModel.class, oResource.getResourceId());
+			 //find the  <ResourceName> in the database
+			 oResource = (ResourceModel) hibernateSession.get(ResourceModel.class, oResource.getResourceId());
 
-	     //commit and terminate the session
-	     hibernateTransaction.commit();
-	     hibernateSession.close();
+			 //commit and terminate the session
+			 hibernateTransaction.commit();
+			 hibernateSession.close();
 
-	     return oResource;
+			 return oResource;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public ResourceModel getResourceRESTParameterList(ResourceModel oResource)
 	 {
-	     //create a new session and begin the transaction
-	     Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
-	     Transaction hibernateTransaction = hibernateSession.beginTransaction();
+		 try
+		 {
+			 //create a new session and begin the transaction
+			 Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			 Transaction hibernateTransaction = hibernateSession.beginTransaction();
 
-	     //find the  <ResourceName> in the database
-	     oResource = (ResourceModel) hibernateSession.get(ResourceModel.class, oResource.getResourceId());
+			 //find the  <ResourceName> in the database
+			 oResource = (ResourceModel) hibernateSession.get(ResourceModel.class, oResource.getResourceId());
 
-	     //commit and terminate the session
-	     hibernateTransaction.commit();
-	     hibernateSession.close();
+			 //commit and terminate the session
+			 hibernateTransaction.commit();
+			 hibernateSession.close();
 
-	     return oResource;
+			 return oResource;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public RESTMethodModel getRESTMethodRESTParameterList(RESTMethodModel oRESTMethod)
 	 {
-	     //create a new session and begin the transaction
-	     Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
-	     Transaction hibernateTransaction = hibernateSession.beginTransaction();
+		 try
+		 {
+			 //create a new session and begin the transaction
+			 Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			 Transaction hibernateTransaction = hibernateSession.beginTransaction();
 
-	     //find the  <ResourceName> in the database
-	     oRESTMethod = (RESTMethodModel) hibernateSession.get(RESTMethodModel.class, oRESTMethod.getRESTMethodId());
+			 //find the  <ResourceName> in the database
+			 oRESTMethod = (RESTMethodModel) hibernateSession.get(RESTMethodModel.class, oRESTMethod.getRESTMethodId());
 
-	     //commit and terminate the session
-	     hibernateTransaction.commit();
-	     hibernateSession.close();
+			 //commit and terminate the session
+			 hibernateTransaction.commit();
+			 hibernateSession.close();
 
-	     return oRESTMethod;
+			 return oRESTMethod;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public InputMessageModel deleteInputMessage(InputMessageModel oInputMessage)
 	 {
+		 try
+		 {
 	  		//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -479,10 +857,23 @@ import WSDL.SOAPServiceModel;
 			hibernateTransaction.commit();
 			hibernateSession.close();
 	        return oInputMessage;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public InputParameterModel deleteInputParameter(InputParameterModel oInputParameter)
 	 {
+		 try
+		 {
 	  		//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -499,10 +890,23 @@ import WSDL.SOAPServiceModel;
 			hibernateTransaction.commit();
 			hibernateSession.close();
 	        return oInputParameter;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public OutputMessageModel deleteOutputMessage(OutputMessageModel oOutputMessage)
 	 {
+		 try
+		 {
 	  		//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -519,10 +923,23 @@ import WSDL.SOAPServiceModel;
 			hibernateTransaction.commit();
 			hibernateSession.close();
 	        return oOutputMessage;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public OutputParameterModel deleteOutputParameter(OutputParameterModel oOutputParameter)
 	 {
+		 try
+		 {
 	  		//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -539,10 +956,23 @@ import WSDL.SOAPServiceModel;
 			hibernateTransaction.commit();
 			hibernateSession.close();
 	        return oOutputParameter;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public SOAPOperationModel deleteSOAPOperation(SOAPOperationModel oSOAPOperation)
 	 {
+		 try
+		 {
 	  		//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -559,10 +989,23 @@ import WSDL.SOAPServiceModel;
 			hibernateTransaction.commit();
 			hibernateSession.close();
 	        return oSOAPOperation;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public SOAPServiceModel deleteSOAPService(SOAPServiceModel oSOAPService)
 	 {
+		 try
+		 {
 	  		//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -579,10 +1022,23 @@ import WSDL.SOAPServiceModel;
 			hibernateTransaction.commit();
 			hibernateSession.close();
 	        return oSOAPService;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public InputMessageModel getInputMessage(InputMessageModel oInputMessage)
 	 {
+		 try
+		 {
 	 		//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -590,15 +1046,33 @@ import WSDL.SOAPServiceModel;
 			//find the  <ResourceName> in the database 
 			oInputMessage = (InputMessageModel) hibernateSession.get(InputMessageModel.class, oInputMessage.getInputMessageId());
 
+			if(oInputMessage == null)
+			{
+	    		throw new WebApplicationException(Response.Status.NOT_FOUND);
+			}
+			
 			//commit and terminate the session
 			hibernateTransaction.commit();
 			hibernateSession.close();
 			
 			return oInputMessage;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public InputParameterModel getInputParameter(InputParameterModel oInputParameter)
 	 {
+		 try
+		 {
 	 		//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -606,15 +1080,33 @@ import WSDL.SOAPServiceModel;
 			//find the  <ResourceName> in the database 
 			oInputParameter = (InputParameterModel) hibernateSession.get(InputParameterModel.class, oInputParameter.getInputParameterId());
 
+			if(oInputParameter == null)
+			{
+	    		throw new WebApplicationException(Response.Status.NOT_FOUND);
+			}
+			
 			//commit and terminate the session
 			hibernateTransaction.commit();
 			hibernateSession.close();
 			
 			return oInputParameter;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public OutputMessageModel getOutputMessage(OutputMessageModel oOutputMessage)
 	 {
+		 try
+		 {
 	 		//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -622,15 +1114,33 @@ import WSDL.SOAPServiceModel;
 			//find the  <ResourceName> in the database 
 			oOutputMessage = (OutputMessageModel) hibernateSession.get(OutputMessageModel.class, oOutputMessage.getOutputMessageId());
 
+			if(oOutputMessage == null)
+			{
+	    		throw new WebApplicationException(Response.Status.NOT_FOUND);
+			}
+			
 			//commit and terminate the session
 			hibernateTransaction.commit();
 			hibernateSession.close();
 			
 			return oOutputMessage;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public OutputParameterModel getOutputParameter(OutputParameterModel oOutputParameter)
 	 {
+		 try
+		 {
 	 		//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -638,15 +1148,33 @@ import WSDL.SOAPServiceModel;
 			//find the  <ResourceName> in the database 
 			oOutputParameter = (OutputParameterModel) hibernateSession.get(OutputParameterModel.class, oOutputParameter.getOutputParameterId());
 
+			if(oOutputParameter == null)
+			{
+	    		throw new WebApplicationException(Response.Status.NOT_FOUND);
+			}
+			
 			//commit and terminate the session
 			hibernateTransaction.commit();
 			hibernateSession.close();
 			
 			return oOutputParameter;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public SOAPOperationModel getSOAPOperation(SOAPOperationModel oSOAPOperation)
 	 {
+		 try
+		 {
 	 		//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -654,15 +1182,33 @@ import WSDL.SOAPServiceModel;
 			//find the  <ResourceName> in the database 
 			oSOAPOperation = (SOAPOperationModel) hibernateSession.get(SOAPOperationModel.class, oSOAPOperation.getSOAPOperationId());
 
+			if(oSOAPOperation == null)
+			{
+	    		throw new WebApplicationException(Response.Status.NOT_FOUND);
+			}
+			
 			//commit and terminate the session
 			hibernateTransaction.commit();
 			hibernateSession.close();
 			
 			return oSOAPOperation;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public SOAPServiceModel getSOAPService(SOAPServiceModel oSOAPService)
 	 {
+		 try
+		 {
 	 		//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -670,15 +1216,33 @@ import WSDL.SOAPServiceModel;
 			//find the  <ResourceName> in the database 
 			oSOAPService = (SOAPServiceModel) hibernateSession.get(SOAPServiceModel.class, oSOAPService.getSOAPServiceId());
 
+			if(oSOAPService == null)
+			{
+	    		throw new WebApplicationException(Response.Status.NOT_FOUND);
+			}
+			
 			//commit and terminate the session
 			hibernateTransaction.commit();
 			hibernateSession.close();
 			
 			return oSOAPService;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public InputMessageModel postInputMessage(InputMessageModel oInputMessage)
 	 {
+		 try
+		 {
 			//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -693,10 +1257,23 @@ import WSDL.SOAPServiceModel;
 			//return the <accountModelName> with updated <accountModelName>Id
 			oInputMessage.setInputMessageId(InputMessageId);
 			return oInputMessage;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public InputParameterModel postInputParameter(InputParameterModel oInputParameter)
 	 {
+		 try
+		 {
 			//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -711,10 +1288,23 @@ import WSDL.SOAPServiceModel;
 			//return the <accountModelName> with updated <accountModelName>Id
 			oInputParameter.setInputParameterId(InputParameterId);
 			return oInputParameter;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public OutputMessageModel postOutputMessage(OutputMessageModel oOutputMessage)
 	 {
+		 try
+		 {
 			//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -729,10 +1319,23 @@ import WSDL.SOAPServiceModel;
 			//return the <accountModelName> with updated <accountModelName>Id
 			oOutputMessage.setOutputMessageId(OutputMessageId);
 			return oOutputMessage;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public OutputParameterModel postOutputParameter(OutputParameterModel oOutputParameter)
 	 {
+		 try
+		 {
 			//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -747,10 +1350,23 @@ import WSDL.SOAPServiceModel;
 			//return the <accountModelName> with updated <accountModelName>Id
 			oOutputParameter.setOutputParameterId(OutputParameterId);
 			return oOutputParameter;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public SOAPOperationModel postSOAPOperation(SOAPOperationModel oSOAPOperation)
 	 {
+		 try
+		 {
 			//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -765,10 +1381,23 @@ import WSDL.SOAPServiceModel;
 			//return the <accountModelName> with updated <accountModelName>Id
 			oSOAPOperation.setSOAPOperationId(SOAPOperationId);
 			return oSOAPOperation;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public SOAPServiceModel postSOAPService(SOAPServiceModel oSOAPService)
 	 {
+		 try
+		 {
 			//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -783,10 +1412,23 @@ import WSDL.SOAPServiceModel;
 			//return the <accountModelName> with updated <accountModelName>Id
 			oSOAPService.setSOAPServiceId(SOAPServiceId);
 			return oSOAPService;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public InputMessageModel putInputMessage(InputMessageModel oInputMessage)
 	 {
+		 try
+		 {
 			//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -799,10 +1441,23 @@ import WSDL.SOAPServiceModel;
 			hibernateSession.close();
 			
 			return oInputMessage;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public InputParameterModel putInputParameter(InputParameterModel oInputParameter)
 	 {
+		 try
+		 {
 			//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -815,10 +1470,23 @@ import WSDL.SOAPServiceModel;
 			hibernateSession.close();
 			
 			return oInputParameter;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public OutputMessageModel putOutputMessage(OutputMessageModel oOutputMessage)
 	 {
+		 try
+		 {
 			//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -831,10 +1499,23 @@ import WSDL.SOAPServiceModel;
 			hibernateSession.close();
 			
 			return oOutputMessage;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public OutputParameterModel putOutputParameter(OutputParameterModel oOutputParameter)
 	 {
+		 try
+		 {
 			//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -847,10 +1528,23 @@ import WSDL.SOAPServiceModel;
 			hibernateSession.close();
 			
 			return oOutputParameter;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public SOAPOperationModel putSOAPOperation(SOAPOperationModel oSOAPOperation)
 	 {
+		 try
+		 {
 			//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -863,10 +1557,23 @@ import WSDL.SOAPServiceModel;
 			hibernateSession.close();
 			
 			return oSOAPOperation;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public SOAPServiceModel putSOAPService(SOAPServiceModel oSOAPService)
 	 {
+		 try
+		 {
 			//create a new session and begin the transaction
 			Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
 			Transaction hibernateTransaction = hibernateSession.beginTransaction();
@@ -879,133 +1586,248 @@ import WSDL.SOAPServiceModel;
 			hibernateSession.close();
 			
 			return oSOAPService;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public InputMessageModel getInputMessageInputParameterList(InputMessageModel oInputMessage)
 	 {
-	     //create a new session and begin the transaction
-	     Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
-	     Transaction hibernateTransaction = hibernateSession.beginTransaction();
+		 try
+		 {
+			 //create a new session and begin the transaction
+			 Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			 Transaction hibernateTransaction = hibernateSession.beginTransaction();
 
-	     //find the  <ResourceName> in the database
-	     oInputMessage = (InputMessageModel) hibernateSession.get(InputMessageModel.class, oInputMessage.getInputMessageId());
+			 //find the  <ResourceName> in the database
+			 oInputMessage = (InputMessageModel) hibernateSession.get(InputMessageModel.class, oInputMessage.getInputMessageId());
 
-	     //commit and terminate the session
-	     hibernateTransaction.commit();
-	     hibernateSession.close();
+			 //commit and terminate the session
+			 hibernateTransaction.commit();
+			 hibernateSession.close();
 
-	     return oInputMessage;
+			 return oInputMessage;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public SOAPOperationModel getInputMessageList(SOAPOperationModel oSOAPOperation)
 	 {
-	     //create a new session and begin the transaction
-	     Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
-	     Transaction hibernateTransaction = hibernateSession.beginTransaction();
+		 try
+		 {
+			 //create a new session and begin the transaction
+			 Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			 Transaction hibernateTransaction = hibernateSession.beginTransaction();
 
-	     //find the  <ResourceName> in the database
-	     oSOAPOperation = (SOAPOperationModel) hibernateSession.get(SOAPOperationModel.class, oSOAPOperation.getSOAPOperationId());
+			 //find the  <ResourceName> in the database
+			 oSOAPOperation = (SOAPOperationModel) hibernateSession.get(SOAPOperationModel.class, oSOAPOperation.getSOAPOperationId());
 
-	     //commit and terminate the session
-	     hibernateTransaction.commit();
-	     hibernateSession.close();
+			 //commit and terminate the session
+			 hibernateTransaction.commit();
+			 hibernateSession.close();
 
-	     return oSOAPOperation;
+			 return oSOAPOperation;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public InputParameterModel getInputParameterInputParameterList(InputParameterModel oInputParameter)
 	 {
-	     //create a new session and begin the transaction
-	     Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
-	     Transaction hibernateTransaction = hibernateSession.beginTransaction();
+		 try
+		 {
+			 //create a new session and begin the transaction
+			 Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			 Transaction hibernateTransaction = hibernateSession.beginTransaction();
 
-	     //find the  <ResourceName> in the database
-	     oInputParameter = (InputParameterModel) hibernateSession.get(InputParameterModel.class, oInputParameter.getInputParameterId());
+			 //find the  <ResourceName> in the database
+			 oInputParameter = (InputParameterModel) hibernateSession.get(InputParameterModel.class, oInputParameter.getInputParameterId());
 
-	     //commit and terminate the session
-	     hibernateTransaction.commit();
-	     hibernateSession.close();
+			 //commit and terminate the session
+			 hibernateTransaction.commit();
+			 hibernateSession.close();
 
-	     return oInputParameter;
+			 return oInputParameter;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public SOAPOperationModel getOutputMessageList(SOAPOperationModel oSOAPOperation)
 	 {
-	     //create a new session and begin the transaction
-	     Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
-	     Transaction hibernateTransaction = hibernateSession.beginTransaction();
+		 try
+		 {
+			 //create a new session and begin the transaction
+			 Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			 Transaction hibernateTransaction = hibernateSession.beginTransaction();
 
-	     //find the  <ResourceName> in the database
-	     oSOAPOperation = (SOAPOperationModel) hibernateSession.get(SOAPOperationModel.class, oSOAPOperation.getSOAPOperationId());
+			 //find the  <ResourceName> in the database
+			 oSOAPOperation = (SOAPOperationModel) hibernateSession.get(SOAPOperationModel.class, oSOAPOperation.getSOAPOperationId());
 
-	     //commit and terminate the session
-	     hibernateTransaction.commit();
-	     hibernateSession.close();
+			 //commit and terminate the session
+			 hibernateTransaction.commit();
+			 hibernateSession.close();
 
-	     return oSOAPOperation;
+			 return oSOAPOperation;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public OutputMessageModel getOutputMessageOutputParameterList(OutputMessageModel oOutputMessage)
 	 {
-	     //create a new session and begin the transaction
-	     Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
-	     Transaction hibernateTransaction = hibernateSession.beginTransaction();
+		 try
+		 {
+			 //create a new session and begin the transaction
+			 Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			 Transaction hibernateTransaction = hibernateSession.beginTransaction();
 
-	     //find the  <ResourceName> in the database
-	     oOutputMessage = (OutputMessageModel) hibernateSession.get(OutputMessageModel.class, oOutputMessage.getOutputMessageId());
+			 //find the  <ResourceName> in the database
+			 oOutputMessage = (OutputMessageModel) hibernateSession.get(OutputMessageModel.class, oOutputMessage.getOutputMessageId());
 
-	     //commit and terminate the session
-	     hibernateTransaction.commit();
-	     hibernateSession.close();
+			 //commit and terminate the session
+			 hibernateTransaction.commit();
+			 hibernateSession.close();
 
-	     return oOutputMessage;
+			 return oOutputMessage;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public OutputParameterModel getOutputParameterOutputParameterList(OutputParameterModel oOutputParameter)
 	 {
-	     //create a new session and begin the transaction
-	     Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
-	     Transaction hibernateTransaction = hibernateSession.beginTransaction();
+		 try
+		 {
+			 //create a new session and begin the transaction
+			 Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			 Transaction hibernateTransaction = hibernateSession.beginTransaction();
 
-	     //find the  <ResourceName> in the database
-	     oOutputParameter = (OutputParameterModel) hibernateSession.get(OutputParameterModel.class, oOutputParameter.getOutputParameterId());
+			 //find the  <ResourceName> in the database
+			 oOutputParameter = (OutputParameterModel) hibernateSession.get(OutputParameterModel.class, oOutputParameter.getOutputParameterId());
 
-	     //commit and terminate the session
-	     hibernateTransaction.commit();
-	     hibernateSession.close();
+			 //commit and terminate the session
+			 hibernateTransaction.commit();
+			 hibernateSession.close();
 
-	     return oOutputParameter;
+			 return oOutputParameter;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public SOAPServiceModel getSOAPOperationList(SOAPServiceModel oSOAPService)
 	 {
-	     //create a new session and begin the transaction
-	     Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
-	     Transaction hibernateTransaction = hibernateSession.beginTransaction();
+		 try
+		 {
+			 //create a new session and begin the transaction
+			 Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			 Transaction hibernateTransaction = hibernateSession.beginTransaction();
 
-	     //find the  <ResourceName> in the database
-	     oSOAPService = (SOAPServiceModel) hibernateSession.get(SOAPServiceModel.class, oSOAPService.getSOAPServiceId());
+			 //find the  <ResourceName> in the database
+			 oSOAPService = (SOAPServiceModel) hibernateSession.get(SOAPServiceModel.class, oSOAPService.getSOAPServiceId());
 
-	     //commit and terminate the session
-	     hibernateTransaction.commit();
-	     hibernateSession.close();
+			 //commit and terminate the session
+			 hibernateTransaction.commit();
+			 hibernateSession.close();
 
-	     return oSOAPService;
+			 return oSOAPService;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
 	 
 	 public AccountModel getSOAPServiceList(AccountModel oAccount)
 	 {
-	     //create a new session and begin the transaction
-	     Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
-	     Transaction hibernateTransaction = hibernateSession.beginTransaction();
+		 try
+		 {
+			 //create a new session and begin the transaction
+			 Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+			 Transaction hibernateTransaction = hibernateSession.beginTransaction();
 
-	     //find the  <ResourceName> in the database
-	     oAccount = (AccountModel) hibernateSession.get(AccountModel.class, oAccount.getAccountId());
+			 //find the  <ResourceName> in the database
+			 oAccount = (AccountModel) hibernateSession.get(AccountModel.class, oAccount.getAccountId());
 
-	     //commit and terminate the session
-	     hibernateTransaction.commit();
-	     hibernateSession.close();
+			 //commit and terminate the session
+			 hibernateTransaction.commit();
+			 hibernateSession.close();
 
-	     return oAccount;
+			 return oAccount;
+		 }
+			catch (HibernateException exception)
+			{
+				System.out.println(exception.getCause());
+
+				ResponseBuilderImpl builder = new ResponseBuilderImpl();
+				builder.status(Response.Status.BAD_REQUEST);
+				builder.entity(String.format("%s",exception.getCause()));
+				Response response = builder.build();
+				throw new WebApplicationException(response);
+			}
 	 }
  }
