@@ -149,7 +149,7 @@ public class InputParameterModel
 
     public void deleteAllCollections(Session hibernateSession)
     {
-        Query query = hibernateSession.createSQLQuery(String.format("DELETE FROM %s where %sId = %d","inputParameterKeyword".toLowerCase(),"<resourceName>",this.getInputParameterId()));
+        Query query = hibernateSession.createSQLQuery(String.format("DELETE FROM %s where %sId = %d","inputParameterKeyword".toLowerCase(),"inputParameter",this.getInputParameterId()));
         query.executeUpdate();
 
         Iterator<InputParameterModel> inputParameterIterator = setOfInputParameter.iterator();
