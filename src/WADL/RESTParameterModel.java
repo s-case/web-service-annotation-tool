@@ -55,6 +55,12 @@ public class RESTParameterModel
 	@Column(name = "description")
 	private String description;
 	
+	@Column(name = "searchOntology")
+	private String searchOntology;
+	
+	@Column(name = "searchConcept")
+	private String searchConcept;
+	
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name="restparameterparametervalueoption", joinColumns=@JoinColumn(name="RESTParameterId"))
     @ForeignKey(name = "fk_restparameter_parameterValueOption")
@@ -188,6 +194,26 @@ public class RESTParameterModel
 	public void setParameterDirection(String parameterDirection)
 	{
 		this.parameterDirection = parameterDirection;
+	}
+	
+	public void setSearchOntology(String searchOntology)
+	{
+		this.searchOntology = searchOntology;
+	}
+	
+	public String getSearchOntology()
+	{
+		return searchOntology;
+	}
+	
+	public void setSearchConcept(String searchConcept)
+	{
+		this.searchConcept = searchConcept;
+	}
+	
+	public String getSearchConcept()
+	{
+		return searchConcept;
 	}
 	
     public void deleteAllCollections(Session hibernateSession)

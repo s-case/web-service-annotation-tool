@@ -53,6 +53,12 @@ public class RESTMethodModel
 	@Column(name = "methodIdentifier")
 	private String methodIdentifier;
 	
+	@Column(name = "searchOntology")
+	private String searchOntology;
+	
+	@Column(name = "searchConcept")
+	private String searchConcept;
+	
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name="RESTMethodMethodKeywords", joinColumns=@JoinColumn(name="RESTMethodId"))
     @ForeignKey(name = "fk_restmethod_methodkeywords")
@@ -131,6 +137,26 @@ public class RESTMethodModel
 		this.methodIdentifier = methodIdentifier;
 	}
 
+	public void setSearchOntology(String searchOntology)
+	{
+		this.searchOntology = searchOntology;
+	}
+	
+	public String getSearchOntology()
+	{
+		return searchOntology;
+	}
+	
+	public void setSearchConcept(String searchConcept)
+	{
+		this.searchConcept = searchConcept;
+	}
+	
+	public String getSearchConcept()
+	{
+		return searchConcept;
+	}
+	
 	public Set<String> getMethodKeywords()
 	{
 		return methodKeywords;

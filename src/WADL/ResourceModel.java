@@ -56,6 +56,12 @@ public class ResourceModel
 	@Column(name = "resourceDescription")
 	private String resourceDescription;
 	
+	@Column(name = "searchOntology")
+	private String searchOntology;
+	
+	@Column(name = "searchConcept")
+	private String searchConcept;
+	
 //	@XmlElement
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name="resourceresourceKeywords", joinColumns=@JoinColumn(name="resourceId"))
@@ -132,6 +138,26 @@ public class ResourceModel
 	public String getResourceDescription()
 	{
 		return resourceDescription;
+	}
+	
+	public void setSearchOntology(String searchOntology)
+	{
+		this.searchOntology = searchOntology;
+	}
+	
+	public String getSearchOntology()
+	{
+		return searchOntology;
+	}
+	
+	public void setSearchConcept(String searchConcept)
+	{
+		this.searchConcept = searchConcept;
+	}
+	
+	public String getSearchConcept()
+	{
+		return searchConcept;
 	}
 	
 	public void setResourceDescription(String resourceDescription)
