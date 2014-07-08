@@ -1,7 +1,10 @@
 package WADL;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.List;
 
@@ -21,8 +24,9 @@ public class POSTWADLParseHandler
     private SQLITEController oSQLITEController;
     private UriInfo		 oApplicationUri;
     private String wadlName;
+    private InputStream uploadedInputStream;
 
-    POSTWADLParseHandler(int accountId,UriInfo applicationUri, String wadlName)
+    POSTWADLParseHandler(int accountId,UriInfo applicationUri, InputStream uploadedInputStream, String wadlName)
     {
         oAccount = new AccountModel();
         oAccount.setAccountId(accountId);
@@ -31,6 +35,7 @@ public class POSTWADLParseHandler
         oSQLITEController = new SQLITEController();
         oApplicationUri = applicationUri;
         this.wadlName = wadlName;
+        this.uploadedInputStream = uploadedInputStream;
     }
 
     public void setAccount(AccountModel oAccount)
@@ -47,10 +52,39 @@ public class POSTWADLParseHandler
     {
         //TODO add authentication if needed
 
+    	saveUploadedFile();
     	
     	parseWADLApplication();
     	
         return createHypermediaURIs();
+    }
+    
+    public void saveUploadedFile()
+    {
+    	try
+    	{
+    		File outputFile = new File(String.format("webapps/wsAnnotationTool/WEB-INF/WADLFiles/%d/%s",oAccount.getAccountId(),wadlName));  
+    		outputFile.getParentFile().mkdirs();
+    		OutputStream uploadedOutputStream = new FileOutputStream(outputFile);
+    		int bytesRead = 0;
+    		byte[] inputBytes = new byte[1024];
+     
+    		while ((bytesRead = uploadedInputStream.read(inputBytes)) != -1) 
+    		{
+    			uploadedOutputStream.write(inputBytes, 0, bytesRead);
+    		}
+    		
+    		uploadedInputStream.close();
+    		uploadedOutputStream.close();
+    	}
+    	catch (IOException ioEx)
+    	{
+    		System.out.println(ioEx.getMessage());
+    		System.out.println(ioEx.getCause());
+    		ioEx.printStackTrace();
+
+    		throw new WebApplicationException(Response.Status.BAD_REQUEST);
+    	}
     }
 
     public RESTServiceModel createHypermediaURIs()
@@ -84,7 +118,7 @@ public class POSTWADLParseHandler
     	try
     	{
     		//build the JDOM object
-    		Document wadlDocument = (Document) (new SAXBuilder()).build(new File(String.format("webapps/wsAnnotationTool/WEB-INF/WADLFiles/%s.xml",wadlName)));
+    		Document wadlDocument = (Document) (new SAXBuilder()).build(new File(String.format("webapps/wsAnnotationTool/WEB-INF/WADLFiles/%d/%s",oAccount.getAccountId(),wadlName)));
     		
     		//get root element (application node in a WADL file)
     		Element WADLApplicationNode = wadlDocument.getRootElement();

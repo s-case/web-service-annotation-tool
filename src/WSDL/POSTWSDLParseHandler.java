@@ -1,7 +1,10 @@
 package WSDL;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.List;
 
@@ -28,8 +31,9 @@ public class POSTWSDLParseHandler
     private String wsdlName;
     private Element WSDLTypesSchema;
     private Element WSDLApplicationNode;
+    private InputStream uploadedInputStream;
 
-    POSTWSDLParseHandler(int accountId,UriInfo applicationUri, String wsdlName)
+    POSTWSDLParseHandler(int accountId,UriInfo applicationUri, InputStream uploadedInputStream, String wsdlName)
     {
         oAccount = new AccountModel();
         oAccount.setAccountId(accountId);
@@ -38,6 +42,7 @@ public class POSTWSDLParseHandler
         oSQLITEController = new SQLITEController();
         oApplicationUri = applicationUri;
         this.wsdlName = wsdlName;
+        this.uploadedInputStream = uploadedInputStream;
     }
 
     public void setAccount(AccountModel oAccount)
@@ -54,10 +59,39 @@ public class POSTWSDLParseHandler
     {
         //TODO add authentication if needed
 
+    	saveUploadedFile();
     	
     	parseWSDLApplication();
     	
         return createHypermediaURIs();
+    }
+    
+    public void saveUploadedFile()
+    {
+    	try
+    	{
+    		File outputFile = new File(String.format("webapps/wsAnnotationTool/WEB-INF/WSDLFiles/%d/%s",oAccount.getAccountId(),wsdlName));  
+    		outputFile.getParentFile().mkdirs();
+    		OutputStream uploadedOutputStream = new FileOutputStream(outputFile);
+    		int bytesRead = 0;
+    		byte[] inputBytes = new byte[1024];
+     
+    		while ((bytesRead = uploadedInputStream.read(inputBytes)) != -1) 
+    		{
+    			uploadedOutputStream.write(inputBytes, 0, bytesRead);
+    		}
+    		
+    		uploadedInputStream.close();
+    		uploadedOutputStream.close();
+    	}
+    	catch (IOException ioEx)
+    	{
+    		System.out.println(ioEx.getMessage());
+    		System.out.println(ioEx.getCause());
+    		ioEx.printStackTrace();
+
+    		throw new WebApplicationException(Response.Status.BAD_REQUEST);
+    	}
     }
 
     public SOAPServiceModel createHypermediaURIs()
@@ -91,7 +125,7 @@ public class POSTWSDLParseHandler
     	try
     	{
     		//build the JDOM object
-    		Document wsdlDocument = (Document) (new SAXBuilder()).build(new File(String.format("webapps/wsAnnotationTool/WEB-INF/WSDLFiles/%s.xml",wsdlName)));
+    		Document wsdlDocument = (Document) (new SAXBuilder()).build(String.format("webapps/wsAnnotationTool/WEB-INF/WSDLFiles/%d/%s",oAccount.getAccountId(),wsdlName));
     		
     		//get root element (application node in a WSDL file)
     		WSDLApplicationNode = wsdlDocument.getRootElement();

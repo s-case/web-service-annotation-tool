@@ -1,5 +1,7 @@
 package WADL;
 
+import java.io.InputStream;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -8,6 +10,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
+
+import com.sun.jersey.core.header.FormDataContentDisposition;
+import com.sun.jersey.multipart.FormDataParam;
 
 @Path("/account/{accountId}/algoRESTService")
 
@@ -26,13 +31,13 @@ public class WADLParseController
 
 	 @Path("/WADLParse")
 	 @POST
-	 @Consumes("application/json")
+	 @Consumes("multipart/form-data")
 	 @Produces("application/json")
 	 
-	 public RESTServiceModel postWADLParse(@PathParam("accountId") int accountId, @QueryParam("wadlName") String wadlName)
+	 public RESTServiceModel postWADLParse(@PathParam("accountId") int accountId, @FormDataParam("file") InputStream uploadedInputStream, @FormDataParam("file") FormDataContentDisposition fileDetail )
 	 {
 		//create a new post<resourceName>Handler
-		oPOSTWADLParseHandler = new POSTWADLParseHandler(accountId,oApplicationUri,wadlName);
+		oPOSTWADLParseHandler = new POSTWADLParseHandler(accountId,oApplicationUri, uploadedInputStream, fileDetail.getFileName());
 		return oPOSTWADLParseHandler.postWADLParse();
 	 }
 }
