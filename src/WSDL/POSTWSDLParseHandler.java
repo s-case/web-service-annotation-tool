@@ -526,7 +526,7 @@ public class POSTWSDLParseHandler
    				Element nextSequenceElement = iteratorOfSequenceElements.next();
    				
        			InputParameterModel oInputParameterParameter = new InputParameterModel();
-       			if( isPartTypeDefined(nextSequenceElement))
+       			if( isTypeDefined(nextSequenceElement))
        			{
        				oInputParameterParameter.setName(nextSequenceElement.getAttributeValue("name"));
        				oInputParameterParameter.setType(removeNameSpace(nextSequenceElement.getAttributeValue("type")));
@@ -604,7 +604,7 @@ public class POSTWSDLParseHandler
    				Element nextSequenceElement = iteratorOfSequenceElements.next();
    				
        			OutputParameterModel oOutputParameterParameter = new OutputParameterModel();
-       			if( isPartTypeDefined(nextSequenceElement))
+       			if( isTypeDefined(nextSequenceElement))
        			{
        				oOutputParameterParameter.setName(nextSequenceElement.getAttributeValue("name"));
        				oOutputParameterParameter.setType(removeNameSpace(nextSequenceElement.getAttributeValue("type")));
@@ -676,21 +676,7 @@ public class POSTWSDLParseHandler
     
     public String removeNameSpace(String attributeString)
     {	
-    	if(attributeString == null)
-    	{
-    		System.out.println("Null attribute string detected!!");
-    		return null;
-    	}
-    	
-    	int indexOfNSPrefixEnd = attributeString.lastIndexOf(":");
-    	if(indexOfNSPrefixEnd != -1)
-    	{
-    		return attributeString.substring(indexOfNSPrefixEnd+ 1);
-    	}
-    	else
-    	{
-    		return attributeString;
-    	}
+    		return attributeString.substring(attributeString.lastIndexOf(":")+ 1);
     }
     
     public Boolean isPrimitiveType(String parameterType)
