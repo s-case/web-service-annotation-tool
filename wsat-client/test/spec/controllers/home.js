@@ -1,17 +1,17 @@
 'use strict';
 
-describe('Controller: ResourceparamCtrl', function () {
+describe('Controller: HomeCtrl', function () {
 
   // load the controller's module
   beforeEach(module('angClientApp'));
 
-  var ResourceparamCtrl,
+  var HomeCtrl,
     scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    ResourceparamCtrl = $controller('ResourceparamCtrl', {
+    HomeCtrl = $controller('HomeCtrl', {
       $scope: scope
     });
   }));

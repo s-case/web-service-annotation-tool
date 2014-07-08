@@ -1,17 +1,17 @@
 'use strict';
 
-describe('Controller: QueryparamCtrl', function () {
+describe('Controller: SignoutCtrl', function () {
 
   // load the controller's module
   beforeEach(module('angClientApp'));
 
-  var QueryparamCtrl,
+  var SignoutCtrl,
     scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    QueryparamCtrl = $controller('QueryparamCtrl', {
+    SignoutCtrl = $controller('SignoutCtrl', {
       $scope: scope
     });
   }));
