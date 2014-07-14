@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('angClientApp')
-	.controller('ServicesCtrl', function ($scope, $http) {
-		var accountId = 1;
+	.controller('ServicesCtrl', function ($scope, $http, Auth) {
+		var accountId = Auth.user.accountId;
 		$http.get("http://localhost:8080/wsAnnotationTool/api/account/" + accountId + "/RESTService")
 		.success(function(data, status, headers, config) {
 		$scope.services = [];
