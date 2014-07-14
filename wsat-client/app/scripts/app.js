@@ -58,14 +58,14 @@ angular
                 templateUrl: 'views/soap.html',
                 controller: 'SoapCtrl'
             })
-            .state('home.service.method', {
+            .state('main.service.method', {
                 url: '/methods/:methodid',
                 templateUrl: 'views/method.html',
                 controller: 'MethodCtrl'
             })
             .state('main.service.params', {
                 url: '/params/:paramid',
-                templateUrl: 'views/resourceparam.html',
+                templateUrl: 'views/param.html',
                 controller: 'ParamCtrl'
             })
             .state('main.service.resource', {

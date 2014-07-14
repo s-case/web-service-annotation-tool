@@ -13,7 +13,8 @@ angular.module('angClientApp')
 					$scope.services.push({
 						"id": id,
 						"rel": data.linkList[i].rel,
-						"type": "REST"
+						"type": "REST",
+						"uri": data.linkList[i].uri
 					});
 				}
             }
@@ -26,10 +27,19 @@ angular.module('angClientApp')
 						$scope.services.push({
 							"id": id,
 							"rel": data.linkList[i].rel,
-							"type": "SOAP"
+							"type": "SOAP",
+							"uri": data.linkList[i].uri
 						});
 					}
 	            }
 	        });
         });
+
+
+		$scope.delete = function(link, index) {
+			console.log(link);
+			$http.delete(link).success(function(data, status, headers, config) {
+				$scope.services.slice(index, index+1);
+			}); 
+		}
 	});
