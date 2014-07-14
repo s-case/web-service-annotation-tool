@@ -6,7 +6,8 @@ angular
         'ngResource',
         'ngSanitize',
         'ui.router',
-        'ui.tree'
+        'ui.tree',
+        'angularFileUpload'
     ])
     .run(function ($rootScope, $state, Auth) {
         $rootScope.Auth = Auth;
@@ -141,7 +142,10 @@ angular
             .state('main.add', {
                 url: '/add',
                 templateUrl: 'views/add.html',
-                controller: 'AddCtrl'
+                controller: 'AddCtrl',
+                data: {
+                    public: true
+                }
             });
 
     });
