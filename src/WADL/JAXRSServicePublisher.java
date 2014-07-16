@@ -36,6 +36,7 @@ public class JAXRSServicePublisher extends Application
 		SetOfClasses.add(SOAPServiceController.class);
 		SetOfClasses.add(WADLParseController.class);
 		SetOfClasses.add(WSDLParseController.class);
+		SetOfClasses.add(SearchController.class);
 
 		return SetOfClasses;
 	}

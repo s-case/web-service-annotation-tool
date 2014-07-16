@@ -13,7 +13,7 @@
         
         <!-- Assume test is the database name -->
         <property name="hibernate.connection.url">
-            jdbc:postgresql://155.207.19.237:3127/
+            jdbc:postgresql://localhost:3127/
         </property>
         <property name="hibernate.connection.username">
             postgres
@@ -22,6 +22,7 @@
             fp7s-case
         </property>
         <property name="hibernate.hbm2ddl.auto">update</property>
-        
+        <property name="hibernate.search.default.directory_provider">filesystem</property>
+        <property name="hibernate.search.default.indexBase">webapps/wsAnnotationTool/WEB-INF/SearchIndexes</property>
     </session-factory>
 </hibernate-configuration>

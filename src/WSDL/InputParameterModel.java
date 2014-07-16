@@ -26,12 +26,18 @@ import org.hibernate.Session;
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Store;
 
 import WADL.Link;
 
 @XmlRootElement
 @Entity
 @Table(name="inputParameter")
+@Indexed
 public class InputParameterModel
 {
 	//properties
@@ -46,6 +52,7 @@ public class InputParameterModel
 	private int inputParameterId;
 	
 	@Column(name = "name")
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String name;
 	
 	@Column(name = "searchOntology")
@@ -62,6 +69,7 @@ public class InputParameterModel
     @CollectionTable(name="inputParameterKeyword", joinColumns=@JoinColumn(name="inputParameterId"))
     @ForeignKey(name = "fk_inputParameter_keyword")
 	@Column(name = "keyword")
+//	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private Set<String> keyword  = new HashSet<String>();
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="oInputParameter",orphanRemoval=true)

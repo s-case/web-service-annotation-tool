@@ -173,6 +173,12 @@ import WSDL.SOAPServiceModel;
 
 			//find the  <ResourceName> in the database 
 	        oAccount = (AccountModel) hibernateSession.get(AccountModel.class, oAccount.getAccountId());
+	        
+			if(oAccount == null)
+			{
+	    		throw new WebApplicationException(Response.Status.NOT_FOUND);
+			}
+	        
 	        oAccount.deleteAllCollections(hibernateSession);
 			
 			hibernateSession.delete(oAccount);
@@ -270,6 +276,12 @@ import WSDL.SOAPServiceModel;
 
 			//find the  <ResourceName> in the database 
 	        oRESTService = (RESTServiceModel) hibernateSession.get(RESTServiceModel.class, oRESTService.getRESTServiceId());
+
+			if(oRESTService == null)
+			{
+	    		throw new WebApplicationException(Response.Status.NOT_FOUND);
+			}
+	        
 	        oRESTService.deleteAllCollections(hibernateSession);
 			hibernateSession.delete(oRESTService);
 			
@@ -423,6 +435,12 @@ import WSDL.SOAPServiceModel;
 
 			//find the  <ResourceName> in the database
 	        oResource = (ResourceModel) hibernateSession.get(ResourceModel.class, oResource.getResourceId());
+	        
+			if(oResource == null)
+			{
+	    		throw new WebApplicationException(Response.Status.NOT_FOUND);
+			}
+	        
 	        oResource.deleteAllCollections(hibernateSession);
 			hibernateSession.delete(oResource);
 			
@@ -547,6 +565,12 @@ import WSDL.SOAPServiceModel;
 
 			//find the  <ResourceName> in the database 
 	        oRESTMethod = (RESTMethodModel) hibernateSession.get(RESTMethodModel.class, oRESTMethod.getRESTMethodId());
+	        
+			if(oRESTMethod == null)
+			{
+	    		throw new WebApplicationException(Response.Status.NOT_FOUND);
+			}
+	        
 	        oRESTMethod.deleteAllCollections(hibernateSession);
 			hibernateSession.delete(oRESTMethod);
 			
@@ -672,6 +696,12 @@ import WSDL.SOAPServiceModel;
 
 			//find the  <ResourceName> in the database 
 	        oRESTParameter = (RESTParameterModel) hibernateSession.get(RESTParameterModel.class, oRESTParameter.getRESTParameterId());
+
+			if(oRESTParameter == null)
+			{
+	    		throw new WebApplicationException(Response.Status.NOT_FOUND);
+			}
+	        
 	        oRESTParameter.deleteAllCollections(hibernateSession);
 			hibernateSession.delete(oRESTParameter);
 			
@@ -849,6 +879,12 @@ import WSDL.SOAPServiceModel;
 	        //retrieve the whole resource
 
 	        oInputMessage = (InputMessageModel) hibernateSession.get(InputMessageModel.class, oInputMessage.getInputMessageId());
+
+			if(oInputMessage == null)
+			{
+	    		throw new WebApplicationException(Response.Status.NOT_FOUND);
+			}
+	        
 	        oInputMessage.deleteAllCollections(hibernateSession);
 
 	        hibernateSession.delete(oInputMessage);
@@ -882,6 +918,12 @@ import WSDL.SOAPServiceModel;
 	        //retrieve the whole resource
 
 	        oInputParameter = (InputParameterModel) hibernateSession.get(InputParameterModel.class, oInputParameter.getInputParameterId());
+
+			if(oInputParameter == null)
+			{
+	    		throw new WebApplicationException(Response.Status.NOT_FOUND);
+			}
+	        
 	        oInputParameter.deleteAllCollections(hibernateSession);
 
 	        hibernateSession.delete(oInputParameter);
@@ -915,6 +957,12 @@ import WSDL.SOAPServiceModel;
 	        //retrieve the whole resource
 
 	        oOutputMessage = (OutputMessageModel) hibernateSession.get(OutputMessageModel.class, oOutputMessage.getOutputMessageId());
+
+			if(oOutputMessage == null)
+			{
+	    		throw new WebApplicationException(Response.Status.NOT_FOUND);
+			}
+	        
 	        oOutputMessage.deleteAllCollections(hibernateSession);
 
 	        hibernateSession.delete(oOutputMessage);
@@ -948,6 +996,12 @@ import WSDL.SOAPServiceModel;
 	        //retrieve the whole resource
 
 	        oOutputParameter = (OutputParameterModel) hibernateSession.get(OutputParameterModel.class, oOutputParameter.getOutputParameterId());
+
+			if(oOutputParameter == null)
+			{
+	    		throw new WebApplicationException(Response.Status.NOT_FOUND);
+			}
+	        
 	        oOutputParameter.deleteAllCollections(hibernateSession);
 
 	        hibernateSession.delete(oOutputParameter);
@@ -981,6 +1035,12 @@ import WSDL.SOAPServiceModel;
 	        //retrieve the whole resource
 
 	        oSOAPOperation = (SOAPOperationModel) hibernateSession.get(SOAPOperationModel.class, oSOAPOperation.getSOAPOperationId());
+	
+			if(oSOAPOperation == null)
+			{
+	    		throw new WebApplicationException(Response.Status.NOT_FOUND);
+			}
+	        
 	        oSOAPOperation.deleteAllCollections(hibernateSession);
 
 	        hibernateSession.delete(oSOAPOperation);
@@ -1014,6 +1074,12 @@ import WSDL.SOAPServiceModel;
 	        //retrieve the whole resource
 
 	        oSOAPService = (SOAPServiceModel) hibernateSession.get(SOAPServiceModel.class, oSOAPService.getSOAPServiceId());
+	
+			if(oSOAPService == null)
+			{
+	    		throw new WebApplicationException(Response.Status.NOT_FOUND);
+			}
+	        
 	        oSOAPService.deleteAllCollections(hibernateSession);
 
 	        hibernateSession.delete(oSOAPService);

@@ -26,11 +26,17 @@ import org.hibernate.Session;
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
+import org.hibernate.search.annotations.Store;
 
 @XmlRootElement
 @Entity
 @Table(name="RESTMethod")
+@Indexed
 public class RESTMethodModel
 {
 	//properties
@@ -43,6 +49,7 @@ public class RESTMethodModel
 	private String HTTPVerb;
 	
 	@Column(name = "methodDescription")
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String methodDescription;
 	
 	@Id
@@ -51,6 +58,7 @@ public class RESTMethodModel
 	private int RESTMethodId;
 	
 	@Column(name = "methodIdentifier")
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String methodIdentifier;
 	
 	@Column(name = "searchOntology")
@@ -63,10 +71,12 @@ public class RESTMethodModel
     @CollectionTable(name="RESTMethodMethodKeywords", joinColumns=@JoinColumn(name="RESTMethodId"))
     @ForeignKey(name = "fk_restmethod_methodkeywords")
 	@Column(name = "methodKeywords")
+ //   @Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private Set<String> methodKeywords = new HashSet<String>();
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="oRESTMethod")
 	@OnDelete(action=OnDeleteAction.CASCADE)
+	@IndexedEmbedded
 	private Set<RESTParameterModel> setOfRESTParameter = new HashSet<RESTParameterModel>();
 	
 	@ManyToOne(fetch = FetchType.EAGER)

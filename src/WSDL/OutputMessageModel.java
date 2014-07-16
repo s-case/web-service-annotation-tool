@@ -23,12 +23,19 @@ import org.hibernate.Session;
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
+import org.hibernate.search.annotations.Store;
 
 import WADL.Link;
 
 @XmlRootElement
 @Entity
 @Table(name="OutputMessage")
+@Indexed
 public class OutputMessageModel
 {
 	//properties
@@ -43,10 +50,12 @@ public class OutputMessageModel
 	private int outputMessageId;
 	
 	@Column(name = "name")
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String name;
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="oOutputMessage",orphanRemoval=true)
     @OnDelete(action=OnDeleteAction.CASCADE)
+	@IndexedEmbedded
 	private Set<OutputParameterModel> setOfOutputParameter = new HashSet<OutputParameterModel>();
 	
 	@ManyToOne(fetch = FetchType.EAGER)

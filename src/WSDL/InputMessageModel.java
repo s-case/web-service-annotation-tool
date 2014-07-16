@@ -23,12 +23,29 @@ import org.hibernate.Session;
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.IndexedEmbedded;
+
+
+
+import org.hibernate.search.annotations.Store;
+
+
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
+import org.hibernate.search.annotations.Store;
 
 import WADL.Link;
 
 @XmlRootElement
 @Entity
 @Table(name="inputMessage")
+@Indexed
 public class InputMessageModel
 {
 	//properties
@@ -43,10 +60,12 @@ public class InputMessageModel
 	private int inputMessageId;
 	
 	@Column(name = "name")
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String name;
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="oInputMessage",orphanRemoval=true)
     @OnDelete(action=OnDeleteAction.CASCADE)
+	@IndexedEmbedded
 	private Set<InputParameterModel> setOfInputParameter = new HashSet<InputParameterModel>();
 	
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -113,7 +132,7 @@ public class InputMessageModel
         return this.setOfInputParameter;
     }
 
-    public void setSetOfInputParameter( Set<InputParameterModel> setOfInputPatameter)
+    public void setSetOfInputParameter( Set<InputParameterModel> setOfInputParameter)
     {
         this.setOfInputParameter = setOfInputParameter;
     }

@@ -30,7 +30,9 @@
     <target name="dist" depends="compile"
         description="generate the distribution" >
         <!-- Create the distribution directory -->
+	<mkdir dir="${dist}/${ant.project.name}/WEB-INF/SearchIndexes"/>
         <mkdir dir="${dist}/${ant.project.name}/WEB-INF/classes"/>
+	<mkdir dir="${dist}/${ant.project.name}/WEB-INF/classes/META-INF"/>
         <mkdir dir="${dist}/${ant.project.name}/WEB-INF/lib"/>
         <copy todir="${dist}/${ant.project.name}/WEB-INF/classes">
                 <fileset dir="${bin}"/>
@@ -39,6 +41,8 @@
             <fileset dir="${lib}"/>
         </copy>
         <copyfile src="${src}/hibernate.cfg.xml" dest="${dist}/${ant.project.name}/WEB-INF/classes/hibernate.cfg.xml"/>
+	<copyfile src="${src}/hibernate.cfg.xml" dest="${dist}/${ant.project.name}/WEB-INF/classes/META-INF/hibernate.cfg.xml"/>
+	<copyfile src="${src}/persistence.xml" dest="${dist}/${ant.project.name}/WEB-INF/classes/META-INF/persistence.xml"/>
     </target>
     
     <target name="clean"

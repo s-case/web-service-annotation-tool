@@ -28,11 +28,17 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
+import org.hibernate.search.annotations.Store;
 
 @XmlRootElement
 @Entity
 @Table(name="RESTService")
+@Indexed
 public class RESTServiceModel
 {
 	//properties
@@ -46,15 +52,18 @@ public class RESTServiceModel
 	private Integer RESTServiceId;
 	
 	@Column(name = "wsProvider")
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String wsProvider;
 	
 	@Column(name = "baseUri")
 	private String baseUri;
 	
 	@Column(name = "wsName")
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String wsName;
 	
 	@Column(name = "wsDescription")
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String wsDescription;
 	
 	@ElementCollection(fetch = FetchType.EAGER)
@@ -62,10 +71,12 @@ public class RESTServiceModel
 	@ForeignKey(name = "fk_restservice_wskeywords")
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	@Column(name="wsKeywords")
+	//@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private Set<String> wsKeywords = new HashSet<String>(); 
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="oRESTService")
 	@OnDelete(action=OnDeleteAction.CASCADE)
+	@IndexedEmbedded
 	private Set<ResourceModel> setOfResource = new HashSet<ResourceModel>();
 	
 	@ManyToOne(fetch = FetchType.EAGER)

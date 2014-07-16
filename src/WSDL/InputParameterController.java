@@ -80,7 +80,7 @@ public class InputParameterController
 	@Produces("application/json")
 	@DELETE
 
-	public InputParameterModel deleteInputMessageInputParameter( @PathParam("inputParameter") int inputParameterId)
+	public InputParameterModel deleteInputMessageInputParameter( @PathParam("inputParameterId") int inputParameterId)
 	{
 		//create a new delete<resourceName>Handler
 		oDELETEInputMessageInputParameterHandler = new DELETEInputMessageInputParameterHandler(inputParameterId,oApplicationUri);

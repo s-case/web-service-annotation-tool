@@ -23,11 +23,17 @@ import javax.xml.bind.annotation.XmlTransient;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.annotations.ForeignKey;
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Store;
 
 
 @XmlRootElement
 @Entity
 @Table(name="RESTParameter")
+@Indexed
 public class RESTParameterModel
 {
 	//properties
@@ -41,6 +47,7 @@ public class RESTParameterModel
 	private int RESTParameterId;
 	
 	@Column(name = "parameterName")
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String parameterName;
 	
 	@Column(name = "parameterStyle")
@@ -53,6 +60,7 @@ public class RESTParameterModel
 	private String parameterRequired;
 	
 	@Column(name = "description")
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String description;
 	
 	@Column(name = "searchOntology")

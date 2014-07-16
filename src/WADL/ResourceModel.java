@@ -26,11 +26,17 @@ import org.hibernate.Session;
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
+import org.hibernate.search.annotations.Store;
 
 @XmlRootElement
 @Entity
 @Table(name="resource")
+@Indexed
 public class ResourceModel
 {
 	//properties
@@ -50,10 +56,12 @@ public class ResourceModel
 	
 //	@XmlElement
 	@Column(name = "resourceName")
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String resourceName;
 	
 //	@XmlElement
 	@Column(name = "resourceDescription")
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String resourceDescription;
 	
 	@Column(name = "searchOntology")
@@ -67,14 +75,17 @@ public class ResourceModel
     @CollectionTable(name="resourceresourceKeywords", joinColumns=@JoinColumn(name="resourceId"))
     @ForeignKey(name = "fk_resource_resourceKeywords")
 	@Column(name = "resourceKeywords")
+ //   @Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private Set<String> resourceKeywords  = new HashSet<String>();
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="oResource")
 	@OnDelete(action=OnDeleteAction.CASCADE)
+	@IndexedEmbedded
 	private Set<RESTMethodModel> setOfRESTMethod = new HashSet<RESTMethodModel>();
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="oResource")
 	@OnDelete(action=OnDeleteAction.CASCADE)
+	@IndexedEmbedded
 	private Set<RESTParameterModel> setOfRESTParameter = new HashSet<RESTParameterModel>();
 	
 	@ManyToOne(fetch = FetchType.EAGER)

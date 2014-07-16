@@ -26,12 +26,19 @@ import org.hibernate.Session;
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
+import org.hibernate.search.annotations.Store;
 
 import WADL.Link;
 
 @XmlRootElement
 @Entity
 @Table(name="SOAPOperation")
+@Indexed
 public class SOAPOperationModel
 {
 	//properties
@@ -46,9 +53,11 @@ public class SOAPOperationModel
 	private int SOAPOperationId;
 	
 	@Column(name = "name")
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String name;
 	
 	@Column(name = "description",columnDefinition="TEXT")
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String description;
 	
 	@Column(name = "searchOntology")
@@ -62,14 +71,17 @@ public class SOAPOperationModel
     @CollectionTable(name="SOAPOperationKeyword", joinColumns=@JoinColumn(name="SOAPOperationId"))
     @ForeignKey(name = "fk_SOAPOperation_Keyword")
 	@Column(name = "keyword")
+//    @Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private Set<String> keyword  = new HashSet<String>();
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="oSOAPOperation",orphanRemoval=true)
     @OnDelete(action=OnDeleteAction.CASCADE)
+	@IndexedEmbedded
 	private Set<InputMessageModel> setOfInputMessage = new HashSet<InputMessageModel>();
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="oSOAPOperation",orphanRemoval=true)
     @OnDelete(action=OnDeleteAction.CASCADE)
+	@IndexedEmbedded
 	private Set<OutputMessageModel> setOfOutputMessage = new HashSet<OutputMessageModel>();
 	
 	@ManyToOne(fetch = FetchType.EAGER)
