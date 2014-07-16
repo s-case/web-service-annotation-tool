@@ -25,9 +25,12 @@ import org.hibernate.Session;
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.FieldBridge;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.Store;
+
+import Utilities.SetStringFieldBridge;
 
 
 @XmlRootElement
@@ -73,6 +76,8 @@ public class RESTParameterModel
     @CollectionTable(name="restparameterparametervalueoption", joinColumns=@JoinColumn(name="RESTParameterId"))
     @ForeignKey(name = "fk_restparameter_parameterValueOption")
 	@Column(name = "parameterValueOption")
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
+	@FieldBridge(impl=SetStringFieldBridge.class)
 	private Set<String> parameterValueOption = new HashSet<String>();
 	
 	@Column(name = "parameterType")

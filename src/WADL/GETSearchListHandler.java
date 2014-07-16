@@ -108,7 +108,7 @@ public class GETSearchListHandler
     	PersistenceUtil.beginEntityManagerTransaction();
 
     	QueryBuilder oQueryBuilder = oFullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(RESTServiceModel.class).get();
-    	org.apache.lucene.search.Query oLuceneQuery = oQueryBuilder.keyword().onFields("wsProvider", "wsName", "wsDescription").matching(searchKeyword).createQuery();
+    	org.apache.lucene.search.Query oLuceneQuery = oQueryBuilder.keyword().onFields("wsProvider", "wsName", "wsDescription", "wsKeywords").matching(searchKeyword).createQuery();
     	// wrap Lucene query in a javax.persistence.Query
     	javax.persistence.Query oJpaQuery = oFullTextEntityManager.createFullTextQuery(oLuceneQuery, RESTServiceModel.class);
 
@@ -132,7 +132,7 @@ public class GETSearchListHandler
     	PersistenceUtil.beginEntityManagerTransaction();
 
     	QueryBuilder oQueryBuilder = oFullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(ResourceModel.class).get();
-    	org.apache.lucene.search.Query oLuceneQuery = oQueryBuilder.keyword().onFields("resourceName", "resourceDescription").matching(searchKeyword).createQuery();
+    	org.apache.lucene.search.Query oLuceneQuery = oQueryBuilder.keyword().onFields("resourceName", "resourceDescription","resourceKeywords").matching(searchKeyword).createQuery();
     	// wrap Lucene query in a javax.persistence.Query
     	javax.persistence.Query oJpaQuery = oFullTextEntityManager.createFullTextQuery(oLuceneQuery, ResourceModel.class);
 
@@ -156,7 +156,7 @@ public class GETSearchListHandler
     	PersistenceUtil.beginEntityManagerTransaction();
 
     	QueryBuilder oQueryBuilder = oFullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(RESTMethodModel.class).get();
-    	org.apache.lucene.search.Query oLuceneQuery = oQueryBuilder.keyword().onFields("methodDescription", "methodIdentifier").matching(searchKeyword).createQuery();
+    	org.apache.lucene.search.Query oLuceneQuery = oQueryBuilder.keyword().onFields("methodDescription", "methodIdentifier","methodKeywords").matching(searchKeyword).createQuery();
     	// wrap Lucene query in a javax.persistence.Query
     	javax.persistence.Query oJpaQuery = oFullTextEntityManager.createFullTextQuery(oLuceneQuery, RESTMethodModel.class);
 
@@ -180,7 +180,7 @@ public class GETSearchListHandler
     	PersistenceUtil.beginEntityManagerTransaction();
 
     	QueryBuilder oQueryBuilder = oFullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(RESTParameterModel.class).get();
-    	org.apache.lucene.search.Query oLuceneQuery = oQueryBuilder.keyword().onFields("parameterName", "description").matching(searchKeyword).createQuery();
+    	org.apache.lucene.search.Query oLuceneQuery = oQueryBuilder.keyword().onFields("parameterName", "description","parameterValueOption").matching(searchKeyword).createQuery();
     	// wrap Lucene query in a javax.persistence.Query
     	javax.persistence.Query oJpaQuery = oFullTextEntityManager.createFullTextQuery(oLuceneQuery, RESTParameterModel.class);
 
@@ -211,7 +211,7 @@ public class GETSearchListHandler
     	PersistenceUtil.beginEntityManagerTransaction();
 
     	QueryBuilder oQueryBuilder = oFullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(SOAPServiceModel.class).get();
-    	org.apache.lucene.search.Query oLuceneQuery = oQueryBuilder.keyword().onFields("name", "description").matching(searchKeyword).createQuery();
+    	org.apache.lucene.search.Query oLuceneQuery = oQueryBuilder.keyword().onFields("name", "description","keyword").matching(searchKeyword).createQuery();
     	// wrap Lucene query in a javax.persistence.Query
     	javax.persistence.Query oJpaQuery = oFullTextEntityManager.createFullTextQuery(oLuceneQuery, SOAPServiceModel.class);
 
@@ -235,7 +235,7 @@ public class GETSearchListHandler
     	PersistenceUtil.beginEntityManagerTransaction();
 
     	QueryBuilder oQueryBuilder = oFullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(SOAPOperationModel.class).get();
-    	org.apache.lucene.search.Query oLuceneQuery = oQueryBuilder.keyword().onFields("name", "description").matching(searchKeyword).createQuery();
+    	org.apache.lucene.search.Query oLuceneQuery = oQueryBuilder.keyword().onFields("name", "description","keyword").matching(searchKeyword).createQuery();
     	// wrap Lucene query in a javax.persistence.Query
     	javax.persistence.Query oJpaQuery = oFullTextEntityManager.createFullTextQuery(oLuceneQuery, SOAPOperationModel.class);
 
@@ -265,7 +265,7 @@ public class GETSearchListHandler
     	PersistenceUtil.beginEntityManagerTransaction();
 
     	QueryBuilder oQueryBuilder = oFullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(InputParameterModel.class).get();
-    	org.apache.lucene.search.Query oLuceneQuery = oQueryBuilder.keyword().onFields("name").matching(searchKeyword).createQuery();
+    	org.apache.lucene.search.Query oLuceneQuery = oQueryBuilder.keyword().onFields("name","keyword").matching(searchKeyword).createQuery();
     	// wrap Lucene query in a javax.persistence.Query
     	javax.persistence.Query oJpaQuery = oFullTextEntityManager.createFullTextQuery(oLuceneQuery, InputParameterModel.class);
 
@@ -298,7 +298,7 @@ public class GETSearchListHandler
     	PersistenceUtil.beginEntityManagerTransaction();
 
     	QueryBuilder oQueryBuilder = oFullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(OutputParameterModel.class).get();
-    	org.apache.lucene.search.Query oLuceneQuery = oQueryBuilder.keyword().onFields("name").matching(searchKeyword).createQuery();
+    	org.apache.lucene.search.Query oLuceneQuery = oQueryBuilder.keyword().onFields("name","keyword").matching(searchKeyword).createQuery();
     	// wrap Lucene query in a javax.persistence.Query
     	javax.persistence.Query oJpaQuery = oFullTextEntityManager.createFullTextQuery(oLuceneQuery, OutputParameterModel.class);
 

@@ -28,10 +28,13 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.FieldBridge;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
 import org.hibernate.search.annotations.Store;
+
+import Utilities.SetStringFieldBridge;
 
 @XmlRootElement
 @Entity
@@ -71,7 +74,8 @@ public class RESTMethodModel
     @CollectionTable(name="RESTMethodMethodKeywords", joinColumns=@JoinColumn(name="RESTMethodId"))
     @ForeignKey(name = "fk_restmethod_methodkeywords")
 	@Column(name = "methodKeywords")
- //   @Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
+	@FieldBridge(impl=SetStringFieldBridge.class)
 	private Set<String> methodKeywords = new HashSet<String>();
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="oRESTMethod")

@@ -30,10 +30,13 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.FieldBridge;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
 import org.hibernate.search.annotations.Store;
+
+import Utilities.SetStringFieldBridge;
 
 @XmlRootElement
 @Entity
@@ -71,7 +74,8 @@ public class RESTServiceModel
 	@ForeignKey(name = "fk_restservice_wskeywords")
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	@Column(name="wsKeywords")
-	//@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
+	@FieldBridge(impl=SetStringFieldBridge.class)
 	private Set<String> wsKeywords = new HashSet<String>(); 
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="oRESTService")

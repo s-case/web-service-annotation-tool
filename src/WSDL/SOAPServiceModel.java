@@ -30,11 +30,13 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.FieldBridge;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
 import org.hibernate.search.annotations.Store;
 
+import Utilities.SetStringFieldBridge;
 import WADL.AccountModel;
 import WADL.Link;
 
@@ -77,8 +79,9 @@ public class SOAPServiceModel
     @CollectionTable(name="soapservicekeyword", joinColumns=@JoinColumn(name="SOAPServiceId"))
     @ForeignKey(name = "fk_soapservice_keyword")
 	@Column(name = "keyword")
- //   @Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
-	private Set<String> keyword  = new HashSet<String>();
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
+	@FieldBridge(impl=SetStringFieldBridge.class)
+    private Set<String> keyword  = new HashSet<String>();
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="oSOAPService",orphanRemoval=true)
     @OnDelete(action=OnDeleteAction.CASCADE)
