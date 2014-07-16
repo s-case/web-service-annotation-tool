@@ -12,7 +12,7 @@
 					<a class="btn btn-default btn-xs" ng-href="#/soapservices/{{service.id}}" role="button" ng-show="service.type == 'SOAP'">
 						<span class="glyphicon glyphicon-edit"></span>
 					</a>
-					<button type="button" class="btn btn-default btn-xs" ng-click="delete(service.id)">
+					<button type="button" class="btn btn-default btn-xs" ng-click="delete(service.uri, $index)">
 						<span class="glyphicon glyphicon-trash"></span>
 					</button>
 				</li>

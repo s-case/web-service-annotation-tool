@@ -3,21 +3,27 @@
 		<div class="col-lg-3"></div>
 		<div class="col-lg-6">
 			<form class="form-horizontal" role="form">
+				<div class="form-group">
+					<div class="col-sm-4"></div>
+					<div class="col-sm-8">
+						<div class="alert alert-danger" role="alert" ng-show="msg">{{msg}}</div>
+					</div>
+				</div>
 			   <div class="form-group">
 			    <label for="inputUsername3" class="col-sm-4 control-label">Username</label>
 			    <div class="col-sm-8">
-			      <input type="text" class="form-control" id="inputUsername3" >
+			      <input type="text" class="form-control" id="inputUsername3" ng-model="username">
 			    </div>
 			  </div>
 			  <div class="form-group">
 			    <label for="inputPassword3" class="col-sm-4 control-label">Password</label>
 			    <div class="col-sm-8">
-			      <input type="password" class="form-control" id="inputPassword3">
+			      <input type="password" class="form-control" id="inputPassword3" ng-model="password">
 			    </div>
 			  </div>
 			  <div class="form-group">
 			    <div class="col-sm-offset-4 col-sm-8">
-			      <button type="submit" class="btn btn-default">Sign in</button>
+			      <button type="submit" class="btn btn-default" ng-click="signin()">Sign in</button>
 			    </div>
 			  </div>
 			</form>
