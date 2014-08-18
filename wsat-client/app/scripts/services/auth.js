@@ -47,13 +47,8 @@ angular.module('angClientApp').factory('Auth', function ($http, $cookieStore) {
             });
         },
         signout: function(success, error) {
-            $http.post('/signout').success(function(){
-                changeUser({
-                    username: '',
-                    role: ''
-                });
-                success();
-            }).error(error);
+            changeUser({ username: '', accountId: '', email: '' });
+            success();
         },
         user: currentUser
     };

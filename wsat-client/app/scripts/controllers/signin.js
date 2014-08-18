@@ -9,7 +9,7 @@ angular.module('angClientApp')
             },
             function(res) {
                 console.log("signed");
-                $location.path('/');
+                $location.path('/home');
             },
             function(err) {
                 console.log(err);

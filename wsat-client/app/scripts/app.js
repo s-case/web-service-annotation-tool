@@ -7,7 +7,8 @@ angular
         'ngSanitize',
         'ui.router',
         'ui.tree',
-        'angularFileUpload'
+        'angularFileUpload',
+        'angular-loading-bar'
     ])
     .run(function ($rootScope, $state, Auth) {
         $rootScope.Auth = Auth;
@@ -59,6 +60,11 @@ angular
                 public: true
             }
         })
+        .state('public.home', {
+            url: '/',
+            templateUrl: 'views/home.html',
+            controller: 'HomeCtrl'
+        })
         .state('public.signin',{
             url: '/signin',
             templateUrl: 'views/signin.html',
@@ -80,7 +86,7 @@ angular
                 }
             })
             .state('main.home', {
-                url: '/',
+                url: '/home',
                 templateUrl: 'views/home.html',
                 controller: 'HomeCtrl'
             })

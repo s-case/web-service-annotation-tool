@@ -32,10 +32,21 @@
 				</div>
 				<button type="submit" class="btn btn-default" ng-click="search()">Search</button>
 			 </form>
-			 <h4>Search Results</h4>
-			 <ul>
-			 	<li ng-repeat="result in results"><a href="#">{{result.rel}}</a> Type: [{{result.type}}]</li>
-			 </ul>
+		</div>
+		<div class="col-lg-2"></div>
+	</div>
+	<div class="row">
+		<div class="col-lg-2"></div>
+		<div class="col-lg-8">
+			 <div ng-show="results.length > 0">
+			 	<h4>Search Results</h4>
+			 	<ul>
+			 		<li ng-repeat="result in results"><a href="#">{{result.rel}}</a> Type: [{{result.type}}]</li>
+			 	</ul>
+			 </div>
+			 <div ng-show="results.length === 0">
+			 	<h4>No Results</h4>
+			 </div>
 		</div>
 		<div class="col-lg-2"></div>
 	</div>

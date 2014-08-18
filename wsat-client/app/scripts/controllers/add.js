@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('angClientApp')
-  .controller('AddCtrl', function ($scope, $upload, Auth) {
+  .controller('AddCtrl', function ($scope, $upload, $location, Auth) {
 
   		var accountId = Auth.user.accountId;
 
@@ -40,6 +40,7 @@ angular.module('angClientApp')
                         // file is uploaded successfull
                         console.log("success");
                         console.log(data);
+                        $location.path('/services');
                     });
                 }
             }
@@ -80,6 +81,7 @@ angular.module('angClientApp')
                         // file is uploaded successfull
                         console.log("success");
                         console.log(data);
+                        $location.path('/services');
                     });
                 }
             }

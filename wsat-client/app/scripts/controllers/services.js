@@ -39,7 +39,7 @@ angular.module('angClientApp')
 		$scope.delete = function(link, index) {
 			console.log(link);
 			$http.delete(link).success(function(data, status, headers, config) {
-				$scope.services.slice(index, index+1);
+				$scope.services.splice(index, 1);
 			}); 
 		}
 	});
