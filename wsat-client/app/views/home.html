@@ -5,18 +5,37 @@
 			<form role="form">
 				<div class="form-group">
 					 <label for="search">Search</label>
-					<input type="text" class="form-control" id="search">
+					<input type="text" class="form-control" id="search" ng-model="searchBox">
 				</div>
 				<div class="form-group">
-					<label class="radio-inline">
-				  		<input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> REST
+					<label class="checkbox-inline">
+  						<input type="checkbox" id="inlineCheckbox1" value="option1" ng-model="searchRESTService"> REST Service
 					</label>
-					<label class="radio-inline">
-				  		<input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> SOAP
+					<label class="checkbox-inline">
+  						<input type="checkbox" id="inlineCheckbox2" value="option2" ng-model="searchRESTResource"> REST Resource
+					</label>
+					<label class="checkbox-inline">
+  						<input type="checkbox" id="inlineCheckbox3" value="option3" ng-model="searchRESTMethod"> REST Method
+					</label>
+					<label class="checkbox-inline">
+  						<input type="checkbox" id="inlineCheckbox4" value="option4" ng-model="searchRESTParameter"> REST Parameter
+					</label>
+					<label class="checkbox-inline">
+  						<input type="checkbox" id="inlineCheckbox5" value="option5" ng-model="searchSOAPService"> SOAP Service
+					</label>
+					<label class="checkbox-inline">
+  						<input type="checkbox" id="inlineCheckbox6" value="option6" ng-model="searchSOAPOperation"> SOAP Operation
+					</label>
+					<label class="checkbox-inline">
+  						<input type="checkbox" id="inlineCheckbox7" value="option7" ng-model="searchSOAPParameter"> SOAP Parameter
 					</label>
 				</div>
-				<button type="submit" class="btn btn-default">Search</button>
+				<button type="submit" class="btn btn-default" ng-click="search()">Search</button>
 			 </form>
+			 <h4>Search Results</h4>
+			 <ul>
+			 	<li ng-repeat="result in results"><a href="#">{{result.rel}}</a> Type: [{{result.type}}]</li>
+			 </ul>
 		</div>
 		<div class="col-lg-2"></div>
 	</div>

@@ -4,23 +4,14 @@
 			<div class="radio">
   				<label>
     				<input type="radio" name="optionsRadios" id="optionsRadios1" value="wadl" ng-model="option">
-    				REST/WADLfg
+    				REST/WADL
   				</label>
 			</div>
 			<div class="panel panel-default" ng-show="option == 'wadl'">
 				<div class="panel-body">
 					<form class="form-horizontal" role="form">
 		  				<div class="form-group">
-		    				<label for="url" class="col-lg-2 control-label">URL</label>
-		    				<div class="col-lg-10">
-		    					<input type="text" class="form-control" id="url" placeholder="Enter url">
-		    				</div>
-		  				</div>
-		  				<div class="form-group">
-		    				<label for="exampleInputFile" class="col-lg-2 control-label">Or</label>
-		    			</div>
-		  				<div class="form-group">
-		    				<label for="exampleInputFile" class="col-lg-2 control-label">File inputsd</label>
+		    				<label for="exampleInputFile" class="col-lg-2 control-label">File inputs</label>
 		    				<div class="col-lg-10">
 		    					<input type="file" ng-file-select="onRESTSelect($files)" onclick="this.value=null">
 		    				</div>
@@ -38,15 +29,6 @@
 			<div class="panel panel-default" ng-show="option == 'wsdl'">
 				<div class="panel-body">
 					<form class="form-horizontal" role="form">
-		  				<div class="form-group">
-		    				<label for="url" class="col-lg-2 control-label">URL</label>
-		    				<div class="col-lg-10">
-		    					<input type="text" class="form-control" id="url" placeholder="Enter url">
-		    				</div>
-		  				</div>
-		  				<div class="form-group">
-		    				<label for="exampleInputFile" class="col-lg-2 control-label">Or</label>
-		    			</div>
 		  				<div class="form-group">
 		    				<label for="exampleInputFile" class="col-lg-2 control-label">File input</label>
 		    				<div class="col-lg-10">
