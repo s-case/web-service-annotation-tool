@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('angClientApp')
-  .controller('AddCtrl', function ($scope, $upload, $location, Auth) {
+  .controller('AddCtrl', function ($scope, $upload, $location, Auth, Location) {
 
   		var accountId = Auth.user.accountId;
 
@@ -23,7 +23,7 @@ angular.module('angClientApp')
                 if (file) {
                     var data = {};
                     $scope.upload = $upload.upload({
-                        url: "http://localhost:8080/wsAnnotationTool/api/account/" + accountId + "/algoRESTService/WADLParse", //upload.php script, node.js route, or servlet url
+                        url: Location.getAddressPfx() + "/wsAnnotationTool/api/account/" + accountId + "/algoRESTService/WADLParse", //upload.php script, node.js route, or servlet url
                         method: "POST",
                         // headers: {'headerKey': 'headerValue'},
                         // withCredential: true,
@@ -64,7 +64,7 @@ angular.module('angClientApp')
                 if (file) {
                     var data = {};
                     $scope.upload = $upload.upload({
-                        url: "http://localhost:8080/wsAnnotationTool/api/account/" + accountId + "/algoSOAPService/WSDLParse", //upload.php script, node.js route, or servlet url
+                        url: Location.getAddressPfx() + "/wsAnnotationTool/api/account/" + accountId + "/algoSOAPService/WSDLParse", //upload.php script, node.js route, or servlet url
                         method: "POST",
                         // headers: {'headerKey': 'headerValue'},
                         // withCredential: true,

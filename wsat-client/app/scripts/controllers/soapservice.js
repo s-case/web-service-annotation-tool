@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('angClientApp')
-  .controller('SoapserviceCtrl', function ($scope, $http, $stateParams) {
+  .controller('SoapserviceCtrl', function ($scope, $http, $stateParams, Location) {
     	var accountId = 1;
   	
   		var getRootNodesScope = function() {
       		return angular.element(document.getElementById("tree-root")).scope();
     	};
 
-		$http.get("http://localhost:8080/wsAnnotationTool/api/account/" + accountId + "/SOAPService/" + $stateParams.serviceid)
+		$http.get(Location.getAddressPfx() + "/wsAnnotationTool/api/account/" + accountId + "/SOAPService/" + $stateParams.serviceid)
 	  	.success(function(data, status, headers, config) {
 			$scope.service = data;
 
@@ -17,8 +17,8 @@ angular.module('angClientApp')
 		    	"type": "base",
 		    	"title": $scope.service.name,
 		    	"link": "/soapservices/" + $stateParams.serviceid + "/base",
-		    	"entity": "http://localhost:8080/wsAnnotationTool/api/account/" + accountId + "/SOAPService/" + $stateParams.serviceid,
-		    	"expandLink": "http://localhost:8080/wsAnnotationTool/api/account/" + accountId + "/SOAPService/" + $stateParams.serviceid,
+		    	"entity": Location.getAddressPfx() + "/wsAnnotationTool/api/account/" + accountId + "/SOAPService/" + $stateParams.serviceid,
+		    	"expandLink": Location.getAddressPfx() + "/wsAnnotationTool/api/account/" + accountId + "/SOAPService/" + $stateParams.serviceid,
 		    	"collapsed": true,
 		    	"items": []
 		    }];

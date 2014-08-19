@@ -90,6 +90,16 @@ angular
                 templateUrl: 'views/home.html',
                 controller: 'HomeCtrl'
             })
+            .state('main.edit', {
+                url: '/edit',
+                templateUrl: 'views/edit.html',
+                controller: 'EditCtrl'
+            })
+            .state('main.passwd', {
+                url: '/passwd',
+                templateUrl: 'views/passwd.html',
+                controller: 'PasswdCtrl'
+            })
             .state('main.services', {
                 url: '/services',
                 templateUrl: 'views/services.html',

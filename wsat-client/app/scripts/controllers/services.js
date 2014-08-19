@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('angClientApp')
-	.controller('ServicesCtrl', function ($scope, $http, Auth) {
+	.controller('ServicesCtrl', function ($scope, $http, $location, Auth, Location) {
 		var accountId = Auth.user.accountId;
-		$http.get("http://localhost:8080/wsAnnotationTool/api/account/" + accountId + "/RESTService")
+		$http.get(Location.getAddressPfx() + "/wsAnnotationTool/api/account/" + accountId + "/RESTService")
 		.success(function(data, status, headers, config) {
 		$scope.services = [];
 			for(var i in data.linkList) {
@@ -18,7 +18,7 @@ angular.module('angClientApp')
 					});
 				}
             }
-            $http.get("http://localhost:8080/wsAnnotationTool/api/account/" + accountId + "/SOAPService")
+            $http.get(Location.getAddressPfx() + "/wsAnnotationTool/api/account/" + accountId + "/SOAPService")
 			.success(function(data, status, headers, config) {
 				for(var i in data.linkList) {
 					if(data.linkList[i].type == "Child") {

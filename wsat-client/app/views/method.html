@@ -1,4 +1,12 @@
 <form class="form-horizontal" role="form">
+  <div class="col-sm-3"></div>
+  <div class="col-sm-9">
+    <div class="alert alert-success" role="alert" ng-show="success">Entity updated succesfully!!!</div>
+  </div>
+  <div class="col-sm-3"></div>
+  <div class="col-sm-9">
+    <div class="alert alert-danger" role="alert" ng-show="error">Ooops, something went wrong :(</div>
+  </div>
   <div class="form-group">
     <label for="node" class="col-sm-3 control-label">Node</label>
     <div class="col-sm-9">
@@ -20,13 +28,13 @@
   <div class="form-group">
     <label for="req" class="col-sm-3 control-label">Example Request</label>
     <div class="col-sm-9">
-      <textarea class="form-control" id="req" rows="3"></textarea>
+      <textarea class="form-control" id="req" rows="3" disabled></textarea>
     </div>
   </div>
   <div class="form-group">
     <label for="res" class="col-sm-3 control-label">Example Response</label>
     <div class="col-sm-9">
-      <textarea class="form-control" id="res" rows="3"></textarea>
+      <textarea class="form-control" id="res" rows="3" disabled></textarea>
     </div>
   </div>
   <div class="form-group">
@@ -50,7 +58,7 @@
       </div>
     </div>
   </div> -->
-  <div class="form-group">
+  <!-- <div class="form-group">
     <label for="ontoSearch" class="col-sm-3 control-label">Ontology Search</label>
     <div class="col-sm-9">
       <div class="input-group">
@@ -99,7 +107,7 @@
   		<option>Option 5</option>
 	  </select>
     </div>
-  </div>
+  </div> -->
   <div class="form-group">
     <div class="col-sm-offset-3 col-sm-9">
       <button type="submit" class="btn btn-default" ng-click="save()">Save</button>

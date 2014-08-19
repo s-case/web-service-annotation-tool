@@ -6,14 +6,23 @@ angular.module('angClientApp')
 
     	$http.get(link)
 	  	.success(function(data, status, headers, config) {
+			var keyword = [];
+			if(data.keyword) {
+				if(data.keyword instanceof Array) {
+					keyword = data.keyword.join();	
+				} else {
+					keyword = data.keyword;
+				}
+	  		}
 			$scope.message = {
 				name : data.name,
 				description: data.description,
-				keywords: data.keywords
+				keyword: keyword
 			};
 		});
 
 		$scope.save = function() {
+			$scope.message.keyword = $scope.message.keyword.split(",");
 			$http.put(link, $scope.message)
   			.success(function(data, status, headers, config) {
   				$scope.success = true;

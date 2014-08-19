@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('angClientApp')
-	.controller('ServiceCtrl', function ($scope, $http, $stateParams) {
+	.controller('ServiceCtrl', function ($scope, $http, $stateParams, Location) {
 
 		var accountId = 1;
   	
@@ -9,7 +9,7 @@ angular.module('angClientApp')
       		return angular.element(document.getElementById("tree-root")).scope();
     	};
 
-		$http.get("http://localhost:8080/wsAnnotationTool/api/account/" + accountId + "/RESTService/" + $stateParams.serviceid)
+		$http.get(Location.getAddressPfx() + "/wsAnnotationTool/api/account/" + accountId + "/RESTService/" + $stateParams.serviceid)
 	  	.success(function(data, status, headers, config) {
 			$scope.service = data;
 
@@ -18,8 +18,8 @@ angular.module('angClientApp')
 		    	"type": "base",
 		    	"title": "Base",
 		    	"link": "/services/" + $stateParams.serviceid + "/base",
-		    	"entity": "http://localhost:8080/wsAnnotationTool/api/account/" + accountId + "/RESTService/" + $stateParams.serviceid,
-		    	"expandLink": "http://localhost:8080/wsAnnotationTool/api/account/" + accountId + "/RESTService/" + $stateParams.serviceid,
+		    	"entity": Location.getAddressPfx() + "/wsAnnotationTool/api/account/" + accountId + "/RESTService/" + $stateParams.serviceid,
+		    	"expandLink": Location.getAddressPfx() + "/wsAnnotationTool/api/account/" + accountId + "/RESTService/" + $stateParams.serviceid,
 		    	"collapsed": true,
 		    	"items": []
 		    }];

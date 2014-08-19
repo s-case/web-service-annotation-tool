@@ -12,24 +12,24 @@
 				<div class="form-group">
 					<div class="col-sm-4"></div>
 			    	<div class="col-sm-8">
-			      		<h4>Sign In</h4>
+			      		<h4>Change password</h4>
 			    	</div>
 			  	</div>
-			   <div class="form-group">
-			    <label for="inputUsername3" class="col-sm-4 control-label">Username</label>
-			    <div class="col-sm-8">
-			      <input type="text" class="form-control" id="inputUsername3" ng-model="username">
-			    </div>
-			  </div>
 			  <div class="form-group">
 			    <label for="inputPassword3" class="col-sm-4 control-label">Password</label>
 			    <div class="col-sm-8">
-			      <input type="password" class="form-control" id="inputPassword3" ng-model="password">
+			      <input type="password" class="form-control" id="inputPassword3" placeholder="Password" ng-model="user.password">
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <label for="inputPassword4" class="col-sm-4 control-label">Retype Password</label>
+			    <div class="col-sm-8">
+			      <input type="password" class="form-control" id="inputPassword4" placeholder="Retype password" ng-model="retypedPassword">
 			    </div>
 			  </div>
 			  <div class="form-group">
 			    <div class="col-sm-offset-4 col-sm-8">
-			      <button type="submit" class="btn btn-default" ng-click="signin()">Sign in</button>
+			      <button type="submit" class="btn btn-default" ng-click="update()">Update</button>
 			    </div>
 			  </div>
 			</form>

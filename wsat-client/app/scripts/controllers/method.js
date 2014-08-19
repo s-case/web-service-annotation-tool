@@ -2,12 +2,19 @@
 
 angular.module('angClientApp')
   .controller('MethodCtrl', function ($scope, $http, $location) {
-  	  	var accountId = 1;
 
   	  	var link = $location.search().l; 
 
   		$http.get(link)
 	  	.success(function(data, status, headers, config) {
+			var methodKeywords = [];
+			if(data.methodKeywords) {
+				if(data.methodKeywords instanceof Array) {
+					methodKeywords = data.methodKeywords.join();	
+				} else {
+					methodKeywords = data.methodKeywords;
+				}
+	  		}
 			$scope.method = {
 				HTTPVerb : data.HTTPVerb,
 				methodIdentifier: data.methodIdentifier,
@@ -17,6 +24,7 @@ angular.module('angClientApp')
 		});
 
 		$scope.save = function() {
+			$scope.method.methodKeywords = $scope.method.methodKeywords.split(",");
 			$http.put(link, $scope.method)
   			.success(function(data, status, headers, config) {
   				$scope.success = true;

@@ -7,13 +7,14 @@
  * # Auth
  * Factory in the angClientApp.
  */
-angular.module('angClientApp').factory('Auth', function ($http, $cookieStore) {
+angular.module('angClientApp').factory('Auth', function ($http, $cookieStore, Location) {
     var currentUser = $cookieStore.get('suser') || { username: '', accountId: '', email: ''};
 
-    $cookieStore.remove('suser');
+    // $cookieStore.remove('suser');
 
     function changeUser(user) {
         angular.extend(currentUser, user);
+        $cookieStore.put('suser', currentUser);
     }
 
     return {
@@ -29,7 +30,7 @@ angular.module('angClientApp').factory('Auth', function ($http, $cookieStore) {
             return user.accountId !== '';
         },
         signup: function(user, success, error) {
-            $http.post('http://localhost:8080/wsAnnotationTool/api/account', user).success(function(res) {
+            $http.post(Location.getAddressPfx() + '/wsAnnotationTool/api/account', user).success(function(res) {
                 changeUser(res);
                 success();
             }).error(function(err) {
@@ -38,7 +39,7 @@ angular.module('angClientApp').factory('Auth', function ($http, $cookieStore) {
         },
         signin: function(user, success, error) {
             var credentials = user.username.concat(':').concat(user.password);
-            $http.get('http://localhost:8080/wsAnnotationTool/api/account', { headers: {'Authorization': 'Basic ' + btoa(credentials)} }).success(function(user){
+            $http.get(Location.getAddressPfx() + '/wsAnnotationTool/api/account', { headers: {'Authorization': 'Basic ' + btoa(credentials)} }).success(function(user){
                 console.log("success");
                 changeUser(user);
                 success(user);

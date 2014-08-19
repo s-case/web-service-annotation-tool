@@ -2,31 +2,55 @@
   <div class="form-group">
     <label for="node" class="col-sm-3 control-label">Node</label>
     <div class="col-sm-9">
-      <input type="text" class="form-control" id="node" value="Query Param 1" disabled>
+      <input type="text" class="form-control" id="node" value="Parameter" disabled>
     </div>
   </div>
   <div class="form-group">
     <label for="name" class="col-sm-3 control-label">Name</label>
     <div class="col-sm-9">
-      <input type="text" class="form-control" id="name" ng-model="parameter.parameterName">
+      <input type="text" class="form-control" id="name" ng-model="parameter.parameterName" disabled>
     </div>
   </div>
   <div class="form-group">
     <label for="example" class="col-sm-3 control-label">Type</label>
     <div class="col-sm-9">
-      <input type="text" class="form-control" id="example" ng-model="parameter.parameterType">
+      <input type="text" class="form-control" id="example" ng-model="parameter.parameterType" disabled>
     </div>
   </div>
   <div class="form-group">
     <label for="example" class="col-sm-3 control-label">Style</label>
     <div class="col-sm-9">
-      <input type="text" class="form-control" id="example" ng-model="parameter.parameterStyle">
+      <input type="text" class="form-control" id="example" ng-model="parameter.parameterStyle" disabled>
     </div>
   </div>
   <div class="form-group">
     <label for="example" class="col-sm-3 control-label">Example</label>
     <div class="col-sm-9">
-      <input type="text" class="form-control" id="example" ng-model="parameter.parameterExample">
+      <input type="text" class="form-control" id="example" ng-model="parameter.parameterExample" disabled>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="example" class="col-sm-3 control-label">Default</label>
+    <div class="col-sm-9">
+      <input type="text" class="form-control" id="example" ng-model="parameter.parameterDefault" disabled>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="example" class="col-sm-3 control-label">Required</label>
+    <div class="col-sm-9">
+      <input type="text" class="form-control" id="example" ng-model="parameter.parameterRequired" disabled>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="example" class="col-sm-3 control-label">Direction</label>
+    <div class="col-sm-9">
+      <input type="text" class="form-control" id="example" ng-model="parameter.parameterDirection" disabled>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="example" class="col-sm-3 control-label">Value Options</label>
+    <div class="col-sm-9">
+      <input type="text" class="form-control" id="example" ng-model="parameter.parameterValueOption" disabled>
     </div>
   </div>
   <div class="form-group">
@@ -35,13 +59,13 @@
       <textarea class="form-control" id="desc" rows="3" ng-model="parameter.parameterDescription"></textarea>
     </div>
   </div>
-  <div class="form-group">
+  <!-- <div class="form-group">
     <label for="keywors" class="col-sm-3 control-label">Keywords</label>
     <div class="col-sm-9">
       <input type="text" class="form-control" id="keywords" ng-model="parameter.parameterKeywords">
     </div>
-  </div>
-  <div class="form-group">
+  </div> -->
+<!--   <div class="form-group">
     <div class="col-sm-offset-3 col-sm-9">
       <div class="checkbox">
         <label>
@@ -49,8 +73,8 @@
         </label>
       </div>
     </div>
-  </div>
-  <div class="form-group">
+  </div> -->
+<!--   <div class="form-group">
     <label for="ontoSearch" class="col-sm-3 control-label">Ontology Search</label>
     <div class="col-sm-9">
       <div class="input-group">
@@ -100,9 +124,9 @@
     </select>
     </div>
   </div>
-  <div class="form-group">
+ -->  <div class="form-group">
     <div class="col-sm-offset-3 col-sm-9">
-      <button type="submit" class="btn btn-default">Save</button>
+      <button type="submit" class="btn btn-default" ng-click="save()">Save</button>
     </div>
   </div>
 </form>
