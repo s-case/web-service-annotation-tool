@@ -1,6 +1,5 @@
 'use strict';
 
-angular.module('angClientApp')
-  .controller('SignoutCtrl', function ($scope) {
+angular.module('angClientApp').controller('SignoutCtrl', function () {
 
-  });
+});

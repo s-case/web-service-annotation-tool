@@ -41,7 +41,7 @@
 			 <div ng-show="results.length > 0">
 			 	<h4>Search Results</h4>
 			 	<ul>
-			 		<li ng-repeat="result in results"><a href="#">{{result.rel}}</a> Type: [{{result.type}}]</li>
+			 		<li ng-repeat="result in results"><a ng-href="#/{{result.link}}">{{result.rel}}</a> Type: [{{result.type}}]</li>
 			 	</ul>
 			 </div>
 			 <div ng-show="results.length === 0">
